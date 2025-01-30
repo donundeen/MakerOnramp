@@ -33,13 +33,18 @@
     "prettier/prettier": 0,
     "no-await-in-loop": "off",
     "import/prefer-default-export": "off",
-    "no-unused-vars": [
-      1,
-      {
-        "ignoreRestSiblings": true,
-        "argsIgnorePattern": "res|next|^err|^ignore|^_",
-        "caughtErrors": "none"
-      }
-    ]
+    "prefer-destructuring": "off",
+    "no-unused-vars": "off",
+    "vars-on-top": "off",
+    "prefer-const": "off",
+    "block-scoped-var": "off",
+    "no-continue": "off",
+    "object-shorthand": "off",
+    "no-use-before-define": "off",
+    "camelcase": "off",
+    "no-underscore-dangle": "off",
+    "no-unreachable-loop": "off",
+    "prefer-template": "off",
+    "no-plusplus": "off"
   }
 }
