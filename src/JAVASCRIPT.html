@@ -1,0 +1,23 @@
+<script>
+
+    let spreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
+    let sheetName = "SkillTrees";
+    let filename = "3D_Printing.json";
+
+    var currentFile = false;
+    var currentFileName = false;
+    $(document).ready(function() {
+        console.log("ready");
+        $("#testButton").click(function() {
+            console.log("testButton clicked");
+            testButtonClicked();
+
+        });
+    });
+    function testButtonClicked() {
+        console.log("testButton clicked");
+        google.script.run.withSuccessHandler(function(result) {
+            console.log(" got result from server: " + result);
+        }).jsonToSpreadsheet(filename, sheetName, spreadsheetID);
+    }
+</script>

@@ -29,17 +29,17 @@ module.exports = {
     clean: true,
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js','.json'],
   },
   optimization: {
-    minimize: true,
+    minimize: false,
     minimizer: [
       new TerserPlugin({
         test: /\.js$/i,
         extractComments: false,
         terserOptions: {
           ecma: 2020,
-          compress: true,
+          compress: false,
           mangle: {
             reserved: ['global'],
             keep_fnames: true, // Easier debugging in the browser
@@ -70,6 +70,10 @@ module.exports = {
           },
         },
       },
+      {
+          test: /\.json$/,
+          type: 'asset/resource', // Use asset/resource to handle JSON files
+      },
     ],
   },
   plugins: [
@@ -90,8 +94,7 @@ module.exports = {
           from: getSrcPath('../functions/*.js'),
           to: '[name][ext]',
           noErrorOnMissing: true,
-          info: { minimized: true },
-        },
+        },       
         {
           from: getSrcPath('../node_modules/apps-script-oauth2/dist/OAuth2.gs'),
           to: 'OAuth2.js',

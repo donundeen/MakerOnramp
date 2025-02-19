@@ -45,6 +45,7 @@
     "no-underscore-dangle": "off",
     "no-unreachable-loop": "off",
     "prefer-template": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
+    "spaced-comment": "off"
   }
 }

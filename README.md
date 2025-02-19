@@ -1,3 +1,26 @@
+# Maker Skill Tree App
+
+Ties to Google apps script
+
+Uses Clasp and some other fancy things so I don't need to code in the Google Apps Script editor.
+
+To Deploy, 
+```
+npm run deploy
+```
+
+The `dist` directory contains the bundled code that is pushed to Google Apps Script.
+
+Link to the Google Apps Script project: https://drive.google.com/drive/folders/1sI7Rdb7xABc4WSLOl0OfLRR6_3-7zZjx 
+The Dev Deployment here: https://script.google.com/a/macros/lcc.ca/s/AKfycbyZAMbDaSo5YPyWalGh978eaKX9xaFTaI41Pch8azY/dev 
+
+## important notes
+
+webpack.config.js has a lot of customizations for the files that are copied into the dist folder.
+
+
+Below is the original README from the Apps Script Starter Kit.
+
 # Google Apps Script Development 💯
 
 The Google Apps Script Starter kit supports the new **V8 JavaScript runtime** that powers Chrome and Node.js. You can write code using modern ECMAScript syntax like Arrow functions, Classes, Template Literals, Destructuring and more.

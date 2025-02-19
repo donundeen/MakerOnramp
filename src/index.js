@@ -1,7 +1,11 @@
 import getEmailAddress from './email';
+//import jsonToSpreadsheet from './jsontospreadhsheet';
+import {testButtonClicked, testButtonClicked3, jsonToSpreadsheet} from './clientCallableFunctions';
 
 global.getEmailAddress = getEmailAddress;
-
+global.jsonToSpreadsheet = jsonToSpreadsheet;
+global.testButtonClicked = testButtonClicked;
+global.testButtonClicked3 = testButtonClicked3;
 /*
 global.doGet = (resE) => {
     const text = '<b>I heart Apps Script...</b>';
@@ -32,7 +36,14 @@ global.include = (filename) => {
         .getContent();
 }
   
-
+global.testJsonToSpreadsheet = function(){
+  let spreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
+  let sheetName = "SkillTrees";
+  let filename = "3D_Printing.json";
+  let result =  jsonToSpreadsheet(filename, sheetName, spreadsheetID);
+  Logger.log(result);
+  return result;
+}
 
 function makeThumbnail(file, thumbname, newWidth){
     Logger.log("making thumb ", thumbname);
@@ -42,7 +53,14 @@ let res = ImgApp.doResize(file.getId(), newWidth);
     imageFolder.createFile(res.blob.setName(thumbname));  
 */
 }
-  
+global.listJsonFiles = function() {
+  Logger.log("listing json files");
+  const files = DriveApp.getFilesByType('application/json');
+  while (files.hasNext()) {
+      const file = files.next();
+      Logger.log('File Name: ' + file.getName() + ', File ID: ' + file.getId());
+  }
+}
   
   
   function dataIntoHashRows(data, keysRow, startRow, filterFunction){
@@ -84,9 +102,7 @@ let res = ImgApp.doResize(file.getId(), newWidth);
     
   }
   
-  
-  
-  
+
   
   /* 
   ============================ UPDATEHASHROW =================================
