@@ -15,9 +15,9 @@
         });
     });
     function testButtonClicked() {
-        console.log("testButton clicked");
+        console.log("testButton clicked skilltreerows");
         google.script.run.withSuccessHandler(function(result) {
-            console.log(" got result from server: " + result);
-        }).jsonToSpreadsheet(filename, sheetName, spreadsheetID);
+            console.log(" got result from server: " , result);
+        }).getAllSkillTreeRows();
     }
 </script>
