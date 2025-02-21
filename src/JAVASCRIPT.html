@@ -1,23 +1,138 @@
 <script>
 
-    let spreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
-    let sheetName = "SkillTrees";
-    let filename = "3D_Printing.json";
 
-    var currentFile = false;
-    var currentFileName = false;
-    $(document).ready(function() {
-        console.log("ready");
-        $("#testButton").click(function() {
-            console.log("testButton clicked");
-            testButtonClicked();
 
-        });
+let spreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
+let sheetName = "SkillTrees";
+let filename = "3D_Printing.json";
+
+var currentFile = false;
+var currentFileName = false;
+$(document).ready(function() {
+    setupSheetSelect();
+    getCurrentUser();
+
+    console.log("ready");
+    $("#testButton").click(function() {
+        console.log("testButton clicked");
+        testButtonClicked();
+
     });
-    function testButtonClicked() {
-        console.log("testButton clicked skilltreerows");
-        google.script.run.withSuccessHandler(function(result) {
-            console.log(" got result from server: " , result);
-        }).getAllSkillTreeRows();
+});
+
+
+function getCurrentUser(){
+    google.script.run.withSuccessHandler(function(result) {
+        console.log(" current user: " , result);
+        $("#currentUser").text(result.email);
+        
+    }).getCurrentUser();
+}
+
+function testButtonClicked() {
+    console.log("testButton clicked ");
+}
+
+
+function setupSheetSelect(){
+    google.script.run.withSuccessHandler(function(result) {
+        console.log(" got result from server: " , result);
+        let select = makeSelectOptions(result, sheetSelected);
+        $("#sheetSelectContainer").append(select);
+    }).getAllSkillTreeSheetNames();
+}
+
+function makeSelectOptions(options, selectionCallback){
+    let select = document.createElement("select");
+    let instruction = document.createElement("option");
+    instruction.value = "none";
+    instruction.text = "Select a sheet";
+    select.appendChild(instruction);
+    options.forEach(function(option) {
+        let selectOption = document.createElement("option");
+        selectOption.value = option;
+        selectOption.text = option;
+        select.appendChild(selectOption);
+    });
+    select.addEventListener("change", selectionCallback);
+    return select;
+}
+
+function sheetSelected(event){
+    console.log("sheet selected: " , event.target.value);
+    if(event.target.value == "none"){
+        return;
     }
+    const sheetName = event.target.value;
+    google.script.run.withSuccessHandler(function(result) {
+        console.log(" got result from server: " , result);
+        makeSkillTreeDisplay(result);
+    }).getAllSkillTreeRows(sheetName);
+}
+
+function makeSkillTreeDisplay(skillTreeData) {
+    // Step 1: Group titles by level
+    const groupedData = skillTreeData.data.reduce((acc, item) => {
+        const level = item.Level;
+        if (!acc[level]) {
+            acc[level] = [];
+        }
+        acc[level].push(item);
+        return acc;
+    }, {});
+
+    // Step 2: Create HTML for display
+    const displayContainer = document.getElementById('skillTreeDisplay'); // Ensure you have a container in your HTML
+    displayContainer.innerHTML = ''; // Clear previous content
+
+    Object.keys(groupedData).forEach(level => {
+        const levelDiv = document.createElement('div');
+        levelDiv.className = 'level'; // Add a class for styling
+
+        // Create a title for the level
+        const levelTitle = document.createElement('h3');
+        levelTitle.innerText = `Level ${level}`;
+        levelDiv.appendChild(levelTitle);
+
+        // Create a container for titles arranged horizontally
+        const titlesContainer = document.createElement('div');
+        titlesContainer.className = 'titles-container'; // Class for styling
+
+        // Create a div for each title
+        groupedData[level].forEach(item => {
+            const title = item.Title;
+            const id = item.SkillTreeID;
+            const sheetName = item.SkillTreeName;
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'title'; // Class for styling
+            titleDiv.innerText = title;
+            titlesContainer.appendChild(titleDiv);
+            $(titleDiv).click(function() {
+                console.log("title clicked: " , title);
+                showSkillTreeItem(item, levelDiv);
+            });
+        });
+
+        levelDiv.appendChild(titlesContainer);
+        displayContainer.appendChild(levelDiv);
+    });
+}
+
+function showSkillTreeItem(item, levelDiv){
+    console.log("showing skill tree item: " , item);
+    const embedtemplate = "https://docs.google.com/presentation/d/{ID}/embed";
+    const documentationSlidesLink = item.DocumentationSlidesLink;
+    // extract the ID from the documentationSlidesLink, it's in the form https://docs.google.com/open?id=1k2zlN3XXM7vt0Lb5WrnmYHtWwoWOsYyIzgpY1MmjQaE
+    const id = documentationSlidesLink.split("id=")[1];
+    const embedLink = embedtemplate.replace("{ID}", id);
+    const documentationDiv = document.createElement('div');
+    documentationDiv.className = 'documentation';
+//    documentationDiv.innerText = documentationSlidesLink;
+    // embed the documentationSlidesLink in the documentationDiv, in presentation mode
+    documentationDiv.innerHTML = '<iframe src="' + embedLink + '" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>';
+    // place the documentationDiv right after the levelDiv
+    levelDiv.appendChild(documentationDiv);
+
+}
+
 </script>
