@@ -2,16 +2,14 @@
 00
 - make a tracker that can show the last update time for each skill tree item document
 
-- web interface to
--- link skill tree item to documentation
 
-- create connect btw user and skill tree item
--- create the google sheet for this data
--- create ability for a user to "collect/start" a skill tree item
--- create the user documetnation slide deck when they "collect/start" a skill tree item
 
-- can we embed the google slide deck in the web page?
+- to make the documentation we're making useful as quickly as possible, we need to:
+-- need direct URL to individual skill tree item documentation
+-- list of skill tree items that have documentation status "publish" - for students to access
 
+- student page with
+-- their "collected" items, w links to their documentation/evidence decks
 
 - Google Sheets CRUD operations
 -- create
@@ -40,3 +38,13 @@ You can't add a json file to a GAS project. Just upload it to the root folder of
 -- for each skill tree, show the items, with all items on the same level aligned horizontally - DONE
 
 - Identify logged in User login - DONE
+
+
+- can we embed the google slide deck in the web page? - YES
+
+2025/02/24 16:45
+-- link skill tree item to documentation - DONE
+- create connect btw user and skill tree item - DONE
+-- create the google sheet for this data - DONE
+-- create ability for a user to "collect/start" a skill tree item - DONE
+-- create the user documetnation slide deck when they "collect/start" a skill tree item - DONE
