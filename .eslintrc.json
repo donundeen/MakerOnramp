@@ -46,6 +46,7 @@
     "no-unreachable-loop": "off",
     "prefer-template": "off",
     "no-plusplus": "off",
-    "spaced-comment": "off"
+    "spaced-comment": "off",
+    "no-unreachable": "off"
   }
 }

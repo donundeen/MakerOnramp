@@ -1,0 +1,54 @@
+<script>
+
+
+let currentFile = false;
+let currentFileName = false;
+
+let currentStudentID = false;
+let currentUrl = false;
+let currentUserSkillTreeItems = false;
+
+
+$(document).ready(function() {
+    console.log("document ready");
+    setupSheetSelect();
+    getCurrentStudentID(getStudentSkillTreeItems);
+
+    console.log("getting script url");
+    google.script.run.withSuccessHandler(function(result) {
+        console.log(" script url: " , result);
+        currentUrl = result;
+    }).getScriptUrl();
+
+    console.log("ready");
+    $("#testButton").click(function() {
+        console.log("testButton clicked");
+        testButtonClicked();
+    });
+});
+
+function navigate(params) {
+  const queryString = Object.entries(params)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join('&');
+  const newUrl = currentUrl + '?' + queryString;  
+  window.open(newUrl, "_top");
+}
+
+function getCurrentStudentID(callback){
+    console.log("getting current student ID");
+    google.script.run.withSuccessHandler(function(result) {
+        console.log(" current user: " , result);
+        currentStudentID = result.email;
+        $("#currentUser").text(result.email);
+        if(callback){
+            callback();
+        }
+    }).getCurrentUser();
+}
+
+function testButtonClicked() {
+    console.log("testButton clicked ");
+}
+
+</script>

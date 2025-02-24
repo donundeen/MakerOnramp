@@ -60,14 +60,14 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
   */
   
   
-  const updateHashRow = (table, data, keysrow, updateKeys) => {
+  const updateHashRow = (sheet, data, keysrow, updateKeys) => {
   
-    let to_continue = _updateHashRow(table, data, keysrow, updateKeys);
+    let to_continue = _updateHashRow(sheet, data, keysrow, updateKeys);
     return to_continue;
     
   };
 
-  const _updateHashRow = (table, data, keysrow, updateKeys) => {
+  const _updateHashRow = (sheet, data, keysrow, updateKeys) => {
     Logger.log("updating2");
     let insertArray = [];
     let idKey= {};
@@ -75,8 +75,7 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
       
     let range = "A"+(keysrow+1).toString() +":"+(keysrow+1).toString();
   
-    let tableMetaData = table
-    .getActiveSheet()
+    let tableMetaData = sheet
     .getRange(range)
     .getValues();  
     
@@ -99,7 +98,7 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
       insertArray[k] = data[key];
     }
     
-    let index = findRowNumForQuery(table, keysrow, keysrow + 1, function(row){
+    let index = findRowNumForQuery(sheet, keysrow, keysrow + 1, function(row){
       Logger.log("updateKeys");
       let updateKeysKeys = Object.keys(updateKeys);
       Logger.log(updateKeysKeys);
@@ -121,17 +120,17 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
     let toDelete = index + 1;
     
     if(index){
-      table.getActiveSheet().deleteRow(toDelete);
+      sheet.deleteRow(toDelete);
     }
-    table.getActiveSheet().appendRow(insertArray);
+    sheet.appendRow(insertArray);
     
     return index;
     
   };
   
   
-  const findRowNumForQuery = (table, keysRow, startRow, queryFunction) => {
-    let tableData = table.getActiveSheet().getDataRange().getValues();
+  const findRowNumForQuery = (sheet, keysRow, startRow, queryFunction) => {
+    let tableData = sheet.getDataRange().getValues();
   
     let data = dataIntoHashRows(tableData, keysRow, startRow).data;
       
@@ -144,16 +143,17 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
     return false;
   };
   
-  
-  const insertHashRow = (table, data, keysrow) => {
+
+
+
+  const insertHashRow = (sheet, data, keysrow) => {
     let insertArray = [];
     let idKey= {};
     let keyId= {};
       
     let range = "A"+(keysrow+1).toString() +":"+(keysrow+1).toString();
   
-    let tableMetaData = table
-    .getActiveSheet()
+    let tableMetaData = sheet
     .getRange(range)
     .getValues();  
     
@@ -176,7 +176,7 @@ const dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
       insertArray[k] = data[key];
     }
     
-    table.getActiveSheet().appendRow(insertArray);
+    sheet.appendRow(insertArray);
   };
 
   export {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows};

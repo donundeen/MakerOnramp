@@ -18,7 +18,8 @@
     gap: 10px;
 }
 
-.title {
+.item {
+    cursor: pointer;
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -27,7 +28,21 @@
     transition: background-color 0.3s;
 }
 
+.item.collectable{
+    background-color: #007bff;
+}
+.item.important{
+    background-color: #007bff;
+}
+.item.created{
+    background-color: #717578;
+}
+.item.collected{
+    background-color: #14a342;
+}
+
 .title:hover {
     background-color: #0056b3;
 }
+
 </style>

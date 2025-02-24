@@ -4,11 +4,14 @@ import {jsonToSpreadsheet, listJsonFiles} from './processJSONSkillTrees';
 import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './crudOperations';  
 import {testButtonClicked, testButtonClicked3} from './clientCallableFunctions';
 import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows} from './skillTreeSheet';
+import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './studentSkillTreeItemSheet';
 import {getCurrentUser} from './currentUser';
 
 global.getAllSkillTreeSheets = getAllSkillTreeSheets;
 global.getAllSkillTreeSheetNames = getAllSkillTreeSheetNames;
 global.getAllSkillTreeRows = getAllSkillTreeRows;
+global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
+global.addSkillTreeItemForStudent = addSkillTreeItemForStudent;
 
 global.getEmailAddress = getEmailAddress;
 global.jsonToSpreadsheet = jsonToSpreadsheet;
@@ -23,6 +26,13 @@ global.getCurrentUser = getCurrentUser;
 
 const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
 global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
+
+const StudentSkillTreeItemSpreadsheetID = "1mWXAAge-BXtLS6JKesWHL2bmXzn0HMk5NKEhsi8HRro";
+global.StudentSkillTreeItemSpreadsheetID = StudentSkillTreeItemSpreadsheetID;
+
+const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
+global.StudentFilesFolderID = StudentFilesFolderID;
+
 
 global.doGet = (e) => {
     Logger.log("opening");  
@@ -67,7 +77,7 @@ global.testJsonToSpreadsheet = function(){
 }
 
 global.currentTestFunction = function(){
-  let result = global.getAllSkillTreeRows("Metalworking");
+  let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
   Logger.log(result);
   return result;
 }
@@ -82,7 +92,7 @@ let res = ImgApp.doResize(file.getId(), newWidth);
 }
 
   
-  function getFileBlob(filename){
+function getFileBlob(filename){
     // https://developers.google.com/apps-script/reference/base/blob
    Logger.log("looking for ", filename);
    let files = DriveApp.getFilesByName(filename);
@@ -137,4 +147,49 @@ function makeSkillTreeDisplay(skillTreeData) {
         levelDiv.appendChild(titlesContainer);
         displayContainer.appendChild(levelDiv);
     });
+}
+
+function getSlideEmbedUrl(presentationId) {
+  return `https://docs.google.com/presentation/d/${presentationId}/embed?start=true&loop=true&delayms=3000`;
+}
+
+
+global.getScriptUrl = () => {
+  let url = ScriptApp.getService().getUrl();
+  return url;
+}
+
+global.navigateToPage = (params) => {
+  const page = params.page || 'index';
+  
+  return HtmlService
+    .createTemplateFromFile(page)
+    .evaluate()
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+
+global.incrementCounter = () => {
+  let scriptCounter = PropertiesService.getScriptProperties().getProperty('counter');
+  if(!scriptCounter){
+    scriptCounter = 0;
+  }
+  Logger.log("scriptCounter", scriptCounter);
+  scriptCounter++;
+  PropertiesService.getScriptProperties().setProperty('counter', scriptCounter);
+
+  let userCounter = PropertiesService.getUserProperties().getProperty('counter');
+  if(!userCounter){
+    userCounter = 0;
+  }
+  Logger.log("userCounter", userCounter);
+  userCounter++;
+  PropertiesService.getUserProperties().setProperty('counter', userCounter);
+
+  return { 
+    foo: "bar",
+    scriptCounter: scriptCounter, 
+    userCounter: userCounter 
+  };
 }
