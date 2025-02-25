@@ -1,5 +1,8 @@
 <script>
 
+
+
+
 function getStudentSkillTreeItems(){
     console.log("getting user skill tree items", currentStudentID);
     if(localStorage["userSkillTreeItems"+currentStudentID]){
@@ -55,6 +58,11 @@ function sheetSelected(event){
 }
 
 function makeSkillTreeDisplay(skillTreeData) {
+
+    const itemShortTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeItemShort"); ?>
+    `);
+
     // Step 1: Group titles by level
     const groupedData = skillTreeData.data.reduce((acc, item) => {
         const level = item.Level;
@@ -84,6 +92,10 @@ function makeSkillTreeDisplay(skillTreeData) {
 
         // Create a div for each title
         groupedData[level].forEach(item => {
+
+            const itemShort = itemShortTemplate({Title: item.Title});
+            console.log("itemShort", itemShort);
+
             const itemDiv = document.createElement('div');
             itemDiv.classList.add('item'); // Class for styling
             if(item["Documentation Status"] == "created"){

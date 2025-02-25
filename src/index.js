@@ -53,7 +53,11 @@ global.include = (filename) => {
     return HtmlService.createHtmlOutputFromFile(filename)
         .getContent();
 }
-  
+global.includeTemplated = (filename) => {
+  return HtmlService.createTemplateFromFile(filename)
+  .evaluate()
+  .getContent();
+}
 
 
 function makeThumbnail(file, thumbname, newWidth){
