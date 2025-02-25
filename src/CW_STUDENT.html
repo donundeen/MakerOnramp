@@ -10,21 +10,19 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/css/theme.blue.min.css" integrity="sha512-jJ9r3lTLaH5XXa9ZOsCQU8kLvxdAVzyTWO/pnzdZrshJQfnw1oevJFpoyCDr7K1lqt1hUgqoxA5e2PctVtlSTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  
-      <?!= include("STYLESHEET"); ?>
+      <?!= include("CCSS_STYLESHEET"); ?>
       <?!= include("CJS_LOAD"); ?>
       <?!= include("CJS_SKILLTREE"); ?>
+     
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" onclick="navigate({page: 'index'})">Home Page</a>
-        <a class="navbar-brand" onclick="navigate({page: 'student'})">Student Page</a>
+        <a class="navbar-brand clickable" onclick="navigate({page: 'CW_INDEX'})">Home Page</a>
+        <a class="navbar-brand clickable" onclick="navigate({page: 'CW_STUDENT'})">My Page (<span id="currentUser"></span>)</a>
     </nav>
-
     <div class="container">
-        <h1>Hello <span id="currentUser"></span>! v7</h1>
-        <div id="sheetSelectContainer"></div>
-        <div id="skillTreeDisplay"></div>
-        <div id="skillTreeItemDisplay"></div>
+        <h1>Hello <span id="currentUser"></span>! Student Page V2</h1>
+
         <button id="testButton">Test Button for random tests</button>
     </div>
 </body>

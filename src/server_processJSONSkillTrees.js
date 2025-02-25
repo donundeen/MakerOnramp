@@ -1,5 +1,31 @@
 
 
+
+const runJSONToSpreadsheet = function(){
+
+    let filenames = [
+  //    "3D_Printing.json",
+  //    "3D_Modeling.json",
+  //    "MakerSkillTree - cnc and cam.json",
+   //   "MakerSkillTree - coding.json",
+  //    "MakerSkillTree - computing_basics.json",
+  //    "MakerSkillTree - crafting.json",
+  //    "MakerSkillTree - dev_boards.json",
+  //    "MakerSkillTree - electronics.json",
+  //    "MakerSkillTree - entrepreneurship.json",
+  //    "MakerSkillTree - laser_cutting.json",
+  //    "MakerSkillTree - metalworking.json",
+   //   "MakerSkillTree - robotics.json",
+   //   "MakerSkillTree - sewing.json",
+   //   "MakerSkillTree - woodworking.json"
+    ]
+    filenames.forEach(filename => {
+      let result =  jsonToSpreadsheet(filename, global.SkillTreeSpreadsheetID );
+      Logger.log(result);
+    })
+};
+  
+
 const jsonToSpreadsheet =  function(filename, spreadsheetID ){
 
     /*  
@@ -105,5 +131,5 @@ const jsonToSpreadsheet =  function(filename, spreadsheetID ){
         return documentationSlidesLink;
     }
     
-      export  {jsonToSpreadsheet, listJsonFiles};
+      export  {jsonToSpreadsheet, listJsonFiles, runJSONToSpreadsheet};
       

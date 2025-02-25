@@ -118,7 +118,7 @@ function makeSkillTreeDisplay(skillTreeData) {
                 collectDiv.innerText = "🛒";
                 $(collectDiv).click(function() {
                     console.log("collect clicked: " , id, currentStudentID);
-                    addSkillTreeItemForStudent(currentStudentID, id);
+                    addSkillTreeItemForStudent(currentStudentID, id, sheetName);
                     itemDiv.classList.add('collected');
                     itemDiv.classList.remove('collectable');
                     collectDiv.innerText = "✅";
@@ -138,13 +138,13 @@ function makeSkillTreeDisplay(skillTreeData) {
     });
 }
 
-function addSkillTreeItemForStudent(studentID, skillTreeItemID){
+function addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName){
     console.log("adding skill tree item for student: " , studentID, skillTreeItemID);
     google.script.run.withSuccessHandler(function(result) {
         console.log(" got result from server: " , result);
         currentUserSkillTreeItems.data.push(result);
         localStorage["userSkillTreeItems"+currentStudentID] = JSON.stringify(currentUserSkillTreeItems);
-    }).addSkillTreeItemForStudent(studentID, skillTreeItemID);
+    }).addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName);
 }
 
 

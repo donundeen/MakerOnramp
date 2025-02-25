@@ -47,6 +47,8 @@
     "prefer-template": "off",
     "no-plusplus": "off",
     "spaced-comment": "off",
-    "no-unreachable": "off"
+    "no-unreachable": "off",
+    "import/newline-after-import": "off",
+    "import/first": "off"
   }
 }

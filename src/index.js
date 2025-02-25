@@ -1,28 +1,30 @@
-import getEmailAddress from './email';
-//import jsonToSpreadsheet from './jsontospreadhsheet';
-import {jsonToSpreadsheet, listJsonFiles} from './processJSONSkillTrees';
-import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './crudOperations';  
-import {testButtonClicked, testButtonClicked3} from './clientCallableFunctions';
-import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows} from './skillTreeSheet';
-import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './studentSkillTreeItemSheet';
-import {getCurrentUser} from './currentUser';
-
-global.getAllSkillTreeSheets = getAllSkillTreeSheets;
-global.getAllSkillTreeSheetNames = getAllSkillTreeSheetNames;
-global.getAllSkillTreeRows = getAllSkillTreeRows;
-global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
-global.addSkillTreeItemForStudent = addSkillTreeItemForStudent;
-
-global.getEmailAddress = getEmailAddress;
+import {jsonToSpreadsheet, listJsonFiles, runJSONToSpreadsheet} from './server_processJSONSkillTrees';
 global.jsonToSpreadsheet = jsonToSpreadsheet;
-global.testButtonClicked = testButtonClicked;
-global.testButtonClicked3 = testButtonClicked3;
+global.runJSONToSpreadsheet = runJSONToSpreadsheet;
 global.listJsonFiles = listJsonFiles;
+
+import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './server_crudOperations';  
 global.dataIntoHashRows = dataIntoHashRows;
 global.updateHashRow = updateHashRow;
 global.insertHashRow = insertHashRow;
 global.getSheetRows = getSheetRows;
+
+import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows} from './server_skillTreeSheet';
+global.getAllSkillTreeSheets = getAllSkillTreeSheets; 
+global.getAllSkillTreeSheetNames = getAllSkillTreeSheetNames;
+global.getAllSkillTreeRows = getAllSkillTreeRows;
+
+import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './server_studentSkillTreeItemSheet';
+global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
+global.addSkillTreeItemForStudent = addSkillTreeItemForStudent;
+
+import {getCurrentUser} from './server_currentUser';
 global.getCurrentUser = getCurrentUser;
+
+import {testButtonClicked, testButtonClicked3, currentTestFunction} from './server_testFunctions';
+global.testButtonClicked = testButtonClicked;
+global.testButtonClicked3 = testButtonClicked3;
+global.currentTestFunction = currentTestFunction;
 
 const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
 global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
@@ -38,7 +40,7 @@ global.doGet = (e) => {
     Logger.log("opening");  
     let page= e.parameter.page;
     if(!page){
-      page = 'index';
+      page = 'CW_INDEX';
     }
        return HtmlService
        .createTemplateFromFile(page)
@@ -52,35 +54,7 @@ global.include = (filename) => {
         .getContent();
 }
   
-global.testJsonToSpreadsheet = function(){
 
-  let filenames = [
-//    "3D_Printing.json",
-//    "3D_Modeling.json",
-//    "MakerSkillTree - cnc and cam.json",
- //   "MakerSkillTree - coding.json",
-//    "MakerSkillTree - computing_basics.json",
-//    "MakerSkillTree - crafting.json",
-//    "MakerSkillTree - dev_boards.json",
-//    "MakerSkillTree - electronics.json",
-//    "MakerSkillTree - entrepreneurship.json",
-//    "MakerSkillTree - laser_cutting.json",
-//    "MakerSkillTree - metalworking.json",
- //   "MakerSkillTree - robotics.json",
- //   "MakerSkillTree - sewing.json",
- //   "MakerSkillTree - woodworking.json"
-  ]
-  filenames.forEach(filename => {
-    let result =  jsonToSpreadsheet(filename, SkillTreeSpreadsheetID );
-    Logger.log(result);
-  })
-}
-
-global.currentTestFunction = function(){
-  let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
-  Logger.log(result);
-  return result;
-}
 
 function makeThumbnail(file, thumbname, newWidth){
     Logger.log("making thumb ", thumbname);
@@ -106,47 +80,6 @@ function getFileBlob(filename){
    } 
    Logger.log("returning false");
    return false;
-  }
-
-function makeSkillTreeDisplay(skillTreeData) {
-    // Step 1: Group titles by level
-    const groupedData = skillTreeData.data.reduce((acc, item) => {
-        const level = item.Level;
-        if (!acc[level]) {
-            acc[level] = [];
-        }
-        acc[level].push(item.Title);
-        return acc;
-    }, {});
-
-    // Step 2: Create HTML for display
-    const displayContainer = document.getElementById('skillTreeDisplay'); // Ensure you have a container in your HTML
-    displayContainer.innerHTML = ''; // Clear previous content
-
-    Object.keys(groupedData).forEach(level => {
-        const levelDiv = document.createElement('div');
-        levelDiv.className = 'level'; // Add a class for styling
-
-        // Create a title for the level
-        const levelTitle = document.createElement('h3');
-        levelTitle.innerText = `Level ${level}`;
-        levelDiv.appendChild(levelTitle);
-
-        // Create a container for titles arranged horizontally
-        const titlesContainer = document.createElement('div');
-        titlesContainer.className = 'titles-container'; // Class for styling
-
-        // Create a div for each title
-        groupedData[level].forEach(title => {
-            const titleDiv = document.createElement('div');
-            titleDiv.className = 'title'; // Class for styling
-            titleDiv.innerText = title;
-            titlesContainer.appendChild(titleDiv);
-        });
-
-        levelDiv.appendChild(titlesContainer);
-        displayContainer.appendChild(levelDiv);
-    });
 }
 
 function getSlideEmbedUrl(presentationId) {
@@ -169,27 +102,3 @@ global.navigateToPage = (params) => {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
-
-global.incrementCounter = () => {
-  let scriptCounter = PropertiesService.getScriptProperties().getProperty('counter');
-  if(!scriptCounter){
-    scriptCounter = 0;
-  }
-  Logger.log("scriptCounter", scriptCounter);
-  scriptCounter++;
-  PropertiesService.getScriptProperties().setProperty('counter', scriptCounter);
-
-  let userCounter = PropertiesService.getUserProperties().getProperty('counter');
-  if(!userCounter){
-    userCounter = 0;
-  }
-  Logger.log("userCounter", userCounter);
-  userCounter++;
-  PropertiesService.getUserProperties().setProperty('counter', userCounter);
-
-  return { 
-    foo: "bar",
-    scriptCounter: scriptCounter, 
-    userCounter: userCounter 
-  };
-}

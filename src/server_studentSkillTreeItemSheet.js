@@ -12,16 +12,17 @@ const getSkillTreeItemsForStudent = (studentID) => {
     return data;
 };
 
-const addSkillTreeItemForStudent = (studentID, skillTreeItemID) => {
+const addSkillTreeItemForStudent = (studentID, skillTreeItemID, skillTreeName) => {
     const sheet = getStudentSkillTreeItemSheet();
     const data = {
         StudentID: studentID,
         SkillTreeItemID: skillTreeItemID,
+        SkillTreeName: skillTreeName,
         Status: "Started"
     };
     global.insertHashRow(sheet, data,0);
 
-    const studentSkillTreeItemDocumentationName = studentID + "_" + skillTreeItemID;
+    const studentSkillTreeItemDocumentationName = studentID + "_" + skillTreeName + "_" + skillTreeItemID;
     // create a slide deck in the studentFiles/studentID/skillTreeItemDocumentationName folder
     const studentFilesFolder = DriveApp.getFolderById(global.StudentFilesFolderID);
 
