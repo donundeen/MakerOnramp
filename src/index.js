@@ -40,7 +40,7 @@ global.doGet = (e) => {
     Logger.log("opening");  
     let page= e.parameter.page;
     if(!page){
-      page = 'CW_INDEX';
+      page = 'html_browseSkillTrees';
     }
        return HtmlService
        .createTemplateFromFile(page)

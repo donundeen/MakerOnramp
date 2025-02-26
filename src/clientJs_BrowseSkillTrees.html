@@ -1,0 +1,62 @@
+<script>
+
+ 
+$(document).ready(function() {
+
+    $("#contentBody").html("<b>hi</b>");
+
+    console.log("getting student");   
+    let student = new Student();
+    student.id = currentStudentID;
+    student.email = currentStudentID;
+    student.name = currentStudentID;
+
+    let skillTreeBrowser = new SkillTreeBrowser();
+    skillTreeBrowser.student = student;
+    Promise.all([student.load() , skillTreeBrowser.load()])
+    .then(result => {
+        renderTemplates();
+    })
+    .catch(error => {
+        console.log("error loading student and skill tree browser", error);
+    });
+
+
+    function renderTemplates(){
+        skillTreeBrowserTemplate = Handlebars.compile( `
+            <?!= include("template_SkillTreeBrowser"); ?>
+        `);
+
+        let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate);
+        $("#contentBody").html(skillTreeBrowserHTML);
+
+        $(".skillTreeSelect").on("change", function(){
+            let skillTreeName = $(this).val();
+            console.log("skill tree name", skillTreeName);
+            renderSkillTree(skillTreeName);
+        });
+    }
+
+
+    function renderSkillTree(skillTreeName){
+        console.log("rendering skill tree", skillTreeName);
+
+        const itemShortTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeItemShort"); ?>
+        `);
+
+        const levelTemplate = Handlebars.compile( `
+            <?!= include("template_SkillTreeLevel"); ?>
+        `);        
+
+        let skillTree = new SkillTree();
+        skillTree.student = student;
+        skillTree.sheetName = skillTreeName;
+        skillTree.load().then(result => {
+            console.log("skill tree loaded", result);
+            skillTree.display(itemShortTemplate, levelTemplate, "#skillTreeDisplay");
+        });
+    }
+
+}); 
+</script>

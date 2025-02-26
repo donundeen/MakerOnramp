@@ -1,0 +1,50 @@
+<script>
+
+class SkillTree{
+
+    constructor(){
+        this.skillTreeItemList = false;
+        this.sheetName = "";
+        this.student = false;
+    }
+
+    display(itemTemplate, skillTreeTemplate, targetDiv){
+        this.skillTreeItemList.display(itemTemplate, skillTreeTemplate, targetDiv);
+    }
+
+    load(){ 
+        return new Promise((resolve, reject) => {
+            if(this.sheetName){
+                this.skillTreeItemList = new SkillTreeItemList();
+                this.skillTreeItemList.sheetName = this.sheetName;
+                this.skillTreeItemList.student = this.student;
+                this.skillTreeItemList.load().then(resolve).catch(reject);
+            }else{
+                reject(new Error("Sheet name is not set"));
+            }
+        });
+    }
+    
+    /*
+function to embed google slides, for later refernce
+function showSkillTreeItem(item, levelDiv){
+    console.log("showing skill tree item: " , item);
+    const embedtemplate = "https://docs.google.com/presentation/d/{ID}/embed";
+    const documentationSlidesLink = item.DocumentationSlidesLink;
+    // extract the ID from the documentationSlidesLink, it's in the form https://docs.google.com/open?id=1k2zlN3XXM7vt0Lb5WrnmYHtWwoWOsYyIzgpY1MmjQaE
+    const id = documentationSlidesLink.split("id=")[1];
+    const embedLink = embedtemplate.replace("{ID}", id);
+    const documentationDiv = document.createElement('div');
+    documentationDiv.className = 'documentation';
+//    documentationDiv.innerText = documentationSlidesLink;
+    // embed the documentationSlidesLink in the documentationDiv, in presentation mode
+    documentationDiv.innerHTML = '<iframe class="documentationIframe" src="' + embedLink + '" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>';
+    // place the documentationDiv right after the levelDiv
+    levelDiv.appendChild(documentationDiv);
+
+}
+
+    */
+}
+
+</script>

@@ -33,7 +33,7 @@ const jsonToSpreadsheet =  function(filename, spreadsheetID ){
         let sheetName = "SkillTrees";
         let filename = "3D_Printing.json";
     */  
-        const sheetheaders = ["SkillTreeName", "SkillTreeID", "Title", "Level", "Icon","DocumentationSlidesLink","Documentation Status"];
+        const sheetheaders = ["SkillTreeName", "SkillTreeItemID", "Title", "Level", "Icon","DocumentationSlidesLink","Documentation Status"];
     
     
         // load the JSON file, cancel if doesn't exist

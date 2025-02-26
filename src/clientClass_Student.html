@@ -1,0 +1,87 @@
+<script>
+
+class Student{
+    constructor(id, name, email, password){
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.skillTreeItems = {};
+    }
+
+
+    display(templateString){
+       
+    }
+
+    load(){
+        // get the skill tree items for the student
+        return new Promise((resolve, reject) => {
+            Promise.all([this.getStudentSkillTreeItems()])
+            .then(result => {
+                resolve(this.skillTreeItems);
+            })
+            .catch(error => {
+                reject(error);
+            });
+        });
+
+    }
+
+    create(){
+
+    }
+
+    update(){
+
+    }
+
+    delete(){
+
+    }
+
+    getStudentSkillTreeItems(){
+        return new Promise((resolve, reject) => {
+            console.log("getting user skill tree items", this.id);
+            if(localStorage["userSkillTreeItems"+ this.id]){
+                console.log("using local storage");
+                this.skillTreeItems = JSON.parse(localStorage["userSkillTreeItems"+this.id]);
+                console.log("currentUserSkillTreeItems", this.skillTreeItems);
+                resolve(this.skillTreeItems);
+            }else{
+                google.script.run.withSuccessHandler(function(result) {
+                    console.log(" got result from server: " , result);
+                    this.skillTreeItems = result;
+                    localStorage["userSkillTreeItems"+this.id] = JSON.stringify(this.skillTreeItems);
+                    resolve(this.skillTreeItems);
+                }).getSkillTreeItemsForStudent(this.id);
+            }
+        });
+    }
+
+    hasSkillTreeItem(skillTreeName, skillTreeItemID){
+        console.log("userHasSkillTreeItem", skillTreeName, skillTreeItemID);
+        console.log("currentUserSkillTreeItems", this.skillTreeItems);
+        if(!this.skillTreeItems){
+            console.log("no current user skill tree items");
+            return false;
+        }
+        let result = this.skillTreeItems.data.some(item => item.SkillTreeName === skillTreeName && item.SkillTreeItemID === skillTreeItemID);
+        console.log("userHasSkillTreeItem", result);
+        return result;
+    }
+
+    addSkillTreeItem(skillTreeName, skillTreeItemID){
+        console.log("adding skill tree item for student: " ,this.id, skillTreeItemID);
+        google.script.run.withSuccessHandler(function(result) {
+            console.log(" got result from server: " , result);
+            this.skillTreeItems.data.push(result);
+            localStorage["userSkillTreeItems"+this.id] = JSON.stringify(this.skillTreeItems);
+        }).addSkillTreeItemForStudent(  this.id, skillTreeItemID, skillTreeName);
+    }
+
+
+}
+
+
+
+</script>

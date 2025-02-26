@@ -1,5 +1,5 @@
 # TODO Items
-00
+
 - make a tracker that can show the last update time for each skill tree item document
 
 
@@ -10,6 +10,17 @@
 
 - student page with
 -- their "collected" items, w links to their documentation/evidence decks
+
+- refactor
+-- make things more object-oriented
+-- organized client side, html, css, into reasonable groupings
+-- templating system for making html easier to manage
+-- name files in sensible ways so they are easy to find
+--- server-side vs client-side javascript, for eg.
+
+- then, creating a model for "projects"
+
+
 
 - Google Sheets CRUD operations
 -- create

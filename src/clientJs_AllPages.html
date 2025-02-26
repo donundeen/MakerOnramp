@@ -1,26 +1,15 @@
 <script>
 
-
-let currentFile = false;
-let currentFileName = false;
-
 let currentStudentID = false;
 let currentUrl = false;
-let currentUserSkillTreeItems = false;
-
 
 $(document).ready(function() {
-    console.log("document ready");
-    setupSheetSelect();
-    getCurrentStudentID(getStudentSkillTreeItems);
-
-    console.log("getting script url");
+    getCurrentStudentID();
     google.script.run.withSuccessHandler(function(result) {
         console.log(" script url: " , result);
         currentUrl = result;
     }).getScriptUrl();
 
-    console.log("ready");
     $("#testButton").click(function() {
         console.log("testButton clicked");
         testButtonClicked();
