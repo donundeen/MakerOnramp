@@ -10,8 +10,6 @@ class SkillTreeItemList{
     display(itemShortTemplate, levelTemplate, targetDiv){
 
         $(targetDiv).empty();
-        console.log("displaying skill tree item list");
-        console.log(this.student);
         // Step 1: Group titles by level
         const groupedData = this.skillTreeItems.data.reduce((acc, item) => {
             const level = item.Level;
@@ -71,6 +69,13 @@ class SkillTreeItemList{
                 this.student.addSkillTreeItem(skillTreeName, SkillTreeItemID);
         });            
 
+        $(".title").click(function() {
+            let item = $(this).closest(".item");
+            let skillTreeName = $(item).data("skilltree");
+            let SkillTreeItemID = $(item).attr("id");
+            console.log("title clicked: ", skillTreeName, SkillTreeItemID);
+            navigate({page: 'html_SkillTreeItem', SkillTreeName: skillTreeName, SkillTreeItemID: SkillTreeItemID});
+        });
     }
     
     load(){

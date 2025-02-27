@@ -1,0 +1,45 @@
+<script>
+    class SkillTreeItem{
+        constructor(){
+            this.skillTreeName = false;
+            this.skillTreeItemID = false;
+            this.student = false;
+            this.skillTreeItem = false;
+        }
+
+        load(){
+            return new Promise((resolve, reject) => {
+                let self = this;
+                let skillTreeRow = false;
+                let localData = localStorage["allSkillTreeRows"+this.skillTreeName];
+                if(localData){
+                    localData = JSON.parse(localData);
+                    console.log("loading skill tree item data " , localData);
+                    skillTreeRow = localData.data.filter(row => row.SkillTreeItemID === this.skillTreeItemID)[0];
+                }
+                if( skillTreeRow){
+                    self.skillTreeItem = skillTreeRow;
+                    resolve(self.skillTreeItem);
+                }else{
+                    google.script.run.withSuccessHandler(function(result) {
+                        console.log(" got skill tree itemresult from server: " , result);
+                        localData = result;
+                        self.skillTreeItem = localData.data.filter(row => row.SkillTreeItemID === self.skillTreeItemID)[0];                        
+                        localStorage["allSkillTreeRows"+self.skillTreeName] = JSON.stringify(localData);
+                        resolve(self.skillTreeItem);
+                    }).getAllSkillTreeRows(self.skillTreeName);
+                }
+            });
+        }
+
+        display(template){
+            console.log("displaying skill tree item", this);
+            this.documentationSlideEmbedURL = generateDocumentationSlideEmbedURL(this.skillTreeItem.DocumentationSlidesLink);
+            let html = template(this);
+            console.log("html", html);
+            return html;
+        }
+
+
+    }
+</script>

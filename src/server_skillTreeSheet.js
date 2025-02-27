@@ -13,6 +13,7 @@ const getAllSkillTreeSheets = function(){
 }
 const getAllSkillTreeSheetNames = function(){
     let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
+    
     if(sheetNames){
         return JSON.parse(sheetNames);
     }
@@ -28,4 +29,13 @@ const getAllSkillTreeRows = function(sheetName) {
     return data;
 }
 
-export {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows};
+const getSkillTreeItem = function(skillTreeName, skillTreeItemID){
+    const data = global.getSheetRows(global.SkillTreeSpreadsheetID, skillTreeName);
+    const item = data.data.filter(row => row.SkillTreeItemID === skillTreeItemID && row.SkillTreeName === skillTreeName);
+    if(item.length > 0){
+        return item[0];
+    }
+    return false;
+}
+
+export {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows, getSkillTreeItem};

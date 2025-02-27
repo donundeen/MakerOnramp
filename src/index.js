@@ -9,10 +9,11 @@ global.updateHashRow = updateHashRow;
 global.insertHashRow = insertHashRow;
 global.getSheetRows = getSheetRows;
 
-import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows} from './server_skillTreeSheet';
+import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows, getSkillTreeItem} from './server_skillTreeSheet';
 global.getAllSkillTreeSheets = getAllSkillTreeSheets; 
 global.getAllSkillTreeSheetNames = getAllSkillTreeSheetNames;
 global.getAllSkillTreeRows = getAllSkillTreeRows;
+global.getSkillTreeItem = getSkillTreeItem;
 
 import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './server_studentSkillTreeItemSheet';
 global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
@@ -36,11 +37,16 @@ const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
 global.StudentFilesFolderID = StudentFilesFolderID;
 
 
+global.urlParams = {};
+
 global.doGet = (e) => {
     Logger.log("opening");  
+    global.urlParams = e.parameter;
+    //let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
+    PropertiesService.getScriptProperties().setProperty('urlParams', JSON.stringify(global.urlParams));  
     let page= e.parameter.page;
     if(!page){
-      page = 'html_browseSkillTrees';
+      page = 'html_BrowseSkillTrees';
     }
        return HtmlService
        .createTemplateFromFile(page)
@@ -93,7 +99,8 @@ function getSlideEmbedUrl(presentationId) {
 
 global.getScriptUrl = () => {
   let url = ScriptApp.getService().getUrl();
-  return url;
+  let urlParams = PropertiesService.getScriptProperties().getProperty('urlParams');
+  return {url : url, params : JSON.parse(urlParams)};
 }
 
 global.navigateToPage = (params) => {

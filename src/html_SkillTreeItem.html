@@ -14,10 +14,8 @@
       <?!= include("css_Main"); ?>
       <?!= include("clientJs_AllPages"); ?>
       <?!= includeTemplated("clientClass_Student"); ?>
-      <?!= includeTemplated("clientClass_SkillTreeBrowser"); ?>
-      <?!= includeTemplated("clientClass_SkillTree"); ?>
-      <?!= includeTemplated("clientClass_SkillTreeItemList"); ?>
-      <?!= includeTemplated("clientJs_BrowseSkillTrees"); ?> <!-- -->
+      <?!= includeTemplated("clientClass_SkillTreeItem"); ?>
+      <?!= includeTemplated("clientJs_SkillTreeItem"); ?> <!-- -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,6 +23,6 @@
         <a class="navbar-brand clickable" onclick="navigate({page: 'CW_STUDENT'})">My Page (<span id="currentUser"></span>)</a>
     </nav>
 
-    <div class="container" id="contentBody">content Body</div>
+    <div class="container" id="contentBody">Content Body</div>
 </body>
 </html>
