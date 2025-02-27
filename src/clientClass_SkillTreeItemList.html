@@ -7,9 +7,10 @@ class SkillTreeItemList{
         this.student = false;
     }
     
-    display(itemShortTemplate, levelTemplate, targetDiv){
+    display(levelTemplate,itemShortTemplate, targetDiv){
 
         $(targetDiv).empty();
+        let self = this;
         // Step 1: Group titles by level
         const groupedData = this.skillTreeItems.data.reduce((acc, item) => {
             const level = item.Level;
@@ -57,16 +58,17 @@ class SkillTreeItemList{
         });
 
         $(".collectable .collect", targetDiv).click(function() {
-                let item = $(this).closest(".item");
-                let skillTreeName = $(item).data("skilltree");
-                let SkillTreeItemID = $(item).attr("id");
-                console.log("collectable clicked: ", item)
-                console.log(skillTreeName);
-                console.log(SkillTreeItemID);
-                $(item).addClass("collected");
-                $(item).removeClass("collectable");
-                $(this).text("✅");            
-                this.student.addSkillTreeItem(skillTreeName, SkillTreeItemID);
+            let item = $(this).closest(".item");
+            let skillTreeName = $(item).data("skilltree");
+            let SkillTreeItemID = $(item).attr("id");
+            console.log("collectable clicked: ", item)
+            console.log(skillTreeName);
+            console.log(SkillTreeItemID);
+            $(item).addClass("collected");
+            $(item).removeClass("collectable");
+            $(this).text("✅");            
+            console.log("adding skill tree item", skillTreeName, SkillTreeItemID, self.student);
+            self.student.addSkillTreeItem(skillTreeName, SkillTreeItemID);
         });            
 
         $(".title").click(function() {
@@ -79,9 +81,9 @@ class SkillTreeItemList{
     }
     
     load(){
+        let self = this;        
         return new Promise((resolve, reject) => {
             const sheetName = this.sheetName;
-            let self = this;
             if(localStorage["allSkillTreeRows"+sheetName]){
                 console.log("using local storage");
                 this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]);

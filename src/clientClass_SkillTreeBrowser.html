@@ -24,9 +24,29 @@ class SkillTreeBrowser{
         });
     }
 
-    display(template){
-        let html = template(this);
+    display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, contentBodyTargetID, skillTreeDisplayTargetID){
+        let html = skillTreeBrowserTemplate(this);
+        $(contentBodyTargetID).html(html);
+
+        let self = this;
+        $(".skillTreeSelect").on("change", function(){
+            let skillTreeName = $(this).val();
+            console.log("skill tree name", skillTreeName);
+            self.renderSkillTree(skillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+        });
         return html;
+    }
+
+    renderSkillTree(skillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID){
+        console.log("rendering skill tree", skillTreeName, this.student);
+
+        let skillTree = new SkillTree();
+        skillTree.student = this.student;
+        skillTree.sheetName = skillTreeName;
+        skillTree.load().then(result => {
+            console.log("skill tree loaded", result);
+            skillTree.display(levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+        });        
     }
 }
 </script>

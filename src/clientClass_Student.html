@@ -40,20 +40,21 @@ class Student{
     }
 
     getStudentSkillTreeItems(){
+        let self = this;
         return new Promise((resolve, reject) => {
-            console.log("getting user skill tree items", this.id);
-            if(localStorage["userSkillTreeItems"+ this.id]){
+            console.log("getting user skill tree items",self.id);
+            if(localStorage["userSkillTreeItems"+ self.id]){
                 console.log("using local storage");
-                this.skillTreeItems = JSON.parse(localStorage["userSkillTreeItems"+this.id]);
-                console.log("currentUserSkillTreeItems", this.skillTreeItems);
-                resolve(this.skillTreeItems);
+                self.skillTreeItems = JSON.parse(localStorage["userSkillTreeItems"+self.id]);
+                console.log("currentUserSkillTreeItems", self.skillTreeItems);
+                resolve(self.skillTreeItems);
             }else{
                 google.script.run.withSuccessHandler(function(result) {
                     console.log(" got result from server: " , result);
-                    this.skillTreeItems = result;
-                    localStorage["userSkillTreeItems"+this.id] = JSON.stringify(this.skillTreeItems);
-                    resolve(this.skillTreeItems);
-                }).getSkillTreeItemsForStudent(this.id);
+                    self.skillTreeItems = result;
+                    localStorage["userSkillTreeItems"+self.id] = JSON.stringify(self.skillTreeItems);
+                    resolve(self.skillTreeItems);
+                }).getSkillTreeItemsForStudent(self.id);
             }
         });
     }
@@ -72,14 +73,13 @@ class Student{
 
     addSkillTreeItem(skillTreeName, skillTreeItemID){
         console.log("adding skill tree item for student: " ,this.id, skillTreeItemID);
+        let self = this;
         google.script.run.withSuccessHandler(function(result) {
             console.log(" got result from server: " , result);
-            this.skillTreeItems.data.push(result);
-            localStorage["userSkillTreeItems"+this.id] = JSON.stringify(this.skillTreeItems);
-        }).addSkillTreeItemForStudent(  this.id, skillTreeItemID, skillTreeName);
+            self.skillTreeItems.data.push(result);
+            localStorage["userSkillTreeItems"+self.id] = JSON.stringify(self.skillTreeItems);
+        }).addSkillTreeItemForStudent(  self.id, skillTreeItemID, skillTreeName);
     }
-
-
 }
 
 

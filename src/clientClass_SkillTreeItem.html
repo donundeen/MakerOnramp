@@ -17,7 +17,7 @@
                     console.log("loading skill tree item data " , localData);
                     skillTreeRow = localData.data.filter(row => row.SkillTreeItemID === this.skillTreeItemID)[0];
                 }
-                if( skillTreeRow){
+                if(skillTreeRow){
                     self.skillTreeItem = skillTreeRow;
                     resolve(self.skillTreeItem);
                 }else{
