@@ -48,7 +48,13 @@ global.addSkillTreeItemForStudent = (studentID, skillTreeItemID, skillTreeName) 
   return studentSkillTreeItemSheet.addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName);
 }
 
-
+global.testInsertHashRow = () => {
+  global.addSkillTreeItemForStudent("dundeen@lcc.ca", "1", "Skill Tree 1");
+}
+global.testGetSkillTreeItemsForStudent = () => {
+  let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
+  Logger.log(result);
+}
 
 /*
 import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './server_crudOperations';  

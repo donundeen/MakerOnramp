@@ -1,6 +1,12 @@
-class StudentSkillTreeItemSheet extends global.Sheet {
+import {Sheet} from './serverClass_Sheet';
+
+
+class StudentSkillTreeItemSheet extends Sheet {
     constructor() {
         super();
+        Logger.log("constructor");
+        Logger.log(this);
+        this.myclass = "StudentSkillTreeItemSheet";
         this.spreadsheetID = global.StudentSkillTreeItemSpreadsheetID;
         this.sheetName = "StudentSkillTreeItems";
         this.StudentFilesFolderID = global.StudentFilesFolderID;
@@ -8,12 +14,14 @@ class StudentSkillTreeItemSheet extends global.Sheet {
 
     getSkillTreeItemsForStudent(studentID){
         this.loadSheet();
-        const data = this.getSheetRows(this.sheetName);
+        const data = this.getSheetRows();
         const items = data.data.filter(row => row.StudentID === studentID);
         return items;
     }
 
     addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName){
+        console.log("adding skill tree item for student", this);
+        this.loadSheet();
         const data = {
             StudentID: studentID,
             SkillTreeItemID: skillTreeItemID,
@@ -26,7 +34,6 @@ class StudentSkillTreeItemSheet extends global.Sheet {
         // create a slide deck in the studentFiles/studentID/skillTreeItemDocumentationName folder
         const studentFilesFolder = DriveApp.getFolderById(this.StudentFilesFolderID);
     
-        // 
         // only create the folder if it doesn't exist with that name
         let studentSkillTreeItemDocumentationFolder = null;
         let folderIterator = studentFilesFolder.getFoldersByName(studentID);

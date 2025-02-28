@@ -1,6 +1,10 @@
-class SkillTreeSheet extends global.Sheet {
+import {Sheet} from './serverClass_Sheet';
+
+
+class SkillTreeSheet extends Sheet {
     constructor() {
         super();
+        this.myclass = "SkillTreeSheet"; 
         this.SkillTreeSpreadsheetID = global.SkillTreeSpreadsheetID;
     }
 

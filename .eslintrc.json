@@ -49,6 +49,8 @@
     "spaced-comment": "off",
     "no-unreachable": "off",
     "import/newline-after-import": "off",
-    "import/first": "off"
+    "import/first": "off",
+    "no-undef": "off"
+
   }
 }
