@@ -20,9 +20,10 @@ $(document).ready(function() {
 
     function loadStudent(){
         return new Promise((resolve, reject) => {
-            student.id = currentStudentID;
-            student.email = currentStudentID;
-            student.name = currentStudentID;
+            student.id = global_currentStudentID;
+            student.email = global_currentStudentID;
+            student.name = global_currentStudentID;
+            student.purgeCache = global_purgeCache;
             student.load().then(resolve).catch(reject);
         });
     }
@@ -30,6 +31,10 @@ $(document).ready(function() {
     function loadSkillTreeBrowser(){
         return new Promise((resolve, reject) => {
             skillTreeBrowser.student = student;
+            skillTreeBrowser.purgeCache = global_purgeCache;
+            if(global_currentUrlParams.SkillTreeName){
+                skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
+            }
             skillTreeBrowser.load().then(resolve).catch(reject);
         });
     }
@@ -46,7 +51,6 @@ $(document).ready(function() {
         const levelTemplate = Handlebars.compile( `
             <?!= include("template_SkillTreeLevel"); ?>
         `);         
-
 
         let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay");
     }

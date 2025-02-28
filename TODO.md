@@ -5,6 +5,10 @@
 - put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
 -- this will make the system immediately useful
 
+- purgeCache 
+-- need a wayt o make the system use the server side data instead of local storage, when we've changed some of the data
+
+
 - student page with
 -- their "collected" items, w links to their documentation/evidence decks
 

@@ -6,6 +6,7 @@ class SkillTree{
         this.skillTreeItemList = false;
         this.sheetName = "";
         this.student = false;
+        this.purgeCache = false;
     }
 
     display(levelTemplate, itemTemplate, targetDiv){
@@ -18,6 +19,7 @@ class SkillTree{
                 this.skillTreeItemList = new SkillTreeItemList();
                 this.skillTreeItemList.sheetName = this.sheetName;
                 this.skillTreeItemList.student = this.student;
+                this.skillTreeItemList.purgeCache = this.purgeCache;
                 this.skillTreeItemList.load().then(resolve).catch(reject);
             }else{
                 reject(new Error("Sheet name is not set"));

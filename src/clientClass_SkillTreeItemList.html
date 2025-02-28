@@ -31,7 +31,6 @@ class SkillTreeItemList{
 
             // Create a div for each title
             groupedData[level].forEach(item => {
-                console.log("item", item);
                 let id = item.SkillTreeItemID;
                 let title = item.Title;
                 let sheetName = item.SkillTreeName;
@@ -85,8 +84,8 @@ class SkillTreeItemList{
         let self = this;        
         return new Promise((resolve, reject) => {
             const sheetName = this.sheetName;
-            if(currentUrlParams.purgeCache != "true" && localStorage["allSkillTreeRows"+sheetName]){
-                console.log("using local storage");
+            if(this.purgeCache == false && localStorage["allSkillTreeRows"+sheetName]){
+                console.log("SkillTreeItemList using local storage");
                 this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]);
                 resolve(this.skillTreeItems);
             }else{

@@ -21,21 +21,23 @@ $(document).ready(function() {
 
     function loadStudent(){
         return new Promise((resolve, reject) => {
-            console.log("loading student " + currentStudentID);
-            student.id = currentStudentID;
-            student.email = currentStudentID;
-            student.name = currentStudentID;
+            console.log("loading student " + global_currentStudentID);
+            student.id = global_currentStudentID;
+            student.email = global_currentStudentID;
+            student.name = global_currentStudentID;
+            student.purgeCache = global_purgeCache;
             student.load().then(resolve).catch(reject);
         });
     }
 
     function loadSkillTreeItem(){
         return new Promise((resolve, reject) => {
-            console.log("loading skill tree item " + currentUrlParams['SkillTreeItemID']);
+            console.log("loading skill tree item " + global_currentUrlParams['SkillTreeItemID']);
             skillTreeItem.student = student;
             // get SkillTreeItemID from url parameter SkillTreeItemID
-            skillTreeItem.skillTreeItemID = currentUrlParams['SkillTreeItemID'];
-            skillTreeItem.skillTreeName = currentUrlParams['SkillTreeName'];
+            skillTreeItem.skillTreeItemID = global_currentUrlParams['SkillTreeItemID'];
+            skillTreeItem.skillTreeName = global_currentUrlParams['SkillTreeName'];
+            skillTreeItem.purgeCache = global_purgeCache;
             skillTreeItem.load().then(resolve).catch(reject);
         });
     }

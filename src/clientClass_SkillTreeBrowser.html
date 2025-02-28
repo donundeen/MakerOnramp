@@ -3,13 +3,15 @@ class SkillTreeBrowser{
     constructor(){
         this.skillTreeList = [];
         this.student = false;
+        this.purgeCache = false;
+        this.currentSkillTreeName = false;
     }
 
     load(){
         return new Promise((resolve, reject) => {
             let self = this;
-            if(currentUrlParams.purgeCache != "true" && localStorage.allSkillTreeSheetNames){
-                console.log("using local storage"); 
+            if(this.purgeCache == false && localStorage.allSkillTreeSheetNames){
+                console.log("skillTreeBrowser using local storage"); 
                 this.skillTreeList = JSON.parse(localStorage.allSkillTreeSheetNames);
                 console.log("skill tree list", this.skillTreeList);
                 resolve(this.skillTreeList);
@@ -32,8 +34,16 @@ class SkillTreeBrowser{
         $(".skillTreeSelect").on("change", function(){
             let skillTreeName = $(this).val();
             console.log("skill tree name", skillTreeName);
-            self.renderSkillTree(skillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+            self.currentSkillTreeName = skillTreeName;
+            global_currentUrlParams.SkillTreeName = skillTreeName;
+            navigate(global_currentUrlParams);
+            // the below approach is a bit faster, but doesn't give us a URL that can be bookmarked
+            // self.renderSkillTree(self.currentSkillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
         });
+        if(this.currentSkillTreeName){
+            this.renderSkillTree(this.currentSkillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+            $(".skillTreeSelect").val(this.currentSkillTreeName);
+        }
         return html;
     }
 
@@ -43,6 +53,7 @@ class SkillTreeBrowser{
         let skillTree = new SkillTree();
         skillTree.student = this.student;
         skillTree.sheetName = skillTreeName;
+        skillTree.purgeCache = this.purgeCache;
         skillTree.load().then(result => {
             console.log("skill tree loaded", result);
             skillTree.display(levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);

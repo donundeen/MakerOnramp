@@ -6,6 +6,7 @@ class Student{
         this.name = name;
         this.email = email;
         this.skillTreeItems = {};
+        this.purgeCache = false;
     }
 
 
@@ -43,8 +44,8 @@ class Student{
         let self = this;
         return new Promise((resolve, reject) => {
             console.log("getting user skill tree items",self.id);
-            if(localStorage["userSkillTreeItems"+ self.id]){
-                console.log("using local storage");
+            if(self.purgeCache == false && localStorage["userSkillTreeItems"+ self.id]){
+                console.log("Student using local storage");
                 self.skillTreeItems = JSON.parse(localStorage["userSkillTreeItems"+self.id]);
                 console.log("currentUserSkillTreeItems", self.skillTreeItems);
                 resolve(self.skillTreeItems);
@@ -60,14 +61,11 @@ class Student{
     }
 
     hasSkillTreeItem(skillTreeName, skillTreeItemID){
-        console.log("userHasSkillTreeItem", skillTreeName, skillTreeItemID);
-        console.log("currentUserSkillTreeItems", this.skillTreeItems);
         if(!this.skillTreeItems){
             console.log("no current user skill tree items");
             return false;
         }
         let result = this.skillTreeItems.data.some(item => item.SkillTreeName === skillTreeName && item.SkillTreeItemID === skillTreeItemID);
-        console.log("userHasSkillTreeItem", result);
         return result;
     }
 
