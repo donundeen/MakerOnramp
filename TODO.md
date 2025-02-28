@@ -20,6 +20,9 @@ You can't add a json file to a GAS project. Just upload it to the root folder of
 
 # DONE items
 
+2025/02/28 16:58
+- made server-side classes instead of global functions
+
 - to make the documentation we're making useful as quickly as possible, we need to:
 -- need direct URL to individual skill tree item documentation - DONE - embedded in the skill tree item page
 -- list of skill tree items that have documentation status "publish" - for students to access - DONE - embedded in the skill tree item page

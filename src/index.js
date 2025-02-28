@@ -56,23 +56,6 @@ global.testGetSkillTreeItemsForStudent = () => {
   Logger.log(result);
 }
 
-/*
-import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './server_crudOperations';  
-global.dataIntoHashRows = dataIntoHashRows;
-global.updateHashRow = updateHashRow;
-global.insertHashRow = insertHashRow;
-global.getSheetRows = getSheetRows;
-
-import {getAllSkillTreeSheets, getAllSkillTreeSheetNames, getAllSkillTreeRows, getSkillTreeItem} from './server_skillTreeSheet';
-global.getAllSkillTreeSheets = getAllSkillTreeSheets; 
-global.getAllSkillTreeSheetNames = getAllSkillTreeSheetNames;
-global.getAllSkillTreeRows = getAllSkillTreeRows;
-global.getSkillTreeItem = getSkillTreeItem;
-
-import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './server_studentSkillTreeItemSheet';
-global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
-global.addSkillTreeItemForStudent = addSkillTreeItemForStudent;
-*/
 
 import {getCurrentUser} from './server_currentUser';
 global.getCurrentUser = getCurrentUser;
