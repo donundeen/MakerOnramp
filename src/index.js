@@ -36,6 +36,8 @@ global.StudentSkillTreeItemSpreadsheetID = StudentSkillTreeItemSpreadsheetID;
 const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
 global.StudentFilesFolderID = StudentFilesFolderID;
 
+global.dataVersion = 0;
+
 
 global.urlParams = {};
 
@@ -113,3 +115,12 @@ global.navigateToPage = (params) => {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
+
+
+global.getEveryPageLoadData = () => {
+  return {
+    dataVersion : global.dataVersion,
+    currentUrl : global.getScriptUrl(),
+    currentUser : global.getCurrentUser()
+  }
+}

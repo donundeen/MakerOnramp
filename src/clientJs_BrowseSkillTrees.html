@@ -9,7 +9,8 @@ $(document).ready(function() {
     let student = new Student();
     let skillTreeBrowser = new SkillTreeBrowser();
 
-    Promise.all([getScriptUrl(), getCurrentStudentID()])
+//    Promise.all([getScriptUrl(), getCurrentStudentID()])
+    getEveryPageLoadData()
     .then(loadStudent)
     .then(loadSkillTreeBrowser)
     .then(renderTemplates)

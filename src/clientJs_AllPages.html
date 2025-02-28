@@ -4,6 +4,7 @@ let global_currentStudentID = false;
 let global_currentUrl = false;
 let global_currentUrlParams = false;
 let global_purgeCache = false;
+let global_dataVersion = 0;
 
 
 $(document).ready(function() {
@@ -27,6 +28,8 @@ function getScriptUrl(){
             console.log("currentUrlParams", global_currentUrlParams);
             global_purgeCache = global_currentUrlParams.purgeCache == "true";
             console.log("purgeCache", global_purgeCache);
+            global_dataVersion = result.dataVersion;
+            console.log("dataVersion", global_dataVersion);
             resolve(result);
         }).getScriptUrl();
     });
@@ -42,6 +45,30 @@ function getCurrentStudentID(){
             $("#currentUser").text(result.email);
             resolve(result.email);
         }).getCurrentUser();
+    });
+}
+
+function getEveryPageLoadData(){
+    return new Promise((resolve, reject) => {
+        console.log("getting every page load data");
+        google.script.run.withSuccessHandler(function(result) {
+            global_dataVersion = result.dataVersion;
+            console.log("dataVersion", global_dataVersion);
+            global_currentUrl = result.currentUrl.url;
+            console.log("currentUrl", global_currentUrl);
+            global_currentUrlParams = result.currentUrl.params;
+            console.log("currentUrlParams", global_currentUrlParams);
+            global_purgeCache = global_currentUrlParams.purgeCache == "true";
+            if(localStorage["dataVersion"] != global_dataVersion){
+                localStorage["dataVersion"] = global_dataVersion;
+                global_purgeCache = true;
+            }
+            console.log("purgeCache", global_purgeCache);
+            console.log(" current user: " , result);
+            global_currentStudentID = result.currentUser.email;
+            $("#currentUser").text(result.currentUser.email);            
+            resolve(result);
+        }).getEveryPageLoadData();
     });
 }
 
