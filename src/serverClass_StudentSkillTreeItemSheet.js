@@ -4,8 +4,8 @@ import {Sheet} from './serverClass_Sheet';
 class StudentSkillTreeItemSheet extends Sheet {
     constructor() {
         super();
-        Logger.log("constructor");
-        Logger.log(this);
+        //Logger.log("constructor");
+        //Logger.log(this);
         this.myclass = "StudentSkillTreeItemSheet";
         this.spreadsheetID = global.StudentSkillTreeItemSpreadsheetID;
         this.sheetName = "StudentSkillTreeItems";

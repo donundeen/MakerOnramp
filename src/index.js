@@ -16,9 +16,6 @@ global.jsonToSpreadsheet = jsonToSpreadsheet;
 global.runJSONToSpreadsheet = runJSONToSpreadsheet;
 global.listJsonFiles = listJsonFiles;
 
-import {Sheet} from './serverClass_Sheet';
-global.Sheet = Sheet;
-
 import {StudentSkillTreeItemSheet} from './serverClass_StudentSkillTreeItemSheet';
 global.StudentSkillTreeItemSheet = StudentSkillTreeItemSheet;
 
@@ -53,7 +50,7 @@ global.testInsertHashRow = () => {
 }
 global.testGetSkillTreeItemsForStudent = () => {
   let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
-  Logger.log(result);
+  //Logger.log(result);
 }
 
 
@@ -72,7 +69,7 @@ global.currentTestFunction = currentTestFunction;
 global.urlParams = {};
 
 global.doGet = (e) => {
-    Logger.log("opening");  
+   //Logger.log("opening");  
     global.urlParams = e.parameter;
     //let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
     PropertiesService.getScriptProperties().setProperty('urlParams', JSON.stringify(global.urlParams));  
@@ -99,7 +96,7 @@ global.includeTemplated = (filename) => {
 
 
 function makeThumbnail(file, thumbname, newWidth){
-    Logger.log("making thumb ", thumbname);
+    // Logger.log("making thumb ", thumbname);
 // commenting out for now, until we install the ImgApp library     
 /*
 let res = ImgApp.doResize(file.getId(), newWidth);
@@ -110,17 +107,17 @@ let res = ImgApp.doResize(file.getId(), newWidth);
   
 function getFileBlob(filename){
     // https://developers.google.com/apps-script/reference/base/blob
-   Logger.log("looking for ", filename);
+   // Logger.log("looking for ", filename);
    let files = DriveApp.getFilesByName(filename);
    while (files.hasNext()) {
      let file = files.next();
      let blob = file.getBlob();
-     Logger.log("got blob");
+     // Logger.log("got blob");
      return  { blob: blob.getBytes(),
                contentType : blob.getContentType()
              };
    } 
-   Logger.log("returning false");
+   //   Logger.log("returning false");
    return false;
 }
 

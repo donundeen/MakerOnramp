@@ -1,17 +1,17 @@
   
 const  testButtonClicked = () => {
-    Logger.log("testButtonClicked");
+    //Logger.log("testButtonClicked");
     return "I ran testButtonClicked";
 };
 
 const  testButtonClicked3 = () => {
-    Logger.log("testButtonClicked");
+    //Logger.log("testButtonClicked");
     return "I ran testButtonClicked3";
 };
 
 const currentTestFunction = () => {
     let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
-    Logger.log(result);
+    //Logger.log(result);
     return result;
 };
   

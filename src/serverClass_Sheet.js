@@ -4,8 +4,8 @@ class Sheet {
         this.sheetName = false;
         this.sheet = null;
         this.myclass = "sheet"; 
-        Logger.log(" parent constructor");
-        Logger.log(this);
+        //Logger.log(" parent constructor");
+        //Logger.log(this);
     }
 
     getAllSheetNames(){
@@ -15,11 +15,11 @@ class Sheet {
 
     loadSheet(){
         if(!this.sheet){
-            Logger.log("loading sheet :  ")
-            Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
+            //  Logger.log("loading sheet :  ")
+            //Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
             this.sheet = SpreadsheetApp.openById(this.spreadsheetID).getSheetByName(this.sheetName);
-            Logger.log("sheet loaded");
-            Logger.log(this.sheet);
+            //Logger.log("sheet loaded");
+            //Logger.log(this.sheet);
         }
     }
 

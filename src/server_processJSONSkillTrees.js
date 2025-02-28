@@ -18,7 +18,7 @@ const runJSONToSpreadsheet = () => {
     ]
     filenames.forEach(filename => {
       let result =  jsonToSpreadsheet(filename, global.SkillTreeSpreadsheetID );
-      Logger.log(result);
+     // Logger.log(result);
     })
 };
   
@@ -38,7 +38,7 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
         const skillTreeJSONFolder = DriveApp.getFoldersByName("skillTreeJSON").next();
         const files = skillTreeJSONFolder.getFilesByName(filename);
         if (!files.hasNext()) {
-            Logger.log('No file found with the name ' + filename);
+            //Logger.log('No file found with the name ' + filename);
             return "No file found with the name " + filename; // Exit the function if no file is found
         }   
         // Read the JSON file from the local skillTreeJSON folder
@@ -68,30 +68,30 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
         skills.forEach(skill => {
             let desc = skill.text;
             let id = desc.replace(/ /g, "_");
-            Logger.log("id: " + id);
+            //Logger.log("id: " + id);
             // if there's already a row in the sheet with this id, skip it
             const rows = sheet.getDataRange().getValues();
             const existingRow = rows.find(row => row[1] === id);
             if (existingRow) {
-                Logger.log("Skipping row with id " + id + " because it already exists");
+                //Logger.log("Skipping row with id " + id + " because it already exists");
             } else {
                 let documentTitle = skillTreeName + " - " + desc;
                 let documentationSlidesLink = "";
                 // see if a google slide exists for this documentTitle in the Resources folder
                 let documentationStatus = "created";
-                Logger.log("documentTitle: " + documentTitle);
+                //Logger.log("documentTitle: " + documentTitle);
                 const slides = resourcesFolder.getFilesByName(documentTitle); 
                 if (slides.hasNext()) {
                     const slide = slides.next();
                     documentationSlidesLink = slide.getUrl();
                 }
                 else {
-                    Logger.log("no slide found");
+                    //Logger.log("no slide found");
                     // otherwise, create a google slide
                     documentationSlidesLink = createPresentationInResourcesFolder(documentTitle, resourcesFolder);
                 }
                 const row = [skillTreeName, id, desc, skill.level, skill.icon, documentationSlidesLink, documentationStatus]; // Adjust properties as needed
-                Logger.log("row: " + row);
+                //Logger.log("row: " + row);
                 sheet.appendRow(row);
             }
         });
@@ -99,11 +99,11 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
     };
     
     const listJsonFiles = () => {
-        Logger.log("listing json files");
+        //Logger.log("listing json files");
         const files = DriveApp.getFilesByType('application/json');
         while (files.hasNext()) {
             const file = files.next();
-            Logger.log('File Name: ' + file.getName() + ', File ID: ' + file.getId());
+            //Logger.log('File Name: ' + file.getName() + ', File ID: ' + file.getId());
         }
     };
         
@@ -111,11 +111,11 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
     function createPresentationInResourcesFolder(documentTitle, resourcesFolder) {
         // Step 1: Create the presentation
         const presentation = SlidesApp.create(documentTitle);
-        Logger.log("1 presentation: " + presentation);
+        //Logger.log("1 presentation: " + presentation);
     
         // Step 2: Get the file ID of the created presentation
         const presentationId = presentation.getId();
-        Logger.log("Presentation ID: " + presentationId);
+        //Logger.log("Presentation ID: " + presentationId);
     
         // Step 3: Move the presentation to the resources folder
         const presentationFile = DriveApp.getFileById(presentationId);
@@ -124,7 +124,7 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
     
         // Log the URL of the presentation
         const documentationSlidesLink = presentation.getUrl();
-        Logger.log("documentationSlidesLink: " + documentationSlidesLink);
+        //Logger.log("documentationSlidesLink: " + documentationSlidesLink);
         return documentationSlidesLink;
     }
     
