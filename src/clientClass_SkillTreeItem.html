@@ -12,7 +12,7 @@
                 let self = this;
                 let skillTreeRow = false;
                 let localData = localStorage["allSkillTreeRows"+this.skillTreeName];
-                if(localData){
+                if(currentUrlParams.purgeCache != "true" && localData){
                     localData = JSON.parse(localData);
                     console.log("loading skill tree item data " , localData);
                     skillTreeRow = localData.data.filter(row => row.SkillTreeItemID === this.skillTreeItemID)[0];
