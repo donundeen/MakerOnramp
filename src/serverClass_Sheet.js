@@ -16,53 +16,50 @@ class Sheet {
         }
     }
 
+        
+    dataIntoHashRows(data, keysRow, startRow, filterFunction){
+        this.foo = "bar"; // otherwise lint complains about not using "this
+        let idKey= {};
+        let keyId= {};
+        let newData = [];
+        
+        for (let k = 0; k < data[keysRow].length; k++) { 
+        // key is text, k is number
+            let key = data[keysRow][k];
+            key = key.replace("?","");
+            key = key.replace("'","");
+            key = key.replace(":","");
+            if(key.trim() === ""){
+                continue;
+            }
+            
+            idKey[k] = key;
+            keyId[key] = k;
+        }
+        
+        for (let i = startRow; i < data.length; i++) { 
+            let newRow = {};
+            for (let j = 0; j < data[i].length; j++) { 
+                if(!idKey[j] || idKey[j].trim() === ""){
+                    continue; 
+                }
+                newRow[idKey[j]] = data[i][j];
+            }
+            newRow._Sheet_Row_ID = i;
+            if(!filterFunction || filterFunction(newRow) === true){
+                 newData.push(newRow);
+            }
+        }    
+        return {data:newData, keyId: keyId, idKey: idKey};
+    }
+        
+      
     getSheetRows(filterFunction) {
         this.loadSheet();
         const data = this.sheet.getDataRange().getValues();
         const hashData = this.dataIntoHashRows(data, 0, 1, filterFunction);
         return hashData;
     }
-        
-    dataIntoHashRows = (data, keysRow, startRow, filterFunction) => {
-        let idKey= {};
-        let keyId= {};
-        let newData = [];
-        Logger.log("data");
-    
-        for (let k = 0; k < data[keysRow].length; k++) { 
-        // key is text, k is number
-    
-        let key = data[keysRow][k];
-        key = key.replace("?","");
-        key = key.replace("'","");
-        key = key.replace(":","");
-        if(key.trim() === ""){
-            continue;
-        }
-        
-        idKey[k] = key;
-        keyId[key] = k;
-        }
-        
-        for (let i = startRow; i < data.length; i++) { 
-        let newRow = {};
-        for (let j = 0; j < data[i].length; j++) { 
-            if(!idKey[j] || idKey[j].trim() === ""){
-            continue; 
-            }
-            newRow[idKey[j]] = data[i][j];
-        }
-        newRow._Sheet_Row_ID = i;
-        if(!filterFunction || filterFunction(newRow) === true){
-            newData.push(newRow);
-        }
-        }
-        
-        return {data:newData, keyId: keyId, idKey: idKey};
-        
-    };
-        
-      
         
     /* 
     ============================ UPDATEHASHROW =================================
@@ -77,16 +74,14 @@ class Sheet {
     */
     
     
-    updateHashRow = (data, keysrow, updateKeys) => {
-    
-        let to_continue = _updateHashRow(data, keysrow, updateKeys);
+    updateHashRow(data, keysrow, updateKeys){
+        let to_continue = this._updateHashRow(data, keysrow, updateKeys);
         return to_continue;
-        
-    };
+    }
     
-    _updateHashRow = (data, keysrow, updateKeys) => {
+    _updateHashRow(data, keysrow, updateKeys){
         this.loadSheet();
-        Logger.log("updating2");
+        //Logger.log("updating2");
         let insertArray = [];
         let idKey= {};
         let keyId= {};
@@ -98,71 +93,70 @@ class Sheet {
         .getValues();  
         
         for (let k = 0; k < tableMetaData[0].length; k++) { 
-        let key = tableMetaData[0][k];
-        // key is text, k is number
-        if(key.trim() === ""){
-            continue;
-        }
-        insertArray.push(""); 
-        idKey[k] = key;
-        keyId[key] = k;
+            let key = tableMetaData[0][k];
+            // key is text, k is number
+            if(key.trim() === ""){
+                continue;
+            }
+            insertArray.push(""); 
+            idKey[k] = key;
+            keyId[key] = k;
         }
         
         let datakeys = Object.keys(data);
     
         for(let i = 0; i < datakeys.length; i++){
-        let key = datakeys[i];
-        let k = keyId[key];
-        insertArray[k] = data[key];
+            let key = datakeys[i];
+            let k = keyId[key];
+            insertArray[k] = data[key];
         }
         
-        let index = this.findRowNumForQuery(keysrow, keysrow + 1, function(row){
-        Logger.log("updateKeys");
-        let updateKeysKeys = Object.keys(updateKeys);
-        Logger.log(updateKeysKeys);
-        for(let i = 0; i < updateKeysKeys.length; i++){
-            let key = updateKeysKeys[i];
-            let value = updateKeys[key];      
-            Logger.log(key + " : " + value + " : " + row[key]);
-            if(row[key] !== value){
-            return false;
+        let index = this.findRowNumForQuery(keysrow, keysrow + 1, (row) => {
+            //Logger.log("updateKeys");
+            let updateKeysKeys = Object.keys(updateKeys);
+            //Logger.log(updateKeysKeys);
+            for(let i = 0; i < updateKeysKeys.length; i++){
+                let key = updateKeysKeys[i];
+                let value = updateKeys[key];      
+                //Logger.log(key + " : " + value + " : " + row[key]);
+                if(row[key] !== value){
+                    return false;
+                }
             }
-        }
-        return true;
+            return true;
         });
         
-        Logger.log("returning ", index);
+        //  Logger.log("returning ", index);
         if(!index){
-        return false; 
+            return false; 
         }
         let toDelete = index + 1;
         
         if(index){
-        this.sheet.deleteRow(toDelete);
+           this.sheet.deleteRow(toDelete);
         }
         this.sheet.appendRow(insertArray);
         
-        return index;
-        
-    };
+        return index; 
+    }
     
     
-    findRowNumForQuery = (keysRow, startRow, queryFunction) => {
+    findRowNumForQuery(keysRow, startRow, queryFunction){
         this.loadSheet();
         let tableData = this.sheet.getDataRange().getValues();
     
         let data = this.dataIntoHashRows(tableData, keysRow, startRow).data;
         
         for (let i = 0; i < data.length; i++) { 
-        let res = queryFunction(data[i]);
-        if(res === true){
-            return i + startRow;
-        }
+            let res = queryFunction(data[i]);
+            if(res === true){
+                return i + startRow;
+            }
         }
         return false;
-    };
+    }
     
-    insertHashRow = (data, keysrow) => {
+    insertHashRow(data, keysrow){
         this.loadSheet();
         let insertArray = [];
         let idKey= {};
@@ -175,26 +169,26 @@ class Sheet {
         .getValues();  
         
         for (let k = 0; k < tableMetaData[0].length; k++) { 
-        let key = tableMetaData[0][k];
-        // key is text, k is number
-        if(key.trim() === ""){
-            continue;
-        }
-        insertArray.push(""); 
-        idKey[k] = key;
-        keyId[key] = k;
+            let key = tableMetaData[0][k];
+            // key is text, k is number
+            if(key.trim() === ""){
+                continue;
+            }
+            insertArray.push(""); 
+            idKey[k] = key;
+            keyId[key] = k;
         }
         
         let datakeys = Object.keys(data);
     
         for(let i = 0; i < datakeys.length; i++){
-        let key = datakeys[i];
-        let k = keyId[key];
-        insertArray[k] = data[key];
+            let key = datakeys[i];
+            let k = keyId[key];
+            insertArray[k] = data[key];
         }
         
         this.sheet.appendRow(insertArray);
-    };
+    }
     
 }
 

@@ -9,7 +9,7 @@ const  testButtonClicked3 = () => {
     return "I ran testButtonClicked3";
 };
 
-const currentTestFunction = function(){
+const currentTestFunction = () => {
     let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
     Logger.log(result);
     return result;

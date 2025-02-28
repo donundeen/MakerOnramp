@@ -1,16 +1,16 @@
-class SkillTreeSheet extends Sheet {
+class SkillTreeSheet extends global.Sheet {
     constructor() {
-        this.SkillTreeSpreadsheetID = global.SkillTreeSpreadsheetID;
         super();
+        this.SkillTreeSpreadsheetID = global.SkillTreeSpreadsheetID;
     }
 
     getAllSkillTreeSheetNames(){
-        //let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
+        let sheetNames = false; //PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
         
         if(sheetNames){
             return JSON.parse(sheetNames);
         }
-        const sheets = this.getAllSheetNames();
+        sheetNames = this.getAllSheetNames();
         const filteredSheetNames = sheetNames.filter(name => name !== "Notes");
         //PropertiesService.getScriptProperties().setProperty('allSkillTreeSheetNames', JSON.stringify(filteredSheetNames));
         return filteredSheetNames;

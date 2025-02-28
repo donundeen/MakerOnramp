@@ -1,9 +1,9 @@
-class StudentSkillTreeItemSheet extends Sheet {
+class StudentSkillTreeItemSheet extends global.Sheet {
     constructor() {
+        super();
         this.spreadsheetID = global.StudentSkillTreeItemSpreadsheetID;
         this.sheetName = "StudentSkillTreeItems";
         this.StudentFilesFolderID = global.StudentFilesFolderID;
-        super();
     }
 
     getSkillTreeItemsForStudent(studentID){

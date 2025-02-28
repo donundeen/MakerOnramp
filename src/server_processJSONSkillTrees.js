@@ -1,7 +1,4 @@
-
-
-
-const runJSONToSpreadsheet = function(){
+const runJSONToSpreadsheet = () => {
 
     let filenames = [
   //    "3D_Printing.json",
@@ -26,7 +23,7 @@ const runJSONToSpreadsheet = function(){
 };
   
 
-const jsonToSpreadsheet =  function(filename, spreadsheetID ){
+const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
 
     /*  
         let spreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
@@ -101,7 +98,7 @@ const jsonToSpreadsheet =  function(filename, spreadsheetID ){
         return "I ran jsonToSpreadsheet";
     };
     
-    const listJsonFiles = function() {
+    const listJsonFiles = () => {
         Logger.log("listing json files");
         const files = DriveApp.getFilesByType('application/json');
         while (files.hasNext()) {
