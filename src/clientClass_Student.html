@@ -6,7 +6,6 @@ class Student{
         this.name = name;
         this.email = email;
         this.skillTreeItems = {};
-        this.purgeCache = false;
     }
 
 
@@ -44,7 +43,7 @@ class Student{
         let self = this;
         return new Promise((resolve, reject) => {
             console.log("getting user skill tree items",self.id);
-            if(self.purgeCache == false && localStorage["userSkillTreeItems"+ self.id]){
+            if(localStorage["userSkillTreeItems"+ self.id]){
                 console.log("Student using local storage");
                 self.skillTreeItems = JSON.parse(localStorage["userSkillTreeItems"+self.id]);
                 console.log("currentUserSkillTreeItems", self.skillTreeItems);

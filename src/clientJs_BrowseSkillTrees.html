@@ -24,7 +24,6 @@ $(document).ready(function() {
             student.id = global_currentStudentID;
             student.email = global_currentStudentID;
             student.name = global_currentStudentID;
-            student.purgeCache = global_purgeCache;
             student.load().then(resolve).catch(reject);
         });
     }
@@ -32,7 +31,6 @@ $(document).ready(function() {
     function loadSkillTreeBrowser(){
         return new Promise((resolve, reject) => {
             skillTreeBrowser.student = student;
-            skillTreeBrowser.purgeCache = global_purgeCache;
             if(global_currentUrlParams.SkillTreeName){
                 skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
             }

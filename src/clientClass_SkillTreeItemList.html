@@ -5,7 +5,6 @@ class SkillTreeItemList{
         this.sheetName = "";
         this.skillTreeItems = {};
         this.student = false;
-        this.purgeCache = false;
     }
     
     display(levelTemplate,itemShortTemplate, targetDiv){
@@ -84,7 +83,7 @@ class SkillTreeItemList{
         let self = this;        
         return new Promise((resolve, reject) => {
             const sheetName = this.sheetName;
-            if(this.purgeCache == false && localStorage["allSkillTreeRows"+sheetName]){
+            if(localStorage["allSkillTreeRows"+sheetName]){
                 console.log("SkillTreeItemList using local storage");
                 this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]);
                 resolve(this.skillTreeItems);

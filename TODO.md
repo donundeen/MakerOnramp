@@ -1,14 +1,12 @@
 # TODO Items
 
+- student page with
+-- their "collected" items, w links to their documentation/evidence decks
+
 - make a tracker that can show the last update time for each skill tree item document
 
 - put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
 -- this will make the system immediately useful
-
-
-
-- student page with
--- their "collected" items, w links to their documentation/evidence decks
 
 - add Projects
 - add milestones

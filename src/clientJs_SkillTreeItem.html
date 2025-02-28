@@ -25,7 +25,6 @@ $(document).ready(function() {
             student.id = global_currentStudentID;
             student.email = global_currentStudentID;
             student.name = global_currentStudentID;
-            student.purgeCache = global_purgeCache;
             student.load().then(resolve).catch(reject);
         });
     }
@@ -37,7 +36,6 @@ $(document).ready(function() {
             // get SkillTreeItemID from url parameter SkillTreeItemID
             skillTreeItem.skillTreeItemID = global_currentUrlParams['SkillTreeItemID'];
             skillTreeItem.skillTreeName = global_currentUrlParams['SkillTreeName'];
-            skillTreeItem.purgeCache = global_purgeCache;
             skillTreeItem.load().then(resolve).catch(reject);
         });
     }

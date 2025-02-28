@@ -2,11 +2,55 @@
 // TBD - move into a spreadsheet, admin tool or something...
 global.dataVersion = 0;
 
+const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
+global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
+
+const StudentSkillTreeItemSpreadsheetID = "1mWXAAge-BXtLS6JKesWHL2bmXzn0HMk5NKEhsi8HRro";
+global.StudentSkillTreeItemSpreadsheetID = StudentSkillTreeItemSpreadsheetID;
+
+const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
+global.StudentFilesFolderID = StudentFilesFolderID;
+
 import {jsonToSpreadsheet, listJsonFiles, runJSONToSpreadsheet} from './server_processJSONSkillTrees';
 global.jsonToSpreadsheet = jsonToSpreadsheet;
 global.runJSONToSpreadsheet = runJSONToSpreadsheet;
 global.listJsonFiles = listJsonFiles;
 
+import {Sheet} from './serverClass_Sheet';
+global.Sheet = Sheet;
+
+import {StudentSkillTreeItemSheet} from './serverClass_StudentSkillTreeItemSheet';
+global.StudentSkillTreeItemSheet = StudentSkillTreeItemSheet;
+
+import {SkillTreeSheet} from './serverClass_SkillTreeSheet';
+global.SkillTreeSheet = SkillTreeSheet;
+
+
+// Exposing class methods as global functions for client side use
+global.getAllSkillTreeSheetNames = () =>{
+  const skillTreeSheet = new SkillTreeSheet();
+  return skillTreeSheet.getAllSkillTreeSheetNames();
+}
+
+global.getAllSkillTreeRows = (sheetName) => {
+  const skillTreeSheet = new SkillTreeSheet();
+  skillTreeSheet.sheetName = sheetName;
+  return skillTreeSheet.getAllSkillTreeRows();
+}
+
+global.getSkillTreeItemsForStudent = (studentID) => {
+  const studentSkillTreeItemSheet = new StudentSkillTreeItemSheet();
+  return studentSkillTreeItemSheet.getSkillTreeItemsForStudent(studentID);
+}
+
+global.addSkillTreeItemForStudent = (studentID, skillTreeItemID, skillTreeName) => {
+  const studentSkillTreeItemSheet = new StudentSkillTreeItemSheet();
+  return studentSkillTreeItemSheet.addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName);
+}
+
+
+
+/*
 import {dataIntoHashRows, updateHashRow, insertHashRow, getSheetRows} from './server_crudOperations';  
 global.dataIntoHashRows = dataIntoHashRows;
 global.updateHashRow = updateHashRow;
@@ -22,6 +66,7 @@ global.getSkillTreeItem = getSkillTreeItem;
 import {getSkillTreeItemsForStudent, addSkillTreeItemForStudent} from './server_studentSkillTreeItemSheet';
 global.getSkillTreeItemsForStudent = getSkillTreeItemsForStudent; 
 global.addSkillTreeItemForStudent = addSkillTreeItemForStudent;
+*/
 
 import {getCurrentUser} from './server_currentUser';
 global.getCurrentUser = getCurrentUser;
@@ -31,14 +76,6 @@ global.testButtonClicked = testButtonClicked;
 global.testButtonClicked3 = testButtonClicked3;
 global.currentTestFunction = currentTestFunction;
 
-const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
-global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
-
-const StudentSkillTreeItemSpreadsheetID = "1mWXAAge-BXtLS6JKesWHL2bmXzn0HMk5NKEhsi8HRro";
-global.StudentSkillTreeItemSpreadsheetID = StudentSkillTreeItemSpreadsheetID;
-
-const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
-global.StudentFilesFolderID = StudentFilesFolderID;
 
 
 
