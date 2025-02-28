@@ -5,8 +5,6 @@
 - put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
 -- this will make the system immediately useful
 
-- purgeCache 
--- need a wayt o make the system use the server side data instead of local storage, when we've changed some of the data
 
 
 - student page with
@@ -58,3 +56,9 @@ You can't add a json file to a GAS project. Just upload it to the root folder of
 -- create the google sheet for this data - DONE
 -- create ability for a user to "collect/start" a skill tree item - DONE
 -- create the user documetnation slide deck when they "collect/start" a skill tree item - DONE
+
+2025/02/28 12:57
+- purgeCache 
+-- need a wayt o make the system use the server side data instead of local storage, when we've changed some of the data
+-- DONE - using a dataVersion variable that is updated when the server side data changes
+

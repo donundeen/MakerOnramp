@@ -1,3 +1,7 @@
+// change this when the server side data changes - forces a reload of all data on client side
+// TBD - move into a spreadsheet, admin tool or something...
+global.dataVersion = 0;
+
 import {jsonToSpreadsheet, listJsonFiles, runJSONToSpreadsheet} from './server_processJSONSkillTrees';
 global.jsonToSpreadsheet = jsonToSpreadsheet;
 global.runJSONToSpreadsheet = runJSONToSpreadsheet;
@@ -36,7 +40,7 @@ global.StudentSkillTreeItemSpreadsheetID = StudentSkillTreeItemSpreadsheetID;
 const StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
 global.StudentFilesFolderID = StudentFilesFolderID;
 
-global.dataVersion = 0;
+
 
 
 global.urlParams = {};
