@@ -3,7 +3,7 @@ class SkillTreeItemList{
 
     constructor(){
         this.sheetName = "";
-        this.skillTreeItems = {};
+        this.skillTreeItems = [];
         this.student = false;
     }
     
@@ -12,7 +12,7 @@ class SkillTreeItemList{
         $(targetDiv).empty();
         let self = this;
         // Step 1: Group titles by level
-        const groupedData = this.skillTreeItems.data.reduce((acc, item) => {
+        const groupedData = this.skillTreeItems.reduce((acc, item) => {
             const level = item.Level;
             if (!acc[level]) {
                 acc[level] = [];
@@ -85,13 +85,13 @@ class SkillTreeItemList{
             const sheetName = this.sheetName;
             if(localStorage["allSkillTreeRows"+sheetName]){
                 console.log("SkillTreeItemList using local storage");
-                this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]);
+                this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]).data;
                 resolve(this.skillTreeItems);
             }else{
                 console.log("getting all skill tree rows");
                 google.script.run.withSuccessHandler(function(result) {
                     console.log(" got result from server: " , result);
-                    self.skillTreeItems = result;
+                    self.skillTreeItems = result.data;
                     localStorage["allSkillTreeRows"+sheetName] = JSON.stringify(result);
                     resolve(self.skillTreeItems);
                 }).getAllSkillTreeRows(sheetName);

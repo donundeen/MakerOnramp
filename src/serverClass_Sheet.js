@@ -9,6 +9,8 @@ class Sheet {
     }
 
     getAllSheetNames(){
+        Logger.log("getAllSheetNames");
+        Logger.log(this.spreadsheetID); 
         return SpreadsheetApp.openById(this.spreadsheetID).getSheets().map(sheet => sheet.getName().trim());
     }
 

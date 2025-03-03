@@ -62,15 +62,16 @@ function getEveryPageLoadData(){
             console.log("currentUrlParams", global_currentUrlParams);
             global_purgeCache = global_currentUrlParams.purgeCache == "true";
             if(localStorage["dataVersion"] != global_dataVersion){
+                console.log("dataVersion mismatch", localStorage["dataVersion"], global_dataVersion);
                 global_purgeCache = true;
-                if(global_purgeCache){
-                    console.log("purging cache");
-                    localStorage.clear();
-                }
                 localStorage["dataVersion"] = global_dataVersion;
             }
-            console.log("purgeCache", global_purgeCache);
-
+            // clear the cache if the purgeCache flag is true
+            if(global_purgeCache){
+                console.log("purging cache", global_purgeCache);
+                localStorage.clear();
+                localStorage["dataVersion"] = global_dataVersion;
+            }
             // also set a few things in the nav bar, which is outside of the contentBody div or other templates
             $("#currentUser").text(result.currentUser.email);   
             resolve(result);

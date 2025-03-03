@@ -1,0 +1,20 @@
+<h1>All My Awesome Skills</h1>
+{{#each groupedSkillTreeItems}}
+<div class="skill-tree-container">
+    <h2>{{@key}}</h2>
+    {{#each this}}
+    <div class="skill-tree-level-container">
+        <div class="skill-tree-level-header">
+            <h2>{{@key}}</h2>
+        </div>
+        <div class="skill-tree-level-content">
+            {{#each this}}
+            <div class="skill-tree-item">
+                <h3>{{Title}}</h3>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{/each}}

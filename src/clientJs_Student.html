@@ -1,0 +1,40 @@
+<script>
+
+    $(document).ready(function() {
+    
+        $("#contentBody").html("<b>Hold on, thinking...</b>");
+    
+        console.log("getting student");   
+        let student = new Student();
+    
+        Promise.all([getScriptUrl(), getCurrentStudentID()])
+        .then(loadStudent)
+        .then(renderTemplates)
+        .catch((error) => {
+            console.log("error loading student ", error);
+        });
+    
+    
+    
+        function loadStudent(){
+            return new Promise((resolve, reject) => {
+                console.log("loading student " + global_currentStudentID);
+                student.id = global_currentStudentID;
+                student.email = global_currentStudentID;
+                student.name = global_currentStudentID;
+                student.load().then(resolve).catch(reject);
+            });
+        }
+    
+    
+        function renderTemplates(){
+            console.log("rendering student");
+            let studentTemplate = Handlebars.compile( `
+                <?!= include("template_Student"); ?>
+            `);
+            let studentHTML = student.display(studentTemplate);
+            $("#contentBody").html(studentHTML);
+        }
+    });
+    
+    </script>

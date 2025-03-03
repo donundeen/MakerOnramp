@@ -1,5 +1,11 @@
+App URL, Dev version: https://script.google.com/a/macros/lcc.ca/s/AKfycbyZAMbDaSo5YPyWalGh978eaKX9xaFTaI41Pch8azY/dev
+IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSirIG2s5U8u7VwswaT7a8tvf/edit 
+
 # TODO Items
 - check the caching/purgeCache system, might be a bug?
+
+- put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
+-- this will make the system immediately useful
 
 
 - student page with
@@ -7,12 +13,9 @@
 
 - make a tracker that can show the last update time for each skill tree item document
 
-- put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
--- this will make the system immediately useful
-
 - add Projects
 - add milestones
-
+-- complex milestone rule system
 
 
 # THINGS I LEARNED

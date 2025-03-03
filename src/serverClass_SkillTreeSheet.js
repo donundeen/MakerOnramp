@@ -5,7 +5,8 @@ class SkillTreeSheet extends Sheet {
     constructor() {
         super();
         this.myclass = "SkillTreeSheet"; 
-        this.SkillTreeSpreadsheetID = global.SkillTreeSpreadsheetID;
+        this.spreadsheetID = global.SkillTreeSpreadsheetID;
+        this.sheetName = null;
     }
 
     getAllSkillTreeSheetNames(){
@@ -21,7 +22,7 @@ class SkillTreeSheet extends Sheet {
     }   
 
     getAllSkillTreeRows() {
-        const data = this.getSheetRows(this.sheetName);
+        const data = this.getSheetRows();
         return data;
     }
 

@@ -1,6 +1,6 @@
 // change this when the server side data changes - forces a reload of all data on client side
 // TBD - move into a spreadsheet, admin tool or something...
-global.dataVersion = 0;
+global.dataVersion = 1;
 
 const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
 global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
