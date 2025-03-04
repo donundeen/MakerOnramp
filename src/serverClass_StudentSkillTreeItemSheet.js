@@ -28,7 +28,6 @@ class StudentSkillTreeItemSheet extends Sheet {
             SkillTreeName: skillTreeName,
             Status: "Started"
         };
-        this.insertHashRow(data, 0);
 
         const studentSkillTreeItemDocumentationName = studentID + "_" + skillTreeName + "_" + skillTreeItemID;
         // create a slide deck in the studentFiles/studentID/skillTreeItemDocumentationName folder
@@ -48,6 +47,10 @@ class StudentSkillTreeItemSheet extends Sheet {
     
         studentSkillTreeItemDocumentationFolder.addFile(DriveApp.getFileById(slideDeck.getId()));
     
+        data.StudentDocumentationSlidesLink = slideDeck.getUrl();
+        // insert the data into the sheet   
+        this.insertHashRow(data, 0);
+
         return data;
 
     }
