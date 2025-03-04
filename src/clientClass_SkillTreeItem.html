@@ -5,6 +5,17 @@
             this.skillTreeItemID = false;
             this.student = false;
             this.skillTreeItem = false;
+            this.templateContext = {};
+        }
+
+        buildTemplateContext(additionalContext){
+            this.templateContext.skillTreeName = this.skillTreeName;
+            this.templateContext.skillTreeItemID = this.skillTreeItemID;
+            this.templateContext.student = this.student;
+            this.templateContext.skillTreeItem = this.skillTreeItem;
+            if(additionalContext){
+                this.templateContext = Object.assign(this.templateContext, additionalContext);
+            }
         }
 
         load(){
@@ -32,10 +43,10 @@
             });
         }
 
-        display(template){
+        display(template, additionalContext){
             console.log("displaying skill tree item", this);
-            this.documentationSlideEmbedURL = generateDocumentationSlideEmbedURL(this.skillTreeItem.DocumentationSlidesLink);
-            let html = template(this);
+            this.buildTemplateContext(additionalContext);
+            let html = template(this.templateContext);
             console.log("html", html);
             return html;
         }

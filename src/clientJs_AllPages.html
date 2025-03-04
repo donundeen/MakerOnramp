@@ -5,6 +5,7 @@ let global_currentUrl = false;
 let global_currentUrlParams = false;
 let global_purgeCache = false;
 let global_dataVersion = 0;
+let global_templateContext = {};
 
 
 $(document).ready(function() {
@@ -18,49 +19,26 @@ function navigate(params) {
   window.open(newUrl, "_top");
 }
 
-function getScriptUrl(){
-    return new Promise((resolve, reject) => {
-        console.log("getting script url");
-        google.script.run.withSuccessHandler(function(result) {
-            global_currentUrl = result.url;
-            console.log("currentUrl", global_currentUrl);
-            global_currentUrlParams = result.params;
-            console.log("currentUrlParams", global_currentUrlParams);
-            global_purgeCache = global_currentUrlParams.purgeCache == "true";
-            console.log("purgeCache", global_purgeCache);
-            global_dataVersion = result.dataVersion;
-            console.log("dataVersion", global_dataVersion);
-            resolve(result);
-        }).getScriptUrl();
-    });
-}
 
-function getCurrentStudentID(){
-    console.log("getting current student ID");
-    return new Promise((resolve, reject) => {
-        console.log("getting current user promise");
-        google.script.run.withSuccessHandler(function(result) {
-            console.log(" current user: " , result);
-            global_currentStudentID = result.email;
-            $("#currentUser").text(result.email);
-            resolve(result.email);
-        }).getCurrentUser();
-    });
-}
-
+// on every page load, we get some data from the server
 function getEveryPageLoadData(){
     return new Promise((resolve, reject) => {
         console.log("getting every page load data");
         google.script.run.withSuccessHandler(function(result) {
+            // get the current uer email, which is used as the unique student ID
             global_currentStudentID = result.currentUser.email;
             console.log(" current user: " , global_currentStudentID);
+            // get the data version, sent from the server. 
             global_dataVersion = result.dataVersion;
             console.log("dataVersion", global_dataVersion);
+            // get the current url and params
             global_currentUrl = result.currentUrl.url;
             console.log("currentUrl", global_currentUrl);
             global_currentUrlParams = result.currentUrl.params;
             console.log("currentUrlParams", global_currentUrlParams);
+            // get the purgeCache flag, which might be sent from the url
             global_purgeCache = global_currentUrlParams.purgeCache == "true";
+            // if the data version in local storage doesn't match the server, then set the purgeCache flag to true
             if(localStorage["dataVersion"] != global_dataVersion){
                 console.log("dataVersion mismatch", localStorage["dataVersion"], global_dataVersion);
                 global_purgeCache = true;
@@ -73,7 +51,14 @@ function getEveryPageLoadData(){
                 localStorage["dataVersion"] = global_dataVersion;
             }
             // also set a few things in the nav bar, which is outside of the contentBody div or other templates
-            $("#currentUser").text(result.currentUser.email);   
+            // set some data in the global_templateContext object
+            global_templateContext.currentStudentID = global_currentStudentID;
+            global_templateContext.dataVersion = global_dataVersion;
+            global_templateContext.purgeCache = global_purgeCache;
+            global_templateContext.currentUrl = global_currentUrl;
+            global_templateContext.currentUrlParams = global_currentUrlParams;
+            
+            $("#currentUser").text(global_currentStudentID);   
             resolve(result);
         }).getEveryPageLoadData();
     });

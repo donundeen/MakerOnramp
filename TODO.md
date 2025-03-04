@@ -2,10 +2,14 @@ App URL, Dev version: https://script.google.com/a/macros/lcc.ca/s/AKfycbyZAMbDaS
 IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSirIG2s5U8u7VwswaT7a8tvf/edit 
 
 # TODO Items
-- check the caching/purgeCache system, might be a bug?
+
 
 - put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
 -- this will make the system immediately useful
+
+- StudentSkillTreeItem page : page for that student's work on that skill tree item
+-- show the documentation slide deck
+-- show the "admin notes"
 
 
 - student page with
@@ -24,6 +28,8 @@ You can't add a json file to a GAS project. Just upload it to the root folder of
 
 
 # DONE items
+
+- check the caching/purgeCache system, might be a bug? - DONE 2025/03/04 16:26
 
 2025/02/28 16:58
 - made server-side classes instead of global functions

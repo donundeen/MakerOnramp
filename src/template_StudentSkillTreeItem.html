@@ -1,0 +1,16 @@
+<div class="skillTreeItemDetails">
+    <div class="skillTreeItemDetailsHeader">
+        <div class="skillTreeItemDetailsTitle">
+            {{studentSkillTreeItem.SkillTreeName}} - {{studentSkillTreeItem.Title}}
+        </div>
+        <div class="skillTreeItemLevel">
+            Level {{studentSkillTreeItem.Level}}
+        </div>
+    </div>
+    <div class="skillTreeItemDetailsBody">
+        <div class="skillTreeItemDocumentationSlidesEmbed">
+            <iframe class="documentationIframe" src="{{studentSkillTreeItem.StudentDocumentationSlideEmbedURL}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
+            <div class="editDocumentationSlidesButton"><a href="{{studentSkillTreeItem.StudentDocumentationSlidesLink}}" target="_blank">Edit Documentation Slides</a></div>
+        </div>
+    </div>
+</div>

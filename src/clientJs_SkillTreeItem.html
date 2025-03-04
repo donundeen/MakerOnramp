@@ -8,7 +8,7 @@ $(document).ready(function() {
     let student = new Student();
     let skillTreeItem = new SkillTreeItem();
 
-    Promise.all([getScriptUrl(), getCurrentStudentID()])
+    getEveryPageLoadData()
     .then(()=>{
         return Promise.all([loadStudent(), loadSkillTreeItem()])
         .then(renderTemplates)
@@ -46,7 +46,7 @@ $(document).ready(function() {
             <?!= include("template_SkillTreeItemDetails"); ?>
         `);
 
-        let skillTreeItemHTML = skillTreeItem.display(skillTreeItemTemplate);
+        let skillTreeItemHTML = skillTreeItem.display(skillTreeItemTemplate, global_templateContext);
         $("#contentBody").html(skillTreeItemHTML);
     }
 });

@@ -8,15 +8,48 @@ class Student{
         this.skillTreeItems = [];
         this.groupedSkillTreeItems = null;
         this.relatedSkillTreeItemLists = {};
+        this.templateContext = {};
     }
 
+    // build the template context for the student
+    // do it explicitly here, so that we can add additional context if needed, and we know what's in the context
+    buildTemplateContext(additionalContext){
+        this.templateContext.id = this.id;
+        this.templateContext.name = this.name;
+        this.templateContext.email = this.email;
+        this.templateContext.skillTreeItems = this.skillTreeItems;
+        this.templateContext.groupedSkillTreeItems = this.groupedSkillTreeItems;
+        if(additionalContext){
+            this.templateContext = Object.assign(this.templateContext, additionalContext);
+        }
+    }
 
-    display(template){
-        console.log("displaying student", this);
-    //    this.loadRelatedSkillTrees();
-       // this.documentationSlideEmbedURL = generateDocumentationSlideEmbedURL(this.skillTreeItem.DocumentationSlidesLink);
-        let html = template(this);
+    display(template, additionalContext){
+        console.log("displaying student");
+        this.buildTemplateContext(additionalContext);
+        console.log("template context", this.templateContext);
+        let html = template(this.templateContext);
         return html;       
+    }
+
+    getStudentSkillTreeItem(skillTreeName, skillTreeItemID){
+        if(!this.groupedSkillTreeItems){
+            return false;
+        }
+        if(!this.groupedSkillTreeItems[skillTreeName]){
+            return false;
+        }
+        //iterate though the object properties of this.groupedSkillTreeItems[skillTreeName]
+        for(let level in this.groupedSkillTreeItems[skillTreeName]){
+            let levelList = this.groupedSkillTreeItems[skillTreeName][level];
+            // instead of using forEach, use a for loop
+            for(let item of levelList){
+                if(item.SkillTreeItemID === skillTreeItemID && item.SkillTreeName === skillTreeName){
+                    return item;
+                }
+            };
+        };
+        return false;
     }
 
     load(){

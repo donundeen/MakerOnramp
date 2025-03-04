@@ -7,7 +7,7 @@
         console.log("getting student");   
         let student = new Student();
     
-        Promise.all([getScriptUrl(), getCurrentStudentID()])
+        getEveryPageLoadData()
         .then(loadStudent)
         .then(renderTemplates)
         .catch((error) => {
@@ -32,8 +32,17 @@
             let studentTemplate = Handlebars.compile( `
                 <?!= include("template_Student"); ?>
             `);
-            let studentHTML = student.display(studentTemplate);
+            let studentHTML = student.display(studentTemplate, global_templateContext);
+
             $("#contentBody").html(studentHTML);
+            
+            $(".title").click(function() {
+                let item = $(this).closest(".item");
+                let skillTreeName = $(item).data("skilltree");
+                let SkillTreeItemID = $(item).attr("id");
+                console.log("title clicked: ", skillTreeName, SkillTreeItemID);
+                navigate({page: 'html_StudentSkillTreeItem', SkillTreeName: skillTreeName, SkillTreeItemID: SkillTreeItemID});
+            });
         }
     });
     

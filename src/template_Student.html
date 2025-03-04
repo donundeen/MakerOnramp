@@ -9,8 +9,8 @@
         </div>
         <div class="skill-tree-level-content">
             {{#each this}}
-            <div class="skill-tree-item">
-                <h4>{{Title}}</h4>
+            <div class="skill-tree-item item" id="{{SkillTreeItemID}}" data-skilltree="{{SkillTreeName}}">
+                <h4 class="title" >{{Title}}</h4>
             </div>
             {{/each}}
         </div>
@@ -18,3 +18,4 @@
     {{/each}}
 </div>
 {{/each}}
+<span>{{#if purgeCache}}Purging Cache{{/if}}</span>

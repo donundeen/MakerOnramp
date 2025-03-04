@@ -5,10 +5,19 @@ class SkillTreeItemList{
         this.sheetName = "";
         this.skillTreeItems = [];
         this.student = false;
+        this.templateContext = {};
+    }
+
+    buildTemplateContext(additionalContext){
+        this.templateContext.sheetName  = this.sheetName;
+        this.templateContext.skillTreeItems = this.skillTreeItems;
+        if(additionalContext){
+            this.templateContext = Object.assign(this.templateContext, additionalContext);
+        }
     }
     
-    display(levelTemplate,itemShortTemplate, targetDiv){
-
+    display(levelTemplate,itemShortTemplate, targetDiv, additionalContext){
+        this.buildTemplateContext(additionalContext);
         $(targetDiv).empty();
         let self = this;
         // Step 1: Group titles by level

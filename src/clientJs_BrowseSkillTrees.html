@@ -51,7 +51,7 @@ $(document).ready(function() {
             <?!= include("template_SkillTreeLevel"); ?>
         `);         
 
-        let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay");
+        let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay", global_templateContext);
     }
 
 

@@ -1,0 +1,61 @@
+<script>
+
+    $(document).ready(function() {
+    
+        $("#contentBody").html("<b>Hold on, thinking...</b>");
+    
+        console.log("getting student");   
+        let student = new Student();
+    
+        getEveryPageLoadData()
+        .then(loadStudent)
+        .then(renderTemplates)
+        .catch((error) => {
+            console.log("error loading student ", error);
+        });
+    
+    
+    
+        function loadStudent(){
+            return new Promise((resolve, reject) => {
+                console.log("loading student " + global_currentStudentID);
+                student.id = global_currentStudentID;
+                student.email = global_currentStudentID;
+                student.name = global_currentStudentID;
+                student.load().then(resolve).catch(reject);
+            });
+        }
+
+        function getSelectedSkillTreeItem(){
+            const SkillTreeName = global_currentUrlParams.SkillTreeName;
+            const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
+            let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
+            if(!skillTreeItem){
+                console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
+                console.log(student.groupedSkillTreeItems);
+                return false;
+            }
+            return skillTreeItem;
+        }
+    
+    
+        function renderTemplates(){
+            console.log("rendering student");
+            let skillTreeItem = getSelectedSkillTreeItem();
+            if(!skillTreeItem){
+                return false;
+            }
+            skillTreeItem.StudentDocumentationSlideEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
+            skillTreeItem.DocumentationSlideEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
+            global_templateContext.studentSkillTreeItem = skillTreeItem;
+            let studentSkillTreeItemTemplate = Handlebars.compile( `
+                <?!= include("template_StudentSkillTreeItem"); ?>
+            `);
+            let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
+
+            $("#contentBody").html(studentSkillTreeItemHTML);
+
+        }
+    });
+    
+    </script>
