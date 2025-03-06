@@ -7,16 +7,16 @@ const processReviewSkillTrees = () => {
     const resourcesFolder = DriveApp.getFoldersByName("SkillTreeItemDocumentation").next();
 
 
-
+/*
     processSkillTreeSheet("Woodworking");
     processSkillTreeSheet("Crafting");
-
+*/
     // use array iteratores instead of a for loop
-    /*
+    
     sheetNames.forEach(sheetName => {
         processSkillTreeSheet(sheetName);
     });
-    */
+    
 
     function processSkillTreeSheet(sheetName){
         Logger.log("processing sheetName: " +sheetName);
