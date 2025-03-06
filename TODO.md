@@ -4,6 +4,20 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 # TODO Items
 
 
+
+- "scan and update" background process
+-- scan the student's documentation slides for updates
+-- update the SkillTrees spreadsheet:
+--- make sure all the columns are there (might be adding new columns)
+--- make sure the SkillTreeItemID is there, based on the Title
+--- make sure the DocumentationSlidesLink is there
+--- update the "last updated" date
+--- create the documentation slide deck if it doesn't exist
+
+Would be good to have a page that extracts all the videos from all the documentation slides and puts them in one searchable place. 
+User story: you know there's a video,but you can't remember specifically which skill tree item it's in. Searching for it will suck.
+- "Skill Tree Documentation Summary" page
+
 - put documentation  from the google sites (from QR codes in passport) into the skill tree item documentation
 -- this will make the system immediately useful
 

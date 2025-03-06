@@ -2,6 +2,11 @@
 // TBD - move into a spreadsheet, admin tool or something...
 global.dataVersion = 1;
 
+
+import {processReviewSkillTrees} from './server_processReviewSkillTrees';
+global.processReviewSkillTrees = processReviewSkillTrees;
+
+
 const SkillTreeSpreadsheetID =  "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
 global.SkillTreeSpreadsheetID = SkillTreeSpreadsheetID;
 
@@ -21,6 +26,7 @@ global.StudentSkillTreeItemSheet = StudentSkillTreeItemSheet;
 
 import {SkillTreeSheet} from './serverClass_SkillTreeSheet';
 global.SkillTreeSheet = SkillTreeSheet;
+
 
 
 // Exposing class methods as global functions for client side use

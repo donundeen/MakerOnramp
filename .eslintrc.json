@@ -50,7 +50,9 @@
     "no-unreachable": "off",
     "import/newline-after-import": "off",
     "import/first": "off",
-    "no-undef": "off"
+    "no-undef": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off"
 
   }
 }

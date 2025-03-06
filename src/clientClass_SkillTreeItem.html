@@ -13,6 +13,7 @@
             this.templateContext.skillTreeItemID = this.skillTreeItemID;
             this.templateContext.student = this.student;
             this.templateContext.skillTreeItem = this.skillTreeItem;
+            this.templateContext.documentationSlideEmbedURL = generateDocumentationSlideEmbedURL(this.skillTreeItem.DocumentationSlidesLink);
             if(additionalContext){
                 this.templateContext = Object.assign(this.templateContext, additionalContext);
             }

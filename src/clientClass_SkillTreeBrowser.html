@@ -9,17 +9,22 @@ class SkillTreeBrowser{
     load(){
         return new Promise((resolve, reject) => {
             let self = this;
+            console.log("skillTreeBrowser loading");
             if(localStorage.allSkillTreeSheetNames){
                 console.log("skillTreeBrowser using local storage"); 
                 this.skillTreeList = JSON.parse(localStorage.allSkillTreeSheetNames);
                 console.log("skill tree list", this.skillTreeList);
                 resolve(this.skillTreeList);
             }else{
+                console.log("getting skill tree list from server");
                 google.script.run.withSuccessHandler(function(result) {
                     console.log(" got skill tree listresult from server: " , result);
                     self.skillTreeList = result;
                     localStorage.allSkillTreeSheetNames = JSON.stringify(result);
                     resolve(self.skillTreeList);
+                }).withFailureHandler(function(error) {
+                    console.log("error getting skill tree list from server: ", error);
+                    reject(error);
                 }).getAllSkillTreeSheetNames();
             }
         });

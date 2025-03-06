@@ -35,6 +35,10 @@ class SkillTreeSheet extends Sheet {
         return false;
     }
 
+    updateDocumentationSlideLink(skillTreeItemID, documentationSlideLink){
+        this.updateSheetCell(skillTreeItemID, "DocumentationSlidesLink", documentationSlideLink);
+    }
+
 }
 
 export {SkillTreeSheet};

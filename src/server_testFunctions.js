@@ -10,7 +10,7 @@ const  testButtonClicked3 = () => {
 };
 
 const currentTestFunction = () => {
-    let result = global.getAllSkillTreeSheetNames();
+    let result = global.getAllSkillTreeRows("Entrepreneurship");
     Logger.log(result);
     return result;
 };

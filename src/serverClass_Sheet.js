@@ -11,12 +11,15 @@ class Sheet {
     getAllSheetNames(){
         Logger.log("getAllSheetNames");
         Logger.log(this.spreadsheetID); 
-        return SpreadsheetApp.openById(this.spreadsheetID).getSheets().map(sheet => sheet.getName().trim());
+        const result = SpreadsheetApp.openById(this.spreadsheetID).getSheets().map(sheet => sheet.getName().trim());
+        Logger.log("result");
+        Logger.log(result);
+        return result;
     }
 
 
     loadSheet(){
-        if(!this.sheet){
+        if(this.sheetName){
             //  Logger.log("loading sheet :  ")
             //Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
             this.sheet = SpreadsheetApp.openById(this.spreadsheetID).getSheetByName(this.sheetName);
@@ -65,7 +68,8 @@ class Sheet {
       
     getSheetRows(filterFunction) {
         this.loadSheet();
-        const data = this.sheet.getDataRange().getValues();
+//        const data = this.sheet.getDataRange().getValues();
+        const data = this.sheet.getDataRange().getDisplayValues();
         const hashData = this.dataIntoHashRows(data, 0, 1, filterFunction);
         return hashData;
     }
@@ -78,7 +82,7 @@ class Sheet {
     blank, NOT left alone.
     keysrow: which row of the table holds the column names (starts a 0, NOT 1)
     updateKey: object {key: column Name of identifying key of row to update 
-    (eg 'NetId'), value : value for that cell in that row (eg 'dhu3')
+    (eg {'NetId': "dhu3"), value : value for that cell in that row (eg 'dhu3')
     ============================================================================
     */
     
@@ -90,7 +94,6 @@ class Sheet {
     
     _updateHashRow(data, keysrow, updateKeys){
         this.loadSheet();
-        //Logger.log("updating2");
         let insertArray = [];
         let idKey= {};
         let keyId= {};
@@ -121,9 +124,7 @@ class Sheet {
         }
         
         let index = this.findRowNumForQuery(keysrow, keysrow + 1, (row) => {
-            //Logger.log("updateKeys");
             let updateKeysKeys = Object.keys(updateKeys);
-            //Logger.log(updateKeysKeys);
             for(let i = 0; i < updateKeysKeys.length; i++){
                 let key = updateKeysKeys[i];
                 let value = updateKeys[key];      
@@ -134,12 +135,11 @@ class Sheet {
             }
             return true;
         });
-        
-        //  Logger.log("returning ", index);
         if(!index){
             return false; 
         }
         let toDelete = index + 1;
+
         
         if(index){
            this.sheet.deleteRow(toDelete);
@@ -198,7 +198,25 @@ class Sheet {
         
         this.sheet.appendRow(insertArray);
     }
+
+    addColumns(columns, startColumn){
+        // starting all column index startColumn, add the columns to the sheet
+        for(let i = 0; i < columns.length; i++){
+            let columnIndex = startColumn + i;
+            let columnLetter = this.numberToLetter(columnIndex);
+            let range = columnLetter + "1";
+            let columnName = columns[i];
+            // add the column name to the sheet
+            Logger.log("adding column " + columnName + " to " + range);
+            this.sheet.getRange(range).setValue(columnName);
+        }
+    }
+
+
     
+    numberToLetter(number){
+        return String.fromCharCode(64 + number);
+    }
 }
 
 export {Sheet};

@@ -120,8 +120,10 @@ class Student{
         return new Promise((resolve, reject) => {
             let skillTreeItemList = new SkillTreeItemList();
             skillTreeItemList.sheetName = skillTreeName;
+            console.log("loading related STUDENT skill tree items for skillTreeName: ", skillTreeName);
             skillTreeItemList.load().then(skillTreeItemList => {
                 self.relatedSkillTreeItemLists[skillTreeName] = skillTreeItemList;
+                console.log("related STUDENT skill tree items for skillTreeName: ", skillTreeName, skillTreeItemList);
                 resolve(skillTreeItemList);
             });
         });
