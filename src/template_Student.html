@@ -9,8 +9,9 @@
         </div>
         <div class="skill-tree-level-content">
             {{#each this}}
-            <div class="skill-tree-item item" id="{{SkillTreeItemID}}" data-skilltree="{{SkillTreeName}}">
+            <div class="skill-tree-item {{Status}}" id="{{SkillTreeItemID}}" data-skilltree="{{SkillTreeName}}">
                 <h4 class="title" onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeName: '{{SkillTreeName}}', SkillTreeItemID: '{{SkillTreeItemID}}'})">{{Title}}</h4>
+                <div class="status">{{Status}}</div>
             </div>
             {{/each}}
         </div>

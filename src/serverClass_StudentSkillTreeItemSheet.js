@@ -26,8 +26,25 @@ class StudentSkillTreeItemSheet extends Sheet {
             StudentID: studentID,
             SkillTreeItemID: skillTreeItemID,
             SkillTreeName: skillTreeName,
-            Status: "Started"
+            Status: "started"
         };
+
+        const studentDocumentationSlidesLink = this.createStudentDocumentationSlide(studentID, skillTreeName, skillTreeItemID);
+        data.StudentDocumentationSlidesLink = studentDocumentationSlidesLink;
+        
+        // insert the data into the sheet   
+        this.insertHashRow(data, 0);
+
+        return data;
+
+    }
+
+    createStudentDocumentationSlide(studentID, skillTreeName, skillTreeItemID){
+
+        const skillTreeItem = this.getFullSkillTreeItem(skillTreeName, skillTreeItemID);
+        const skillTreeItemTitle = skillTreeItem.Title;
+        const skillTreeItemLevel = skillTreeItem.Level;
+        const skillTreeItemDocumentationSlidesLink = skillTreeItem.DocumentationSlidesLink;
 
         const studentSkillTreeItemDocumentationName = studentID + "_" + skillTreeName + "_" + skillTreeItemID;
         // create a slide deck in the studentFiles/studentID/skillTreeItemDocumentationName folder
@@ -42,17 +59,42 @@ class StudentSkillTreeItemSheet extends Sheet {
             studentSkillTreeItemDocumentationFolder = studentFilesFolder.createFolder(studentID);
         }
         const slideDeck = SlidesApp.create(studentSkillTreeItemDocumentationName);
-    
+
+        let pageWidth = slideDeck.getPageWidth();
+        let pageHeight = slideDeck.getPageHeight();
+
+        const slides = slideDeck.getSlides();
         // eventually give the doc a default titike, with students name, student email, and the skill tree item name
+        let firstSlide = slides[0];
+        // lear it out
+        firstSlide.getShapes().forEach(shape => {
+            shape.remove();
+        });
+
+        // set the title, description, and level on the first slide
+        const shape = firstSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 0, pageWidth, pageHeight);
+        shape.setContentAlignment(SlidesApp.ContentAlignment.MIDDLE);
+        const textRange = shape.getText();
+        textRange.setText("My Evidence Journal for\n" + skillTreeName + " \n " + skillTreeItemTitle + " \n Level " + skillTreeItemLevel + "\n"+studentID) ;
+        // resize the text to fit the shape, being as large as possible
+        textRange.getTextStyle().setFontSize(40);
+        textRange.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+//                    textRange.getTextStyle().setFontSize(100);
+        textRange.getTextStyle().setFontFamily("Georgia");
+        textRange.getTextStyle().setForegroundColor("#000000");
+        textRange.getTextStyle().setBold(true);        
     
         studentSkillTreeItemDocumentationFolder.addFile(DriveApp.getFileById(slideDeck.getId()));
     
-        data.StudentDocumentationSlidesLink = slideDeck.getUrl();
-        // insert the data into the sheet   
-        this.insertHashRow(data, 0);
+        const studentDocumentationSlidesLink = slideDeck.getUrl();
+        return studentDocumentationSlidesLink;
+    }
 
-        return data;
-
+    getFullSkillTreeItem(skillTreeName, skillTreeItemID){
+        const skillTreeSheet = new SkillTreeSheet();
+        skillTreeSheet.sheetName = skillTreeName;
+        const skillTreeItem = skillTreeSheet.getSkillTreeItem(skillTreeItemID);
+        return skillTreeItem;
     }
 }
 

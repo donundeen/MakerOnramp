@@ -7,16 +7,16 @@ const processReviewSkillTrees = () => {
     const resourcesFolder = DriveApp.getFoldersByName("SkillTreeItemDocumentation").next();
 
 
-/*
-    processSkillTreeSheet("Woodworking");
-    processSkillTreeSheet("Crafting");
-*/
+
+    processSkillTreeSheet("3D Printing");
+//    processSkillTreeSheet("Crafting");
+
     // use array iteratores instead of a for loop
-    
+  /*  
     sheetNames.forEach(sheetName => {
         processSkillTreeSheet(sheetName);
     });
-    
+    */
 
     function processSkillTreeSheet(sheetName){
         Logger.log("processing sheetName: " +sheetName);
@@ -82,6 +82,10 @@ const processReviewSkillTrees = () => {
             // check if the documentation slide deck exists
             if(documentationSlideDeck){
                 // check if the documentation slide deck has been updated since the last recorded update date
+                let pageWidth = documentationSlideDeck.getPageWidth();
+                let pageHeight = documentationSlideDeck.getPageHeight();
+                Logger.log("pageWidth: " + pageWidth);
+                Logger.log("pageHeight: " + pageHeight);
                 let documentationSlideDeckLastUpdated = documentationFile.getLastUpdated();
                 let fileLastUpdated = getUsefulDate(documentationSlideDeckLastUpdated);
                 let oldDocumentationLastUpdated = getUsefulDate(row.DocumentationLastUpdated);
@@ -107,6 +111,32 @@ const processReviewSkillTrees = () => {
                 if(numberOfSlides > 1 && row.DocumentationStatus.trim() === "created"){
                     row.DocumentationStatus = "started";
                     doUpdate = true;
+                }
+                if(numberOfSlides === 1 && row.DocumentationStatus.trim() === "created"){
+                    // https://developers.google.com/apps-script/reference/slides/slide
+                    // we want to make the first slide hold the title, description, and level
+                    Logger.log("numberOfSlides === 1 and DocumentationStatus is created, adding title to first slide");
+                    let firstSlide = slides[0];
+
+                    // lear it out
+                    firstSlide.getShapes().forEach(shape => {
+                        shape.remove();
+                    });
+
+                    // set the title, description, and level on the first slide
+                    const shape = firstSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 0, pageWidth, pageHeight);
+                    shape.setContentAlignment(SlidesApp.ContentAlignment.MIDDLE);
+                    const textRange = shape.getText();
+                    textRange.setText(row.SkillTreeName + " \n " + row.Title + " \n Level " + row.Level);
+                    // resize the text to fit the shape, being as large as possible
+                    textRange.getTextStyle().setFontSize(40);
+                    textRange.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
+//                    textRange.getTextStyle().setFontSize(100);
+                    textRange.getTextStyle().setFontFamily("Georgia");
+                    textRange.getTextStyle().setForegroundColor("#000000");
+                    textRange.getTextStyle().setBold(true);
+                    
+                    
                 }
             }else{
                 Logger.log("documentationSlideDeck is not there");
@@ -165,8 +195,10 @@ const processReviewSkillTrees = () => {
         Logger.log("parsing url: " + url);
         // links look like https://docs.google.com/open?id=1B84r9s_R2AKPT7r3jkovDl-tFvSR3awBcQzwC0AoA_c or https://docs.google.com/open?id=1B84r9s_R2AKPT7r3jkovDl-tFvSR3awBcQzwC0AoA_c&usp=sharing
         // make a regex to find everything after id= and before & or the end of the string
-        const regex = /id=(.*)&?/;
+        const regex = /id=([A-Za-z0-9-_]+)/;
         const match = url.match(regex);
+
+        Logger.log("match: " + match[1]);
         return match[1];
     }
 

@@ -45,8 +45,8 @@
             if(!skillTreeItem){
                 return false;
             }
-            skillTreeItem.StudentDocumentationSlideEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
-            skillTreeItem.DocumentationSlideEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
+            skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
+            skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
             global_templateContext.studentSkillTreeItem = skillTreeItem;
             let studentSkillTreeItemTemplate = Handlebars.compile( `
                 <?!= include("template_StudentSkillTreeItem"); ?>
