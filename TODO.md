@@ -6,9 +6,6 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 
 
-Would be good to have a page that extracts all the videos from all the documentation slides and puts them in one searchable place. 
-User story: you know there's a video,but you can't remember specifically which skill tree item it's in. Searching for it will suck.
-- "Skill Tree Documentation Summary" page
 
 
 
@@ -21,15 +18,20 @@ User story: you know there's a video,but you can't remember specifically which s
 -- their "collected" items, w links to their documentation/evidence decks
 -- improve formatting
 
-
 - add Projects
 - add milestones
 -- complex milestone rule system
+
+Would be good to have a page that extracts all the videos from all the documentation slides and puts them in one searchable place. 
+User story: you know there's a video,but you can't remember specifically which skill tree item it's in. Searching for it will suck.
+- "Skill Tree Documentation Summary" page
 
 
 # THINGS I LEARNED
 You can't add a json file to a GAS project. Just upload it to the root folder of the project in google drive.
 
+when getting data from sheets to send over to the client, use getDataRange().getDisplayValues(), not getDataRange().getValues(), when you have dates in the data
+otherwsise the service will return null for teh whole data set
 
 
 # DONE items
