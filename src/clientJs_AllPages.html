@@ -9,6 +9,12 @@ let global_templateContext = {};
 
 
 $(document).ready(function() {
+    console.log("document ready");
+    console.log("registering ifEquals helper");
+    Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+        console.log("ifEquals helper", arg1, arg2);
+        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    });
 });
 
 function navigate(params) {

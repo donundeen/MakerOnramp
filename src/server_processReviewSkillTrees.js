@@ -8,15 +8,15 @@ const processReviewSkillTrees = () => {
 
 
 
-    processSkillTreeSheet("3D Printing");
+   // processSkillTreeSheet("3D Modeling");
 //    processSkillTreeSheet("Crafting");
 
     // use array iteratores instead of a for loop
-  /*  
+   
     sheetNames.forEach(sheetName => {
         processSkillTreeSheet(sheetName);
     });
-    */
+    
 
     function processSkillTreeSheet(sheetName){
         Logger.log("processing sheetName: " +sheetName);
@@ -118,7 +118,7 @@ const processReviewSkillTrees = () => {
                     Logger.log("numberOfSlides === 1 and DocumentationStatus is created, adding title to first slide");
                     let firstSlide = slides[0];
 
-                    // lear it out
+                    // clear it out
                     firstSlide.getShapes().forEach(shape => {
                         shape.remove();
                     });
@@ -127,7 +127,7 @@ const processReviewSkillTrees = () => {
                     const shape = firstSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 0, pageWidth, pageHeight);
                     shape.setContentAlignment(SlidesApp.ContentAlignment.MIDDLE);
                     const textRange = shape.getText();
-                    textRange.setText(row.SkillTreeName + " \n " + row.Title + " \n Level " + row.Level);
+                    textRange.setText(row.SkillTreeName + " \n\n " + row.Title + " \n\n Level " + row.Level);
                     // resize the text to fit the shape, being as large as possible
                     textRange.getTextStyle().setFontSize(40);
                     textRange.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);

@@ -4,7 +4,7 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 # TODO Items
 
 
-
+- make skill tree list into a side nav in the browser
 
 
 

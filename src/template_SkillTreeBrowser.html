@@ -1,13 +1,18 @@
-<h1>Learn all the things!</h1>
-
-<div id="sheetSelectContainer">
-    <select class="skillTreeSelect">
-        {{#each skillTreeList}}
-            <option value="{{this}}">{{this}}</option>
-        {{/each}}
-    </select>
+<div class="skillTreeBrowser">
+    <div class="skillTreeBrowserHeader">
+        <h1>Learn all the things{{#if currentSkillTreeName}} about {{currentSkillTreeName}}{{/if}}!</h1>
+    </div>
+    <div class="skillTreeBrowserContent">
+        <div id="sheetSelectContainer" class="skillTreeBrowserSideNav">
+            <h2>Skill Trees</h2>
+            <ul class="skillTreeList">
+                {{#each skillTreeList}}
+                <li class="browseSkillTreeListItem {{#if ../currentSkillTreeName}}{{#ifEquals this ../currentSkillTreeName}}active{{/ifEquals}}{{/if}}"><a href="#" onclick="navigate({page: 'html_BrowseSkillTrees', SkillTreeName: '{{this}}'}); return false;">{{this}}</a></li>
+                {{/each}}
+            </ul>
+        </div>
+        <div id="skillTreeDisplay" class="skillTreeBrowserMainContent"></div>
+    </div>
+    <!-- <button id="testButton">Test Button for random tests</button> -->
+    <span>{{#if purgeCache}}Purging Cache{{/if}}</span>
 </div>
-<div id="skillTreeDisplay"></div>
-
-<button id="testButton">Test Button for random tests</button>
-<span>{{#if purgeCache}}Purging Cache{{/if}}</span>

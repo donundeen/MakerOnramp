@@ -39,6 +39,12 @@ $(document).ready(function() {
     }
 
     function renderTemplates(){
+        console.log("rendering templates");
+        Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+            console.log("ifEquals helper", arg1, arg2);
+            return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+        });   
+             
         skillTreeBrowserTemplate = Handlebars.compile( `
             <?!= include("template_SkillTreeBrowser"); ?>
         `);

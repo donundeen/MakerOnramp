@@ -1,0 +1,71 @@
+    <style>
+    /* .skillTreeBrowser is the main container for the skill tree browser */
+    .skillTreeBrowser {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* .skillTreeBrowserHeader is the header of the skill tree browser, it shoudl stretch over both .skillTreeBrowserContent and .skillTreeBrowserSideNav. its content should be centered vertically and horizontaller */
+    .skillTreeBrowserHeader {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* .skillTreeBrowserContent is the content of the skill tree browser, it should contain  both .skillTreeBrowserContent and .skillTreeBrowserSideNav. 
+    its total width should be 100% of the .skillTreeBrowser 
+    items in .skillTreeBrowserContent should be aligned to the left */
+    .skillTreeBrowserContent {
+        display: flex; /* Use flexbox for layout */
+        height: 100vh; /* Full height of the viewport */
+    }
+
+    /* .skillTreeBrowserSideNav is the side navigation of the skill tree browser, it should be on the left side of the .skillTreeBrowserContent */
+    /* It should be the width of the longest skill tree name */
+    /* there should be a vertial line separator between the .skillTreeBrowserSideNav and the .skillTreeBrowserMainContent */    
+
+    .skillTreeBrowserSideNav {
+        width: 250px; /* Fixed width for the side nav */
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+        padding: 10px;
+
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    /* .skillTreeBrowserMainContent is the main content of the skill tree browser, it should be on the right side of the .skillTreeBrowserContent */
+    /* It should be the width of the .skillTreeBrowserContent minus the width of the .skillTreeBrowserSideNav */
+    .skillTreeBrowserMainContent {
+        flex: 1; /* Take up the remaining space */
+    padding: 20px; /* Padding for the main content */
+    background-color: #ffffff; /* White background for main content */
+    }
+
+    .browseSkillTreeListItem.active {
+        font-weight: bold;
+        color: red;
+        font-size: 1.2em;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .browseSkillTreeListItem.active a {
+        font-weight: bold;
+        color: red;
+        font-size: 1.2em;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .browseSkillTreeListItem a:hover {
+        color: blue;
+        font-size: 1.2em;
+        cursor: pointer;
+        font-style: italic;
+        font-weight: bold;
+    }
+</style>
