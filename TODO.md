@@ -4,11 +4,6 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 # TODO Items
 
 
-- Skill Tree Item Page : improvie formatting
--- show student relation ot the item
---- "started" items
---- link to the student skill tree image page if it's "started"
--- link to "start" item
 
 - clean up the way data is passed to the templates - its a mess
 
@@ -38,6 +33,14 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+2025/03/19 17:33
+- Skill Tree Item Page : improvie formatting - dONE
+-- show student relation ot the item
+--- "started" items
+--- link to the student skill tree image page if it's "started"
+-- link to "start" item
+
+
 
 2025/03/19 10:19 
 - make skill tree list into a side nav in the browser - DONE
