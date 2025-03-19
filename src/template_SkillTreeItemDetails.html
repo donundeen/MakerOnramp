@@ -1,24 +1,29 @@
-<div class="skillTreeItemDetails">
-    <div class="skillTreeItemDetailsHeader">
-        <div class="skillTreeItemDetailsTitle">
+<div class="skillTreeItemContent">
+    <div class="skillTreeItemHeader">
+        <div class="skillTreeItemTitle">
             {{skillTreeItem.SkillTreeName}} - {{skillTreeItem.Title}}
         </div>
-        <div class="skillTreeItemLevel">
-            Level {{skillTreeItem.Level}}
-        </div>
-        <div class="skillTreeItemDetailsStatus">
-            {{#if studentSkillTreeItem}}
-                <a onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false">{{studentSkillTreeItem.Status}}  - Go to my documentation page</a>
-            {{else}}
-                <a onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeItemID}}', '{{skillTreeItem.SkillTreeName}}');  return false;">Not started - Click here to get started!</a>
-            {{/if}}
-            <span class="statusDisplay"></span>
-        </div>
     </div>
-    <div class="skillTreeItemDetailsBody">
-        <div class="skillTreeItemDocumentationSlidesEmbed">
-            <iframe class="documentationIframe" src="{{{documentationSlideEmbedURL}}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
-            {{#if adminMode}}<div class="editDocumentationSlidesButton"><a href="{{{skillTreeItem.DocumentationSlidesLink}}}" target="_blank">Edit Documentation Slides</a></div>{{/if}}
+    <div class="skillTreeItemContainer">
+        <div class="skillTreeItemInformation">
+            <div class="skillTreeItemLevel">
+                This is a <b>Level {{skillTreeItem.Level}}</b> skill.
+            </div>
+            <div class="skillTreeItemDetailsStatus">
+                <b>Your current status for this skill is:</b>
+                {{#if studentSkillTreeItem}}
+                    <a class="clickable"onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false"><i>{{studentSkillTreeItem.Status}}</i>  - click here to go to your evidence documentation page.</a>
+                {{else}}
+                    <a  class="clickable" onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeItemID}}', '{{skillTreeItem.SkillTreeName}}');  return false;">Not started - Click here to get started!</a>
+                {{/if}}
+                <span class="statusDisplay"></span>
+            </div>
+        </div>
+        <div class="skillTreeItemBody">
+            <span class="skillTreeItemDocumentationTitle">Here's the documentation for this skill. Read it carefully and follow the instructions!</span>
+            <div class="skillTreeItemDocumentationSlidesEmbed">
+                <iframe class="documentationIframe" src="{{{documentationSlideEmbedURL}}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
+            {{#if adminMode}}<div class="editDocumentationSlidesButton"><a  class="clickable" href="{{{skillTreeItem.DocumentationSlidesLink}}}" target="_blank">Edit Documentation Slides</a></div>{{/if}}
         </div>
     </div>
 </div>

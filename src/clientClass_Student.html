@@ -203,7 +203,24 @@ class Student{
             if(callback){
                 callback(result);
             }
-        }).addSkillTreeItemForStudent(  self.id, skillTreeItemID, skillTreeName);
+        }).addSkillTreeItemForStudent(self.id, skillTreeItemID, skillTreeName);
+    }
+
+    submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, callback){
+        console.log("submitting skill tree item for student: " ,this.id, skillTreeItemID);
+        let self = this;
+        google.script.run.withSuccessHandler(function(result) {
+            console.log(" got result from server: " , result);
+            // find the skill tree item in the skill tree items array
+            let skillTreeItem = self.skillTreeItems.find(item => item.SkillTreeName === skillTreeName && item.SkillTreeItemID === skillTreeItemID);
+            if(skillTreeItem){
+                skillTreeItem = Object.assign(skillTreeItem, result);
+            }
+            localStorage["userSkillTreeItems"+self.id] = JSON.stringify(self.skillTreeItems);
+            if(callback){
+                callback(result);
+            }
+        }).submitStudentSkillTreeItem(self.id, skillTreeName,skillTreeItemID);
     }
 }
 

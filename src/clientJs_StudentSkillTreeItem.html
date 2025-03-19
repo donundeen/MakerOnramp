@@ -1,61 +1,116 @@
 <script>
+let student = false;
 
-    $(document).ready(function() {
-    
-        $("#contentBody").html("<b>Hold on, thinking...</b>");
-    
-        console.log("getting student");   
-        let student = new Student();
-    
-        getEveryPageLoadData()
-        .then(loadStudent)
-        .then(renderTemplates)
-        .catch((error) => {
-            console.log("error loading student ", error);
-        });
-    
-    
-    
-        function loadStudent(){
-            return new Promise((resolve, reject) => {
-                console.log("loading student " + global_currentStudentID);
-                student.id = global_currentStudentID;
-                student.email = global_currentStudentID;
-                student.name = global_currentStudentID;
-                student.load().then(resolve).catch(reject);
-            });
-        }
+$(document).ready(function() {
 
-        function getSelectedSkillTreeItem(){
-            const SkillTreeName = global_currentUrlParams.SkillTreeName;
-            const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
-            let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
-            if(!skillTreeItem){
-                console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
-                console.log(student.groupedSkillTreeItems);
-                return false;
-            }
-            return skillTreeItem;
-        }
-    
-    
-        function renderTemplates(){
-            console.log("rendering student");
-            let skillTreeItem = getSelectedSkillTreeItem();
-            if(!skillTreeItem){
-                return false;
-            }
-            skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
-            skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
-            global_templateContext.studentSkillTreeItem = skillTreeItem;
-            let studentSkillTreeItemTemplate = Handlebars.compile( `
-                <?!= include("template_StudentSkillTreeItem"); ?>
-            `);
-            let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
+    $("#contentBody").html("<b>Hold on, thinking...</b>");
 
-            $("#contentBody").html(studentSkillTreeItemHTML);
+    console.log("getting student");   
+    student = new Student();
 
-        }
+    getEveryPageLoadData()
+    .then(loadStudent)
+    .then(renderTemplates)
+    .catch((error) => {
+        console.log("error loading student ", error);
     });
+
+
+
+    function loadStudent(){
+        return new Promise((resolve, reject) => {
+            console.log("loading student " + global_currentStudentID);
+            student.id = global_currentStudentID;
+            student.email = global_currentStudentID;
+            student.name = global_currentStudentID;
+            student.load().then(resolve).catch(reject);
+        });
+    }
+
+    function getSelectedSkillTreeItem(){
+        const SkillTreeName = global_currentUrlParams.SkillTreeName;
+        const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
+        let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
+        if(!skillTreeItem){
+            console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
+            console.log(student.groupedSkillTreeItems);
+            return false;
+        }
+        return skillTreeItem;
+    }
+
+
+    function renderTemplates(){
+        console.log("rendering student");
+        let skillTreeItem = getSelectedSkillTreeItem();
+        if(!skillTreeItem){
+            return false;
+        }
+        skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
+        skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
+        global_templateContext.studentSkillTreeItem = skillTreeItem;
+        let studentSkillTreeItemTemplate = Handlebars.compile( `
+            <?!= include("template_StudentSkillTreeItem"); ?>
+        `);
+        let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
+
+        $("#contentBody").html(studentSkillTreeItemHTML);
+
+    }
+});
+
+
+function loadStudent(){
+    return new Promise((resolve, reject) => {
+        console.log("loading student " + global_currentStudentID);
+        student.id = global_currentStudentID;
+        student.email = global_currentStudentID;
+        student.name = global_currentStudentID;
+        student.load().then(resolve).catch(reject);
+    });
+}
+
+function getSelectedSkillTreeItem(){
+    const SkillTreeName = global_currentUrlParams.SkillTreeName;
+    const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
+    let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
+    if(!skillTreeItem){
+        console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
+        console.log(student.groupedSkillTreeItems);
+        return false;
+    }
+    return skillTreeItem;
+}
+
+
+function renderTemplates(){
+    console.log("rendering student");
+    let skillTreeItem = getSelectedSkillTreeItem();
+    if(!skillTreeItem){
+        return false;
+    }
+    skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
+    skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
+    global_templateContext.studentSkillTreeItem = skillTreeItem;
+    let studentSkillTreeItemTemplate = Handlebars.compile( `
+        <?!= include("template_StudentSkillTreeItem"); ?>
+    `);
+    let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
+
+    $("#contentBody").html(studentSkillTreeItemHTML);
+
+}
+
+
+function submitStudentSkillTreeItem(skillTreeName, skillTreeItemID){
+    console.log("submitting skill tree item", skillTreeItemID, skillTreeName);
+    $(".statusDisplay").html("<b>Hold on, thinking...</b>");
+    student.submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, function(){
+        $(".statusDisplay").html("<b>Done, reloading page...</b>");
+        console.log("reloading page",  global_currentUrlParams);
+        //navigate({page: 'html_SkillTreeItem', skillTreeItemID: global_currentUrlParams['SkillTreeItemID'], SkillTreeName: global_currentUrlParams['SkillTreeName']});
+        renderTemplates();
+    });
+}
     
     </script>

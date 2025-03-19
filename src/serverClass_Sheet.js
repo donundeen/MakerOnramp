@@ -197,6 +197,7 @@ class Sheet {
         let [index, existingRow] = this.findHashRowForQuery(keysrow, keysrow + 1, (row) => {
             Logger.log("updateHashRowCells findHashRowForQuery");
             Logger.log(row);
+            Logger.log(updateKeys);
             let updateKeysKeys = Object.keys(updateKeys);
 
             for(let i = 0; i < updateKeysKeys.length; i++){
@@ -204,9 +205,11 @@ class Sheet {
                 let value = updateKeys[key];      
                 Logger.log(key + " : " + value + " : " + row[key]);
                 if(row[key] !== value){
+                    Logger.log("updateHashRowCells NOT found row");
                     return false;
                 }
             }
+            Logger.log("updateHashRowCells found row");
             return true;
         });
         if(!existingRow){
@@ -261,6 +264,7 @@ class Sheet {
         
         for (let i = 0; i < data.length; i++) { 
             let res = queryFunction(data[i]);
+            Logger.log("findRowNumForQuery res", res);
             if(res === true){
                 return i + startRow;
             }

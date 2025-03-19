@@ -51,6 +51,11 @@ global.addSkillTreeItemForStudent = (studentID, skillTreeItemID, skillTreeName) 
   return studentSkillTreeItemSheet.addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName);
 }
 
+global.submitStudentSkillTreeItem = (studentID, skillTreeItemID, skillTreeName) => {
+  const studentSkillTreeItemSheet = new StudentSkillTreeItemSheet();
+  return studentSkillTreeItemSheet.submitStudentSkillTreeItem(studentID, skillTreeItemID, skillTreeName);
+}
+
 global.testInsertHashRow = () => {
   global.addSkillTreeItemForStudent("dundeen@lcc.ca", "1", "Skill Tree 1");
 }
@@ -69,9 +74,6 @@ global.testButtonClicked3 = testButtonClicked3;
 global.currentTestFunction = currentTestFunction;
 
 
-
-
-
 global.urlParams = {};
 
 global.doGet = (e) => {
@@ -80,7 +82,7 @@ global.doGet = (e) => {
     //let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
     PropertiesService.getScriptProperties().setProperty('urlParams', JSON.stringify(global.urlParams));  
     let page= e.parameter.page;
-    if(!page || page == "html_BrowseSkillTrees"){
+    if(!page || page === "html_BrowseSkillTrees"){ // changed this filename to html_SkillTreeBrowser. Remove this part of the logic  in a day or two.
       page = 'html_SkillTreeBrowser'; // html_BrowseSkillTrees
     }
        return HtmlService
@@ -159,7 +161,7 @@ global.getEveryPageLoadData = () => {
 }
 
 global.flagImportant = (skillTreeName, skillTreeItemID) => {
-  console.log("flagging important", skillTreeItemID, skillTreeName);
+  Logger.log("flagging important", skillTreeItemID, skillTreeName);
   let skillTreeSheet = new SkillTreeSheet();
   skillTreeSheet.sheetName = skillTreeName;
   let newRow = skillTreeSheet.flagImportant(skillTreeName, skillTreeItemID);

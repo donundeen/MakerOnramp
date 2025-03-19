@@ -1,22 +1,35 @@
-<div class="skillTreeItemDetails">
-    <div class="skillTreeItemDetailsHeader">
-        <div class="skillTreeItemDetailsTitle">
-            {{studentSkillTreeItem.SkillTreeName}} - {{studentSkillTreeItem.Title}}
-        </div>
-        <div class="skillTreeItemLevel">
-            Level {{studentSkillTreeItem.Level}}
+
+
+<div class="skillTreeItemContent">
+    <div class="skillTreeItemHeader">
+        <div class="skillTreeItemTitle">
+            My Evidence for {{studentSkillTreeItem.SkillTreeName}} - {{studentSkillTreeItem.Title}}
         </div>
     </div>
-    <div class="skillTreeItemDetailsBody">
-        <div class="skillTreeItemDocumentationSlidesEmbed">
-            <div class="skillTreeItemDocumentationSlidesEmbedHeader">My Evidence Slides</div>
-            <iframe class="documentationIframe" src="{{studentSkillTreeItem.StudentDocumentationSlidesEmbedURL}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
-            <div class="editDocumentationSlidesButton"><a href="{{studentSkillTreeItem.StudentDocumentationSlidesLink}}" target="_blank">Edit My Evidence Slides</a></div>
+    <div class="skillTreeItemContainer">
+        <div class="skillTreeItemInformation">
+            <div class="skillTreeItemLevel">
+                This is a <b>Level {{studentSkillTreeItem.Level}}</b> skill.
+            </div>
+            <div class="skillTreeItemDetailsStatus">
+                <b>Your current status for this skill is:</b>
+                {{studentSkillTreeItem.Status}}
+                {{#ifEquals studentSkillTreeItem.Status "started"}}
+                    <div class="skillTreeItemSubmitButton clickable" onclick="submitStudentSkillTreeItem('{{studentSkillTreeItem.SkillTreeName}}', '{{studentSkillTreeItem.SkillTreeItemID}}'); return false;">Are you done? Submit your evidence for review by clicking here.</div>
+                {{/ifEquals}}
+                <span class="statusDisplay"></span>
+            </div>
         </div>
-        <div class="skillTreeItemDocumentationSlidesEmbed">
-            <div class="skillTreeItemDocumentationSlidesEmbedHeader">Skill Tree Item Documentation and Instructions</div>
-            <iframe class="documentationIframe" src="{{studentSkillTreeItem.DocumentationSlidesEmbedURL}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
+        <div class="skillTreeItemBody">
+            <span class="skillTreeItemDocumentationTitle">My Evidence Slides. <a href="{{studentSkillTreeItem.StudentDocumentationSlidesLink}}" target="_blank">Click here to edit them.</a></span>
+            <div class="skillTreeItemDocumentationSlidesEmbed">
+                <iframe class="documentationIframe" src="{{studentSkillTreeItem.StudentDocumentationSlidesEmbedURL}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
+            </div>
+            <BR><BR>
+            <div class="skillTreeItemDocumentationSlidesEmbed">
+                <div class="skillTreeItemDocumentationSlidesEmbedHeader">Here's the original Skill Tree Item Documentation and Instructions:</div>
+                <iframe class="documentationIframe" src="{{studentSkillTreeItem.DocumentationSlidesEmbedURL}}" width="640" height="480" style="border: none;" allowfullscreen="true"  mozallowfullscreen="true"   webkitallowfullscreen="true"></iframe>            
+            </div>
         </div>
-
     </div>
 </div>

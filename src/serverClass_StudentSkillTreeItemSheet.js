@@ -20,7 +20,7 @@ class StudentSkillTreeItemSheet extends Sheet {
     }
 
     addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName){
-        console.log("adding skill tree item for student", this);
+        Logger.log("adding skill tree item for student", this);
         this.loadSheet();
         const data = {
             StudentID: studentID,
@@ -96,6 +96,21 @@ class StudentSkillTreeItemSheet extends Sheet {
         const skillTreeItem = skillTreeSheet.getSkillTreeItem(skillTreeItemID);
         return skillTreeItem;
     }
+
+    submitStudentSkillTreeItem(studentID, skillTreeName, skillTreeItemID){
+        this.loadSheet();
+        const updateKeys = {
+            StudentID: studentID,
+            SkillTreeItemID: skillTreeItemID,
+            SkillTreeName: skillTreeName,   
+        };
+        const data = {  
+            Status: "submitted"
+        };
+        const result = this.updateHashRowCells(data, 0, updateKeys);
+        return result;
+    }
+    
 }
 
 export {StudentSkillTreeItemSheet};
