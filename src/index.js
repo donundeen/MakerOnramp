@@ -80,8 +80,8 @@ global.doGet = (e) => {
     //let sheetNames = PropertiesService.getScriptProperties().getProperty('allSkillTreeSheetNames');
     PropertiesService.getScriptProperties().setProperty('urlParams', JSON.stringify(global.urlParams));  
     let page= e.parameter.page;
-    if(!page){
-      page = 'html_BrowseSkillTrees';
+    if(!page || page == "html_BrowseSkillTrees"){
+      page = 'html_SkillTreeBrowser'; // html_BrowseSkillTrees
     }
        return HtmlService
        .createTemplateFromFile(page)

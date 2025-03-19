@@ -7,7 +7,7 @@
             <h2>Skill Trees</h2>
             <ul class="skillTreeList">
                 {{#each skillTreeList}}
-                <li class="browseSkillTreeListItem {{#if ../currentSkillTreeName}}{{#ifEquals this ../currentSkillTreeName}}active{{/ifEquals}}{{/if}}"><a href="#" onclick="navigate({page: 'html_BrowseSkillTrees', SkillTreeName: '{{this}}'}); return false;">{{this}}</a></li>
+                <li class="browseSkillTreeListItem {{#if ../currentSkillTreeName}}{{#ifEquals this ../currentSkillTreeName}}active{{/ifEquals}}{{/if}}"><a href="#" onclick="navigate({page: 'html_SkillTreeBrowser', SkillTreeName: '{{this}}'}); return false;">{{this}}</a></li>
                 {{/each}}
             </ul>
         </div>

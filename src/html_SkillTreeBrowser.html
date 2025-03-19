@@ -18,13 +18,13 @@
       <?!= includeTemplated("clientClass_SkillTreeBrowser"); ?>
       <?!= includeTemplated("clientClass_SkillTree"); ?>
       <?!= includeTemplated("clientClass_SkillTreeItemList"); ?>
-      <?!= includeTemplated("clientJs_BrowseSkillTrees"); ?> <!-- -->
+      <?!= includeTemplated("clientJs_SkillTreeBrowser"); ?> <!-- -->
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand clickable" onclick="navigate({page: 'html_BrowseSkillTrees'})">Browse Skill Trees</a>
+        <a class="navbar-brand clickable" onclick="navigate({page: 'html_SkillTreeBrowser'})">Browse Skill Trees</a>
         <a class="navbar-brand clickable" onclick="navigate({page: 'html_Student'})">My Page (<span id="currentUser"></span>) <span class="adminBadge"></span></a>
-        <a class="navbar-brand clickable" onclick="navigate({page: 'html_BrowseSkillTrees', purgeCache: 'true'})">Refresh Old Data</a>
+        <a class="navbar-brand clickable" onclick="navigate({page: 'html_SkillTreeBrowser', purgeCache: 'true'})">Refresh Old Data</a>
     </nav>
 
     <div class="container" id="contentBody">Hold on, loading...</div>
