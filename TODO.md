@@ -4,8 +4,11 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 # TODO Items
 
 
-- make skill tree list into a side nav in the browser
-
+- Skill Tree Item Page : improvie formatting
+-- show student relation ot the item
+--- "started" items
+--- link to the student skill tree image page if it's "started"
+-- link to "start" item
 
 
 
@@ -35,6 +38,9 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+
+2025/03/19 10:19 
+- make skill tree list into a side nav in the browser - DONE
 
 
 2025/03/06 16:31

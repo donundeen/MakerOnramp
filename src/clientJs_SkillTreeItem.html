@@ -42,6 +42,9 @@ $(document).ready(function() {
 
     function renderTemplates(){
         console.log("rendering skill tree item");
+        console.log(student);
+        console.log(skillTreeItem);
+        console.log(global_templateContext);
         skillTreeItemTemplate = Handlebars.compile( `
             <?!= include("template_SkillTreeItemDetails"); ?>
         `);
