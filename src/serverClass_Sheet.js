@@ -173,10 +173,6 @@ class Sheet {
     ============================================================================
     */    
     updateHashRowCells(data, keysrow, updateKeys){
-        Logger.log("updateHashRowCells");
-        Logger.log(data);
-        Logger.log(keysrow);
-        Logger.log(updateKeys);
 
         this.loadSheet();
         let insertArray = [];
@@ -191,13 +187,7 @@ class Sheet {
         .getRange(range)
         .getValues();  
 
-        Logger.log("updateHashRowCells tableMetaData");
-        Logger.log(tableMetaData);
-
         let [index, existingRow] = this.findHashRowForQuery(keysrow, keysrow + 1, (row) => {
-            Logger.log("updateHashRowCells findHashRowForQuery");
-            Logger.log(row);
-            Logger.log(updateKeys);
             let updateKeysKeys = Object.keys(updateKeys);
 
             for(let i = 0; i < updateKeysKeys.length; i++){
@@ -205,11 +195,9 @@ class Sheet {
                 let value = updateKeys[key];      
                 Logger.log(key + " : " + value + " : " + row[key]);
                 if(row[key] !== value){
-                    Logger.log("updateHashRowCells NOT found row");
                     return false;
                 }
             }
-            Logger.log("updateHashRowCells found row");
             return true;
         });
         if(!existingRow){
@@ -217,9 +205,6 @@ class Sheet {
         }
         let toDelete = index + 1;
 
-        Logger.log("updateHashRowCells existingRow");
-        Logger.log(existingRow, index, toDelete);
-        
         for (let k = 0; k < tableMetaData[0].length; k++) { 
             let key = tableMetaData[0][k];
             // key is text, k is number

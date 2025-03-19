@@ -207,10 +207,8 @@ class Student{
     }
 
     submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, callback){
-        console.log("submitting skill tree item for student: " ,this.id, skillTreeItemID);
         let self = this;
         google.script.run.withSuccessHandler(function(result) {
-            console.log(" got result from server: " , result);
             // find the skill tree item in the skill tree items array
             let skillTreeItem = self.skillTreeItems.find(item => item.SkillTreeName === skillTreeName && item.SkillTreeItemID === skillTreeItemID);
             if(skillTreeItem){

@@ -103,12 +103,9 @@ function renderTemplates(){
 
 
 function submitStudentSkillTreeItem(skillTreeName, skillTreeItemID){
-    console.log("submitting skill tree item", skillTreeItemID, skillTreeName);
     $(".statusDisplay").html("<b>Hold on, thinking...</b>");
     student.submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, function(){
         $(".statusDisplay").html("<b>Done, reloading page...</b>");
-        console.log("reloading page",  global_currentUrlParams);
-        //navigate({page: 'html_SkillTreeItem', skillTreeItemID: global_currentUrlParams['SkillTreeItemID'], SkillTreeName: global_currentUrlParams['SkillTreeName']});
         renderTemplates();
     });
 }
