@@ -23,8 +23,10 @@ class Sheet {
             //  Logger.log("loading sheet :  ")
             //Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
             this.sheet = SpreadsheetApp.openById(this.spreadsheetID).getSheetByName(this.sheetName);
-            //Logger.log("sheet loaded");
+            Logger.log("sheet loaded");
             //Logger.log(this.sheet);
+        }else{
+            Logger.log("sheetName not set");
         }
     }
 
@@ -91,7 +93,18 @@ class Sheet {
         let to_continue = this._updateHashRow(data, keysrow, updateKeys);
         return to_continue;
     }
-    
+
+    /*
+    ============================ _updateHashRow =================================
+    update a row in a sheet. Use column names as keys.  
+    table: the google sheets object
+    data: the row, with column names as keys. Missing columns will be updated to 
+    blank, NOT left alone.
+    keysrow: which row of the table holds the column names (starts a 0, NOT 1)
+    updateKey: object {key: column Name of identifying key of row to update 
+    (eg {'NetId': "dhu3"), value : value for that cell in that row (eg 'dhu3')
+    ============================================================================
+    */
     _updateHashRow(data, keysrow, updateKeys){
         this.loadSheet();
         let insertArray = [];
@@ -149,7 +162,97 @@ class Sheet {
         return index; 
     }
     
+    /*
+    ============================ _updateHashRow =================================
+    update the specified cells in a row in a sheet. Use column names as keys.  
+    table: the google sheets object
+    data: the row, with column names as keys. Missing columns WILL BE LEFT ALONE
+    keysrow: which row of the table holds the column names (starts a 0, NOT 1)
+    updateKey: object {key: column Name of identifying key of row to update 
+    (eg {'NetId': "dhu3"), value : value for that cell in that row (eg 'dhu3')
+    ============================================================================
+    */    
+    updateHashRowCells(data, keysrow, updateKeys){
+        Logger.log("updateHashRowCells");
+        Logger.log(data);
+        Logger.log(keysrow);
+        Logger.log(updateKeys);
+
+        this.loadSheet();
+        let insertArray = [];
+        let idKey= {};
+        let keyId= {};
+        
+        Logger.log("updateHashRowCells sheetloaded");
+
+        let range = "A"+(keysrow+1).toString() +":"+(keysrow+1).toString();
     
+        let tableMetaData = this.sheet
+        .getRange(range)
+        .getValues();  
+
+        Logger.log("updateHashRowCells tableMetaData");
+        Logger.log(tableMetaData);
+
+        let [index, existingRow] = this.findHashRowForQuery(keysrow, keysrow + 1, (row) => {
+            Logger.log("updateHashRowCells findHashRowForQuery");
+            Logger.log(row);
+            let updateKeysKeys = Object.keys(updateKeys);
+
+            for(let i = 0; i < updateKeysKeys.length; i++){
+                let key = updateKeysKeys[i];
+                let value = updateKeys[key];      
+                Logger.log(key + " : " + value + " : " + row[key]);
+                if(row[key] !== value){
+                    return false;
+                }
+            }
+            return true;
+        });
+        if(!existingRow){
+            return false; 
+        }
+        let toDelete = index + 1;
+
+        Logger.log("updateHashRowCells existingRow");
+        Logger.log(existingRow, index, toDelete);
+        
+        for (let k = 0; k < tableMetaData[0].length; k++) { 
+            let key = tableMetaData[0][k];
+            // key is text, k is number
+            if(key.trim() === ""){
+                continue;
+            }
+            insertArray.push(""); 
+            idKey[k] = key;
+            keyId[key] = k;
+        }
+
+        let datakeys = Object.keys(existingRow);
+    
+        for(let i = 0; i < datakeys.length; i++){
+            let key = datakeys[i];
+            let k = keyId[key];
+            insertArray[k] = existingRow[key];
+        }
+        
+        datakeys = Object.keys(data);
+    
+        for(let i = 0; i < datakeys.length; i++){
+            let key = datakeys[i];
+            let k = keyId[key];
+            insertArray[k] = data[key];
+            existingRow[key] = data[key];
+        }
+        
+        if(index){
+           this.sheet.deleteRow(toDelete);
+        }
+        this.sheet.appendRow(insertArray);
+        
+        return existingRow; 
+    }
+
     findRowNumForQuery(keysRow, startRow, queryFunction){
         this.loadSheet();
         let tableData = this.sheet.getDataRange().getValues();
@@ -160,6 +263,20 @@ class Sheet {
             let res = queryFunction(data[i]);
             if(res === true){
                 return i + startRow;
+            }
+        }
+        return false;
+    }
+
+    findHashRowForQuery(keysRow, startRow, queryFunction){
+        let tableData = this.sheet.getDataRange().getValues();
+    
+        let data = this.dataIntoHashRows(tableData, keysRow, startRow).data;
+        
+        for (let i = 0; i < data.length; i++) { 
+            let res = queryFunction(data[i]);
+            if(res === true){
+                return [i + startRow, data[i]];
             }
         }
         return false;

@@ -36,25 +36,34 @@ class SkillTreeItemList{
                 level: level,
                 skillTreeItems: ""
             };
+            // merge additionalContext to the levelTemplateData
+            levelTemplateData = Object.assign(levelTemplateData, additionalContext);
 
             // Create a div for each title
             groupedData[level].forEach(item => {
                 let id = item.SkillTreeItemID;
                 let title = item.Title;
                 let sheetName = item.SkillTreeName;
+                let documentationStatus = item["DocumentationStatus"];
+                if(!global_adminMode && documentationStatus !== "published"){
+                    return;
+                }
                 let userHasItem = this.student.hasSkillTreeItem(sheetName, id);
 
                 let itemTemplateData = item;
+                // merge additionalContext to the itemTemplateData
+                itemTemplateData = Object.assign(itemTemplateData, additionalContext);
                 itemTemplateData.classes = "";
                 itemTemplateData.classes += " " + item["DocumentationStatus"] + " ";
 
                 if(userHasItem){
-                    itemTemplateData.collectOrNotIcon = "✅";
+                    itemTemplateData.collectOrNotIcon = "You're working on this!";
                     itemTemplateData.classes += " collected ";                
                 }else{
-                    itemTemplateData.collectOrNotIcon = "🛒";
+                    itemTemplateData.collectOrNotIcon = "Click here to start working on this!";
                     itemTemplateData.classes += " collectable ";                
                 }
+                console.log("itemTemplateData", itemTemplateData);
                 let itemHTML = itemShortTemplate(itemTemplateData);
                 levelTemplateData.skillTreeItems += itemHTML;
             });
@@ -74,7 +83,7 @@ class SkillTreeItemList{
             console.log(SkillTreeItemID);
             $(item).addClass("collected");
             $(item).removeClass("collectable");
-            $(this).text("✅");            
+            $(this).text("You're working on this!");            
             console.log("adding skill tree item", skillTreeName, SkillTreeItemID, self.student);
             self.student.addSkillTreeItem(skillTreeName, SkillTreeItemID);
         });            
@@ -95,20 +104,29 @@ class SkillTreeItemList{
             console.log("SkillTreeItemList loading sheetName: ", sheetName);
             if(localStorage["allSkillTreeRows"+sheetName]){
                 console.log("SkillTreeItemList using local storage");
-                this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]).data;
+                this.skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+sheetName]);
                 resolve(this.skillTreeItems);
             }else{
                 console.log("getting all skill tree rows");
                 google.script.run.withSuccessHandler(function(result) {
                     console.log(" got result from server for sheetName:" , sheetName, result);
                     self.skillTreeItems = result.data;
-                    localStorage["allSkillTreeRows"+sheetName] = JSON.stringify(result);
+                    localStorage["allSkillTreeRows"+sheetName] = JSON.stringify(self.skillTreeItems);
                     resolve(self.skillTreeItems);
                 }).getAllSkillTreeRows(sheetName);
             }
         });
     }
     
+    updateSkillTreeItemInList(skillTreeItem){
+        // find the skill tree item in the list with the name skillTreeItem.SkillTreeName and skillTreeItem.SkillTreeItemID 
+        let index = this.skillTreeItems.findIndex(item => item.SkillTreeName === skillTreeItem.SkillTreeName && item.SkillTreeItemID === skillTreeItem.SkillTreeItemID);
+        if(index !== -1){
+            this.skillTreeItems[index] = skillTreeItem;
+            localStorage["allSkillTreeRows"+this.sheetName] = JSON.stringify(this.skillTreeItems);
+        }
+    }
+
     create(){
 
     }

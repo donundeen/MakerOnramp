@@ -6,13 +6,14 @@ let global_currentUrlParams = false;
 let global_purgeCache = false;
 let global_dataVersion = 0;
 let global_templateContext = {};
+let global_defaultSkillTreeName = "3D Modeling";
+
+let global_adminMode = false;
+let adminIDs = ["dundeen@lcc.ca", "amathewson@lcc.ca"];
 
 
 $(document).ready(function() {
-    console.log("document ready");
-    console.log("registering ifEquals helper");
     Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-        console.log("ifEquals helper", arg1, arg2);
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });
 });
@@ -34,6 +35,9 @@ function getEveryPageLoadData(){
             // get the current uer email, which is used as the unique student ID
             global_currentStudentID = result.currentUser.email;
             console.log(" current user: " , global_currentStudentID);
+            // check if the current user is an admin
+            global_adminMode = adminIDs.includes(global_currentStudentID);
+            console.log("adminMode", global_adminMode);
             // get the data version, sent from the server. 
             global_dataVersion = result.dataVersion;
             console.log("dataVersion", global_dataVersion);
@@ -63,8 +67,10 @@ function getEveryPageLoadData(){
             global_templateContext.purgeCache = global_purgeCache;
             global_templateContext.currentUrl = global_currentUrl;
             global_templateContext.currentUrlParams = global_currentUrlParams;
+            global_templateContext.adminMode = global_adminMode;
             
             $("#currentUser").text(global_currentStudentID);   
+            $(".adminBadge").text(global_adminMode ? "Admin" : "");
             resolve(result);
         }).getEveryPageLoadData();
     });

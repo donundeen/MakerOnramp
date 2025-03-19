@@ -23,6 +23,10 @@
 .clickable {
     cursor: pointer;
 }
+.clickable:hover {
+    font-weight: bold;  
+    text-decoration: underline;
+}
 
 .item {
     cursor: pointer;
@@ -47,7 +51,7 @@
     background-color: #007bff;
 }
 .item.published{
-    background-color: #dbef92;
+    background-color: #04003b;
 }
 .item.collected{
     background-color: #14a342;
@@ -55,9 +59,15 @@
 .item:hover {
     background-color: #0056b3;
 }
-.item .status{
+.item .statusContainer{
     font-size: 0.8em;
     font-style: italic;
 }
+.item .actionsContainer{
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+
 
 </style>

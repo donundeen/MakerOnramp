@@ -1,12 +1,13 @@
 <script>
+let student = new Student();
+let skillTreeItem = new SkillTreeItem();
 
 $(document).ready(function() {
 
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
     console.log("getting student");   
-    let student = new Student();
-    let skillTreeItem = new SkillTreeItem();
+
 
     getEveryPageLoadData()
     .then(()=>{
@@ -14,44 +15,60 @@ $(document).ready(function() {
         .then(renderTemplates)
     })
     .catch((error) => {
-        console.log("error loading student and skill tree browser", error);
-    });
-
-
-
-    function loadStudent(){
-        return new Promise((resolve, reject) => {
-            console.log("loading student " + global_currentStudentID);
-            student.id = global_currentStudentID;
-            student.email = global_currentStudentID;
-            student.name = global_currentStudentID;
-            student.load().then(resolve).catch(reject);
-        });
-    }
-
-    function loadSkillTreeItem(){
-        return new Promise((resolve, reject) => {
-            console.log("loading skill tree item " + global_currentUrlParams['SkillTreeItemID']);
-            skillTreeItem.student = student;
-            // get SkillTreeItemID from url parameter SkillTreeItemID
-            skillTreeItem.skillTreeItemID = global_currentUrlParams['SkillTreeItemID'];
-            skillTreeItem.skillTreeName = global_currentUrlParams['SkillTreeName'];
-            skillTreeItem.load().then(resolve).catch(reject);
-        });
-    }
-
-    function renderTemplates(){
-        console.log("rendering skill tree item");
-        console.log(student);
-        console.log(skillTreeItem);
-        console.log(global_templateContext);
-        skillTreeItemTemplate = Handlebars.compile( `
-            <?!= include("template_SkillTreeItemDetails"); ?>
-        `);
-
-        let skillTreeItemHTML = skillTreeItem.display(skillTreeItemTemplate, global_templateContext);
-        $("#contentBody").html(skillTreeItemHTML);
-    }
+        console.log("2 error loading student and skill tree browser", error);
+    }); 
 });
+
+function loadStudent(){
+    return new Promise((resolve, reject) => {
+        console.log("loading student " + global_currentStudentID);
+        student.id = global_currentStudentID;
+        student.email = global_currentStudentID;
+        student.name = global_currentStudentID;
+        student.load().then(resolve).catch(reject);
+    });
+}
+
+function loadSkillTreeItem(){
+    return new Promise((resolve, reject) => {
+        console.log("loading skill tree item " + global_currentUrlParams['SkillTreeItemID']);
+        skillTreeItem.student = student;
+        // get SkillTreeItemID from url parameter SkillTreeItemID
+        skillTreeItem.skillTreeItemID = global_currentUrlParams['SkillTreeItemID'];
+        skillTreeItem.skillTreeName = global_currentUrlParams['SkillTreeName'];
+        skillTreeItem.load().then(resolve).catch(reject);
+    });
+}
+
+function renderTemplates(){
+    console.log("rendering skill tree item");
+    // see if there is a student.skillTreeItems element that matches the skillTreeItem.skillTreeItemID
+    let skillTreeItemIndex = student.skillTreeItems.findIndex(item => item.SkillTreeItemID === skillTreeItem.skillTreeItemID 
+                                                            && item.SkillTreeName === skillTreeItem.skillTreeName);
+    if(skillTreeItemIndex !== -1){
+        console.log("skill tree item found: ", student.skillTreeItems[skillTreeItemIndex]);
+        skillTreeItem.templateContext.studentSkillTreeItem = student.skillTreeItems[skillTreeItemIndex];
+    }
+    console.log(student);
+    console.log(skillTreeItem);
+    console.log(global_templateContext);
+    skillTreeItemTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeItemDetails"); ?>
+    `);
+
+    let skillTreeItemHTML = skillTreeItem.display(skillTreeItemTemplate, global_templateContext);
+    $("#contentBody").html(skillTreeItemHTML);
+}
+
+function startSkillTreeItem(skillTreeItemID, skillTreeName){
+    console.log("starting skill tree item", skillTreeItemID, skillTreeName);
+    $(".statusDisplay").html("<b>Hold on, thinking...</b>");
+    student.addSkillTreeItem(skillTreeName, skillTreeItemID, function(){
+        $(".statusDisplay").html("<b>Done, reloading page...</b>");
+        console.log("reloading page",  global_currentUrlParams);
+        //navigate({page: 'html_SkillTreeItem', skillTreeItemID: global_currentUrlParams['SkillTreeItemID'], SkillTreeName: global_currentUrlParams['SkillTreeName']});
+        renderTemplates();
+    });
+}
 
 </script>

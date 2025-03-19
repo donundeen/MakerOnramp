@@ -27,7 +27,7 @@
                 if(localData){
                     localData = JSON.parse(localData);
                     console.log("loading skill tree item data " , localData);
-                    skillTreeRow = localData.data.filter(row => row.SkillTreeItemID === this.skillTreeItemID)[0];
+                    skillTreeRow = localData.filter(row => row.SkillTreeItemID === this.skillTreeItemID)[0];
                 }
                 if(skillTreeRow){
                     self.skillTreeItem = skillTreeRow;
@@ -35,8 +35,8 @@
                 }else{
                     google.script.run.withSuccessHandler(function(result) {
                         console.log(" got skill tree itemresult from server: " , result);
-                        localData = result;
-                        self.skillTreeItem = localData.data.filter(row => row.SkillTreeItemID === self.skillTreeItemID)[0];                        
+                        localData = result.data;
+                        self.skillTreeItem = localData.filter(row => row.SkillTreeItemID === self.skillTreeItemID)[0];                        
                         localStorage["allSkillTreeRows"+self.skillTreeName] = JSON.stringify(localData);
                         resolve(self.skillTreeItem);
                     }).getAllSkillTreeRows(self.skillTreeName);

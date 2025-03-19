@@ -193,13 +193,16 @@ class Student{
         return result;
     }
 
-    addSkillTreeItem(skillTreeName, skillTreeItemID){
+    addSkillTreeItem(skillTreeName, skillTreeItemID, callback){
         console.log("adding skill tree item for student: " ,this.id, skillTreeItemID);
         let self = this;
         google.script.run.withSuccessHandler(function(result) {
             console.log(" got result from server: " , result);
             self.skillTreeItems.push(result);
             localStorage["userSkillTreeItems"+self.id] = JSON.stringify(self.skillTreeItems);
+            if(callback){
+                callback(result);
+            }
         }).addSkillTreeItemForStudent(  self.id, skillTreeItemID, skillTreeName);
     }
 }

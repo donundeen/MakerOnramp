@@ -1,13 +1,14 @@
 <script>
 
- 
+ let student = false;
+ let skillTreeBrowser = false;
 $(document).ready(function() {
 
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
     console.log("getting student");   
-    let student = new Student();
-    let skillTreeBrowser = new SkillTreeBrowser();
+    student = new Student();
+    skillTreeBrowser = new SkillTreeBrowser();
 
 //    Promise.all([getScriptUrl(), getCurrentStudentID()])
     getEveryPageLoadData()
@@ -15,51 +16,64 @@ $(document).ready(function() {
     .then(loadSkillTreeBrowser)
     .then(renderTemplates)
     .catch((error) => {
-        console.log("error loading student and skill tree browser", error);
+        console.log("1 error loading student and skill tree browser", error);
     });
 
 
-    function loadStudent(){
-        return new Promise((resolve, reject) => {
-            student.id = global_currentStudentID;
-            student.email = global_currentStudentID;
-            student.name = global_currentStudentID;
-            student.load().then(resolve).catch(reject);
-        });
-    }
-
-    function loadSkillTreeBrowser(){
-        return new Promise((resolve, reject) => {
-            skillTreeBrowser.student = student;
-            if(global_currentUrlParams.SkillTreeName){
-                skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
-            }
-            skillTreeBrowser.load().then(resolve).catch(reject);
-        });
-    }
-
-    function renderTemplates(){
-        console.log("rendering templates");
-        Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-            console.log("ifEquals helper", arg1, arg2);
-            return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-        });   
-             
-        skillTreeBrowserTemplate = Handlebars.compile( `
-            <?!= include("template_SkillTreeBrowser"); ?>
-        `);
-
-        const itemShortTemplate = Handlebars.compile( `
-            <?!= include("template_SkillTreeItemShort"); ?>
-        `);
-
-        const levelTemplate = Handlebars.compile( `
-            <?!= include("template_SkillTreeLevel"); ?>
-        `);         
-
-        let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay", global_templateContext);
-    }
-
 
 }); 
+
+
+function loadStudent(){
+    return new Promise((resolve, reject) => {
+        student.id = global_currentStudentID;
+        student.email = global_currentStudentID;
+        student.name = global_currentStudentID;
+        student.load().then(resolve).catch(reject);
+    });
+}
+
+function loadSkillTreeBrowser(){
+    return new Promise((resolve, reject) => {
+        skillTreeBrowser.student = student;
+        if(global_currentUrlParams.SkillTreeName){
+            skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
+        }else{
+            skillTreeBrowser.currentSkillTreeName = global_defaultSkillTreeName;
+        }
+        skillTreeBrowser.load().then(resolve).catch(reject);
+    });
+}
+
+function renderTemplates(){
+    console.log("rendering templates");
+    Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    });   
+            
+    skillTreeBrowserTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeBrowser"); ?>
+    `);
+
+    const itemShortTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeItemShort"); ?>
+    `);
+
+    const levelTemplate = Handlebars.compile( `
+        <?!= include("template_SkillTreeLevel"); ?>
+    `);         
+
+    let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay", global_templateContext);
+}
+
+
+function flagImportant(skillTreeItemID, skillTreeName){
+    console.log("flagging important", skillTreeItemID, skillTreeName);
+    google.script.run.withSuccessHandler(function(result){
+        console.log("flagged important result", result);
+        skillTreeBrowser.updateSkillTreeItemInList(result);
+        renderTemplates();
+    }).flagImportant(skillTreeName, skillTreeItemID);
+}
+
 </script>

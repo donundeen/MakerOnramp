@@ -10,7 +10,8 @@ const  testButtonClicked3 = () => {
 };
 
 const currentTestFunction = () => {
-    let result = global.getAllSkillTreeRows("Entrepreneurship");
+    Logger.log("currentTestFunction flagImportant");
+    let result = global.flagImportant("Robotics", "Build_a_robot_from_a_kit");
     Logger.log(result);
     return result;
 };

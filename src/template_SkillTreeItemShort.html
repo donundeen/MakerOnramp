@@ -1,4 +1,17 @@
 <div class="item {{classes}}" id="{{SkillTreeItemID}}" data-skilltree="{{SkillTreeName}}">
-    <div class="collect">{{collectOrNotIcon}}</div><div class="status">{{DocumentationStatus}} with {{DocumentationNumSlides}} slides</div>
     <div class="title">{{Title}}</div>
+    <div class="statusContainer">
+        <div class="collect">{{collectOrNotIcon}}</div>
+        {{#if adminMode}}
+            <div class="status">{{DocumentationStatus}}</div>
+            <div class="numSlides"># Slides:{{DocumentationNumSlides}}</div>
+        {{/if}}
+    </div>
+    <div class="actionsContainer">
+        {{#if adminMode}}
+            {{#ifEquals DocumentationStatus "created"}}
+                <div class="flagImportant clickable" onclick="flagImportant('{{SkillTreeItemID}}', '{{SkillTreeName}}');">Flag Important</div>
+            {{/ifEquals}}
+        {{/if}}
+    </div>
 </div>

@@ -8,8 +8,8 @@ class SkillTree{
         this.student = false;
     }
 
-    display(levelTemplate, itemTemplate, targetDiv){
-        this.skillTreeItemList.display(levelTemplate, itemTemplate, targetDiv);
+    display(levelTemplate, itemTemplate, targetDiv, additionalContext){
+        this.skillTreeItemList.display(levelTemplate, itemTemplate, targetDiv, additionalContext);
     }
 
     load(){ 
@@ -24,7 +24,12 @@ class SkillTree{
             }
         });
     }
-    
+
+    updateSkillTreeItemInList(skillTreeItem){
+        if(this.skillTreeItemList){
+            this.skillTreeItemList.updateSkillTreeItemInList(skillTreeItem);
+        }
+    }
 
 }
 

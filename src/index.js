@@ -157,3 +157,11 @@ global.getEveryPageLoadData = () => {
     currentUser : global.getCurrentUser()
   }
 }
+
+global.flagImportant = (skillTreeName, skillTreeItemID) => {
+  console.log("flagging important", skillTreeItemID, skillTreeName);
+  let skillTreeSheet = new SkillTreeSheet();
+  skillTreeSheet.sheetName = skillTreeName;
+  let newRow = skillTreeSheet.flagImportant(skillTreeName, skillTreeItemID);
+  return newRow;
+}

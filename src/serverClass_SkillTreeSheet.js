@@ -36,7 +36,13 @@ class SkillTreeSheet extends Sheet {
     }
 
     updateDocumentationSlideLink(skillTreeItemID, documentationSlideLink){
-        this.updateSheetCell(skillTreeItemID, "DocumentationSlidesLink", documentationSlideLink);
+        this.updateHashRowCells({DocumentationSlidesLink: documentationSlideLink}, 0, {SkillTreeItemID: skillTreeItemID});
+    }
+
+    flagImportant(skillTreeName, skillTreeItemID){
+        this.sheetName = skillTreeName;
+       let newRow = this.updateHashRowCells({DocumentationStatus: "important"}, 0, {SkillTreeName: skillTreeName, SkillTreeItemID: skillTreeItemID});
+       return newRow;
     }
 
 }

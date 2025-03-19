@@ -10,7 +10,7 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 --- link to the student skill tree image page if it's "started"
 -- link to "start" item
 
-
+- clean up the way data is passed to the templates - its a mess
 
 - StudentSkillTreeItem page : page for that student's work on that skill tree item
 -- show the documentation slide deck

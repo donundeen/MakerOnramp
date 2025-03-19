@@ -4,6 +4,7 @@ class SkillTreeBrowser{
         this.skillTreeList = [];
         this.student = false;
         this.currentSkillTreeName = false;
+        this.currentSkillTree = false;
     }
 
     load(){
@@ -30,7 +31,11 @@ class SkillTreeBrowser{
         });
     }
 
-    display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, contentBodyTargetID, skillTreeDisplayTargetID){
+    display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, contentBodyTargetID, skillTreeDisplayTargetID, additionalContext){
+
+        // sort skill tree list by name
+        this.skillTreeList.sort();
+
         let html = skillTreeBrowserTemplate(this);
         $(contentBodyTargetID).html(html);
 
@@ -45,22 +50,30 @@ class SkillTreeBrowser{
             // self.renderSkillTree(self.currentSkillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
         });
         if(this.currentSkillTreeName){
-            this.renderSkillTree(this.currentSkillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+            this.renderSkillTree(this.currentSkillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID, additionalContext);
             $(".skillTreeSelect").val(this.currentSkillTreeName);
         }
         return html;
     }
 
-    renderSkillTree(skillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID){
+    renderSkillTree(skillTreeName, levelTemplate, itemShortTemplate, skillTreeDisplayTargetID, additionalContext){
         console.log("rendering skill tree", skillTreeName, this.student);
 
-        let skillTree = new SkillTree();
-        skillTree.student = this.student;
-        skillTree.sheetName = skillTreeName;
-        skillTree.load().then(result => {
+        this.currentSkillTree = new SkillTree();
+        this.currentSkillTree.student = this.student;
+        this.currentSkillTree.sheetName = skillTreeName;
+        let self = this;
+        this.currentSkillTree.load().then(result => {
             console.log("skill tree loaded", result);
-            skillTree.display(levelTemplate, itemShortTemplate, skillTreeDisplayTargetID);
+            self.currentSkillTree.display(levelTemplate, itemShortTemplate, skillTreeDisplayTargetID, additionalContext);
         });        
+    }
+
+    updateSkillTreeItemInList(skillTreeItem){
+        // find the skill tree item in the list with the name skillTreeItem.SkillTreeName and skillTreeItem.SkillTreeItemID 
+        if(this.currentSkillTree){
+            this.currentSkillTree.updateSkillTreeItemInList(skillTreeItem);
+        }
     }
 }
 </script>
