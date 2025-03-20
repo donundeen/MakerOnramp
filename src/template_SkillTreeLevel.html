@@ -1,6 +1,18 @@
-<div class="level">
-    <h3>Level {{level}}</h3>
-    <div class="titles-container">
-        {{{skillTreeItems}}}
+<div class="level" data-level="{{level}}">
+    <div class="level-header">
+        <div class="level-title"> <h3>Level {{level}}</h3></div>
+        <div class="add-item-form" style="display: none;">
+            <input type="text" class="add-item-button-input" data-level="{{level}}">
+            <button class="add-item-button" data-level="{{level}}" onclick="addSkillTreeItem(this); return false;">Add Item</button>
+        </div>
+        <div class="status-message" style="display: none;"></div>
+        <div class="add-item-button">
+            <button class="show-add-item-button" data-level="{{level}}" onclick="showAddItemForm(this); return false;">+</button>
+        </div>
     </div>
+    {{#if adminMode}}
+        <div class="titles-container">
+            {{{skillTreeItems}}}
+        </div>
+    {{/if}}
 </div>

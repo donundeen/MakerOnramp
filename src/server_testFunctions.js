@@ -11,7 +11,11 @@ const  testButtonClicked3 = () => {
 
 const currentTestFunction = () => {
     Logger.log("currentTestFunction flagImportant");
-    let result = global.submitStudentSkillTreeItem("dundeen@lcc.ca", "3D Printing", "Understand_the_basics_of_3D_printer_safety_and_responsibility");
+    let skillTreeName = "Robotics";
+    let level = 1;
+    let itemName = "test add skill tree item";
+    let result = global.testAddSkillTreeItem(skillTreeName, level, itemName) ;
+      
     Logger.log(result);
     return result;
 };

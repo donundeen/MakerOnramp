@@ -56,6 +56,11 @@ global.submitStudentSkillTreeItem = (studentID, skillTreeItemID, skillTreeName) 
   return studentSkillTreeItemSheet.submitStudentSkillTreeItem(studentID, skillTreeItemID, skillTreeName);
 }
 
+global.addSkillTreeItem = (skillTreeName, level, itemName) => {
+  const skillTreeSheet = new SkillTreeSheet();
+  return skillTreeSheet.addSkillTreeItem(skillTreeName, level, itemName);
+}
+
 global.testInsertHashRow = () => {
   global.addSkillTreeItemForStudent("dundeen@lcc.ca", "1", "Skill Tree 1");
 }
@@ -63,6 +68,12 @@ global.testGetSkillTreeItemsForStudent = () => {
   let result = global.getSkillTreeItemsForStudent("dundeen@lcc.ca");
   //Logger.log(result);
 }
+
+global.testAddSkillTreeItem = (skillTreeName, level, itemName) => {
+  let result = global.addSkillTreeItem(skillTreeName, level, itemName);
+  Logger.log(result);
+}
+
 
 
 import {getCurrentUser} from './server_currentUser';
@@ -133,11 +144,23 @@ function getSlideEmbedUrl(presentationId) {
   return `https://docs.google.com/presentation/d/${presentationId}/embed?start=true&loop=true&delayms=3000`;
 }
 
-
 global.getScriptUrl = () => {
   let url = ScriptApp.getService().getUrl();
   let urlParams = PropertiesService.getScriptProperties().getProperty('urlParams');
-  return {url : url, params : JSON.parse(urlParams)};
+  if(urlParams){
+    urlParams = JSON.parse(urlParams);
+  }else{
+    urlParams = {};
+  }
+  // iterate through the urlParams object to construct the full url
+  let fullUrl = url + "?";
+  let keys = Object.keys(urlParams);
+  for (let i = 0; i < keys.length; i++) {
+    // make value url encoded
+    let value = encodeURIComponent(urlParams[keys[i]]);
+    fullUrl += keys[i] + "=" + value + "&";
+  }
+  return {url : url, fullUrl : fullUrl, params : urlParams};
 }
 
 global.navigateToPage = (params) => {

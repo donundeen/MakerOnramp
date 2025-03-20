@@ -76,4 +76,37 @@ function flagImportant(skillTreeItemID, skillTreeName){
     }).flagImportant(skillTreeName, skillTreeItemID);
 }
 
+
+function addSkillTreeItem(button){
+    console.log("adding skill tree item", button);
+    let level = button.getAttribute("data-level");
+    let itemName = button.previousElementSibling.value;
+    let skillTreeName = skillTreeBrowser.currentSkillTreeName;
+    let addItemForm = button.closest(".level").querySelector(".add-item-form");
+    addItemForm.style.display = "none";    
+    let statusMessage = button.closest(".level").querySelector(".status-message");
+    statusMessage.textContent = "Adding item " + itemName ;
+
+    console.log("skillTreeName", skillTreeName);
+    console.log("level", level);
+    console.log("itemName", itemName);
+    google.script.run.withSuccessHandler(function(result){
+        console.log("added skill tree item", result);
+        statusMessage.textContent = "Item added";
+        skillTreeItems = JSON.parse(localStorage["allSkillTreeRows"+skillTreeName]);
+        skillTreeItems.push(result);
+        localStorage["allSkillTreeRows"+skillTreeName] = JSON.stringify(skillTreeItems);
+        loadSkillTreeBrowser().then(renderTemplates);
+    }).addSkillTreeItem(skillTreeName, level, itemName);
+}
+
+function showAddItemForm(button){
+    console.log("showing add item form", button);
+    let level = button.getAttribute("data-level");
+    console.log("level", level);
+    // get the nearest sibling with the class "add-item-form"
+    let addItemForm = button.closest(".level").querySelector(".add-item-form");
+    addItemForm.style.display = "block";
+}
+
 </script>

@@ -33,6 +33,7 @@ function getEveryPageLoadData(){
         console.log("getting every page load data");
         google.script.run.withSuccessHandler(function(result) {
             // get the current uer email, which is used as the unique student ID
+            console.log("getEveryPageLoadData result", result);
             global_currentStudentID = result.currentUser.email;
             console.log(" current user: " , global_currentStudentID);
             // check if the current user is an admin
@@ -43,6 +44,7 @@ function getEveryPageLoadData(){
             console.log("dataVersion", global_dataVersion);
             // get the current url and params
             global_currentUrl = result.currentUrl.url;
+            global_currentFullUrl = result.currentUrl.fullUrl;
             console.log("currentUrl", global_currentUrl);
             global_currentUrlParams = result.currentUrl.params;
             console.log("currentUrlParams", global_currentUrlParams);

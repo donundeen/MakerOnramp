@@ -7,13 +7,13 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 - clean up the way data is passed to the templates - its a mess
 
-- auto-generate QR Codes for each skill tree item
-https://davidshimjs.github.io/qrcodejs/ 
-https://github.com/davidshimjs/qrcodejs/blob/master/qrcode.js 
 
 
 
 - add abilty to add skill tree items inteh ui, when in admin mode.
+-- I think this will help us create the skill trees we want in a more seemless way. Go back to the google sheets seems to me a mental block that slows things down.
+- in skill tree browser:
+-- in each level add plus 
 
 
 - add Projects
@@ -33,6 +33,12 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+2025/03/20 11:41
+- auto-generate QR Codes for each skill tree item
+https://davidshimjs.github.io/qrcodejs/ 
+https://github.com/davidshimjs/qrcodejs/blob/master/qrcode.js 
+
+
 2025/03/19 17:33
 - Skill Tree Item Page : improvie formatting - dONE
 -- show student relation ot the item

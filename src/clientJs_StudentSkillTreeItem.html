@@ -16,47 +16,6 @@ $(document).ready(function() {
     });
 
 
-
-    function loadStudent(){
-        return new Promise((resolve, reject) => {
-            console.log("loading student " + global_currentStudentID);
-            student.id = global_currentStudentID;
-            student.email = global_currentStudentID;
-            student.name = global_currentStudentID;
-            student.load().then(resolve).catch(reject);
-        });
-    }
-
-    function getSelectedSkillTreeItem(){
-        const SkillTreeName = global_currentUrlParams.SkillTreeName;
-        const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
-        let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
-        if(!skillTreeItem){
-            console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
-            console.log(student.groupedSkillTreeItems);
-            return false;
-        }
-        return skillTreeItem;
-    }
-
-
-    function renderTemplates(){
-        console.log("rendering student");
-        let skillTreeItem = getSelectedSkillTreeItem();
-        if(!skillTreeItem){
-            return false;
-        }
-        skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
-        skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
-        global_templateContext.studentSkillTreeItem = skillTreeItem;
-        let studentSkillTreeItemTemplate = Handlebars.compile( `
-            <?!= include("template_StudentSkillTreeItem"); ?>
-        `);
-        let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
-
-        $("#contentBody").html(studentSkillTreeItemHTML);
-
-    }
 });
 
 
@@ -84,7 +43,7 @@ function getSelectedSkillTreeItem(){
 
 
 function renderTemplates(){
-    console.log("rendering student");
+    console.log("rendering student: " + global_currentStudentID);
     let skillTreeItem = getSelectedSkillTreeItem();
     if(!skillTreeItem){
         return false;
@@ -98,6 +57,17 @@ function renderTemplates(){
     let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
 
     $("#contentBody").html(studentSkillTreeItemHTML);
+
+   // generate a QR code for the skill tree item
+   console.log("generating QR code for student skill tree item",global_currentFullUrl);
+    qrcodeOptions = {
+        text: global_currentFullUrl,
+        width: $(".skillTreeItemInformation").width(),
+        height: $(".skillTreeItemInformation").width(),
+        colorDark: "#000000",
+        colorLight: "#ffffff"
+    }
+    new QRCode(document.getElementById("qrcode"), qrcodeOptions);
 
 }
 

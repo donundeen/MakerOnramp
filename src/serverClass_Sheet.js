@@ -278,7 +278,8 @@ class Sheet {
         let keyId= {};
         
         let range = "A"+(keysrow+1).toString() +":"+(keysrow+1).toString();
-    
+        Logger.log("insertHashRow range", range);
+        Logger.log(range);
         let tableMetaData = this.sheet
         .getRange(range)
         .getValues();  
