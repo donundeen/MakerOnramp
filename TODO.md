@@ -7,14 +7,14 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 - clean up the way data is passed to the templates - its a mess
 
-- StudentSkillTreeItem page : page for that student's work on that skill tree item
--- show the documentation slide deck
--- show the "admin notes"
--- improve formatting
+- auto-generate QR Codes for each skill tree item
+https://davidshimjs.github.io/qrcodejs/ 
+https://github.com/davidshimjs/qrcodejs/blob/master/qrcode.js 
 
-- student page with
--- their "collected" items, w links to their documentation/evidence decks
--- improve formatting
+
+
+- add abilty to add skill tree items inteh ui, when in admin mode.
+
 
 - add Projects
 - add milestones
@@ -40,7 +40,16 @@ otherwsise the service will return null for teh whole data set
 --- link to the student skill tree image page if it's "started"
 -- link to "start" item
 
+- StudentSkillTreeItem page : page for that student's work on that skill tree item
+-- show the documentation slide deck
+-- show the "admin notes"
+-- improve formatting
 
+- student page with
+-- their "collected" items, w links to their documentation/evidence decks
+-- improve formatting
+
+- adminMode vs studentMode
 
 2025/03/19 10:19 
 - make skill tree list into a side nav in the browser - DONE

@@ -58,6 +58,9 @@ function renderTemplates(){
 
     let skillTreeItemHTML = skillTreeItem.display(skillTreeItemTemplate, global_templateContext);
     $("#contentBody").html(skillTreeItemHTML);
+
+    // generate a QR code for the skill tree item
+    new QRCode(document.getElementById("qrcode"), "http://jindo.dev.naver.com/collie");
 }
 
 function startSkillTreeItem(skillTreeItemID, skillTreeName){
