@@ -85,13 +85,9 @@ function addSkillTreeItem(button){
     let addItemForm = button.closest(".level").querySelector(".add-item-form");
     addItemForm.style.display = "none";    
     let statusMessage = button.closest(".level").querySelector(".status-message");
-    console.log("statusMessage", statusMessage);
     statusMessage.style.display = "block";
-    statusMessage.textContent = "Adding item " + itemName ;
+    statusMessage.textContent = "Adding item " + itemName +", please wait...";
 
-    console.log("skillTreeName", skillTreeName);
-    console.log("level", level);
-    console.log("itemName", itemName);
     google.script.run.withSuccessHandler(function(result){
         console.log("added skill tree item", result);
         statusMessage.textContent = "Item added";
