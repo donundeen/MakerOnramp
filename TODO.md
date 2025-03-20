@@ -8,14 +8,6 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 - clean up the way data is passed to the templates - its a mess
 
 
-
-
-- add abilty to add skill tree items inteh ui, when in admin mode.
--- I think this will help us create the skill trees we want in a more seemless way. Go back to the google sheets seems to me a mental block that slows things down.
-- in skill tree browser:
--- in each level add plus 
-
-
 - add Projects
 - add milestones
 -- complex milestone rule system
@@ -34,6 +26,12 @@ otherwsise the service will return null for teh whole data set
 
 # DONE items
 2025/03/20 11:41
+
+- add abilty to add skill tree items inteh ui, when in admin mode.
+-- I think this will help us create the skill trees we want in a more seemless way. Go back to the google sheets seems to me a mental block that slows things down.
+- in skill tree browser:
+-- in each level add plus 
+
 - auto-generate QR Codes for each skill tree item
 https://davidshimjs.github.io/qrcodejs/ 
 https://github.com/davidshimjs/qrcodejs/blob/master/qrcode.js 
