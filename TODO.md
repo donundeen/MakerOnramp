@@ -3,20 +3,15 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 # TODO Items
 
-- how do we get the skill tree items in front of the students?
--- key items with important documentation - have easy links to the documentation visible near the tools
--- this info (QR code, tinyurl), printed with a distintive design, on a card-sized thing.
--- This might be a list of mutiple items, or a link to the skill tree page 
 
 TODO:
-- start puttin up a production version of the site.
-- make tinyurls for each of the skill trees
-- design a card with link to the skill tree page, QR code, tinyurl, and good branding.
-
 - build out skill trees for electronics, 3D modeling, and 3D printing.
 
-- clean up the way data is passed to the templates - its a mess
+- design a card with link to the skill tree page, QR code, tinyurl, and good branding.
 
+- need a search interface that searches the slides AND the spreadsheets
+
+- clean up the way data is passed to the templates - its a mess
 
 - add Projects
 - add milestones
@@ -35,6 +30,17 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+2025/03/27 16:54
+- stood up production version of the site
+
+- how do we get the skill tree items in front of the students?
+-- key items with important documentation - have easy links to the documentation visible near the tools
+-- this info (QR code, tinyurl), printed with a distintive design, on a card-sized thing.
+-- This might be a list of mutiple items, or a link to the skill tree page 
+- made a tinyurl link to a google sites page with links to important skill tree items
+
+
+
 2025/03/25 16:47
 - when a student "starts" a skill tree item:
 -- create a new documentation slide deck for that student's skill tree item
