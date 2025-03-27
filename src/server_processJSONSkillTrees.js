@@ -70,7 +70,7 @@ const jsonToSpreadsheet =  (filename, spreadsheetID ) => {
             let id = desc.replace(/ /g, "_");
             //Logger.log("id: " + id);
             // if there's already a row in the sheet with this id, skip it
-            const rows = sheet.getDataRange().getValues();
+            const rows = sheet.getDataRange().getDisplayValues();
             const existingRow = rows.find(row => row[1] === id);
             if (existingRow) {
                 //Logger.log("Skipping row with id " + id + " because it already exists");

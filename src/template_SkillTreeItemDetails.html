@@ -14,7 +14,7 @@
                 {{#if studentSkillTreeItem}}
                     <a class="clickable"onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false"><i>{{studentSkillTreeItem.Status}}</i>  - click here to go to your evidence documentation page.</a>
                 {{else}}
-                    <a  class="clickable" onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeItemID}}', '{{skillTreeItem.SkillTreeName}}');  return false;">Not started - Click here to get started!</a>
+                    <a  class="clickable" onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeName}}','{{skillTreeItem.SkillTreeItemID}}');  return false;">Not started - Click here to get started!</a>
                 {{/if}}
                 <span class="statusDisplay"></span>
             </div>

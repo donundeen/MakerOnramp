@@ -67,12 +67,24 @@ function renderTemplates(){
 }
 
 
-function flagImportant(skillTreeItemID, skillTreeName){
-    console.log("flagging important", skillTreeItemID, skillTreeName);
+function flagImportant(skillTreeName, skillTreeItemID, clickedButton){
+    console.log("flagging important:", skillTreeName, skillTreeItemID );
+    let statusMessage = clickedButton.closest(".level").querySelector(".status-message");
+    statusMessage.style.display = "block";    
+    statusMessage.textContent = "Flagging important, please wait...";
     google.script.run.withSuccessHandler(function(result){
         console.log("flagged important result", result);
-        skillTreeBrowser.updateSkillTreeItemInList(result);
-        renderTemplates();
+        try{
+            skillTreeBrowser.updateSkillTreeItemInList(result);
+            statusMessage.style.display = "none";        
+            renderTemplates();
+        }catch(error){
+            console.log("flagging important error", error);
+            statusMessage.textContent = "Error flagging important, please reload page and try again. Or tell Don";        
+        }
+    }).withFailureHandler(function(error){
+        console.log("flagging important error", error);
+        statusMessage.textContent = "Error flagging important, please reload page and try again. Or tell Don";        
     }).flagImportant(skillTreeName, skillTreeItemID);
 }
 

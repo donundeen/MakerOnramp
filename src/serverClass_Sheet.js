@@ -115,7 +115,7 @@ class Sheet {
     
         let tableMetaData = this.sheet
         .getRange(range)
-        .getValues();  
+        .getDisplayValues();  
         
         for (let k = 0; k < tableMetaData[0].length; k++) { 
             let key = tableMetaData[0][k];
@@ -185,7 +185,7 @@ class Sheet {
     
         let tableMetaData = this.sheet
         .getRange(range)
-        .getValues();  
+        .getDisplayValues();  
 
         let [index, existingRow] = this.findHashRowForQuery(keysrow, keysrow + 1, (row) => {
             let updateKeysKeys = Object.keys(updateKeys);
@@ -243,7 +243,7 @@ class Sheet {
 
     findRowNumForQuery(keysRow, startRow, queryFunction){
         this.loadSheet();
-        let tableData = this.sheet.getDataRange().getValues();
+        let tableData = this.sheet.getDataRange().getDisplayValues();
     
         let data = this.dataIntoHashRows(tableData, keysRow, startRow).data;
         
@@ -258,7 +258,7 @@ class Sheet {
     }
 
     findHashRowForQuery(keysRow, startRow, queryFunction){
-        let tableData = this.sheet.getDataRange().getValues();
+        let tableData = this.sheet.getDataRange().getDisplayValues();
     
         let data = this.dataIntoHashRows(tableData, keysRow, startRow).data;
         
@@ -282,7 +282,7 @@ class Sheet {
         Logger.log(range);
         let tableMetaData = this.sheet
         .getRange(range)
-        .getValues();  
+        .getDisplayValues();  
         
         for (let k = 0; k < tableMetaData[0].length; k++) { 
             let key = tableMetaData[0][k];

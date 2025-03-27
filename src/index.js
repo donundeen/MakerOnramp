@@ -46,9 +46,9 @@ global.getSkillTreeItemsForStudent = (studentID) => {
   return studentSkillTreeItemSheet.getSkillTreeItemsForStudent(studentID);
 }
 
-global.addSkillTreeItemForStudent = (studentID, skillTreeItemID, skillTreeName) => {
+global.addSkillTreeItemForStudent = (studentID, skillTreeName, skillTreeItemID) => {
   const studentSkillTreeItemSheet = new StudentSkillTreeItemSheet();
-  return studentSkillTreeItemSheet.addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName);
+  return studentSkillTreeItemSheet.addSkillTreeItemForStudent(studentID, skillTreeName, skillTreeItemID);
 }
 
 global.submitStudentSkillTreeItem = (studentID, skillTreeItemID, skillTreeName) => {
@@ -184,9 +184,11 @@ global.getEveryPageLoadData = () => {
 }
 
 global.flagImportant = (skillTreeName, skillTreeItemID) => {
-  Logger.log("flagging important", skillTreeItemID, skillTreeName);
+  Logger.log("flagging important", skillTreeName, skillTreeItemID);
   let skillTreeSheet = new SkillTreeSheet();
   skillTreeSheet.sheetName = skillTreeName;
   let newRow = skillTreeSheet.flagImportant(skillTreeName, skillTreeItemID);
+  Logger.log("newRow");
+  Logger.log(newRow);
   return newRow;
 }

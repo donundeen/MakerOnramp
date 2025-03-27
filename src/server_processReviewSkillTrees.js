@@ -1,3 +1,4 @@
+import { SlideDeck } from "./serverClass_SlideDeck";
 
 const processReviewSkillTrees = () => {
     let skillTreeSheet = new SkillTreeSheet();
@@ -5,16 +6,17 @@ const processReviewSkillTrees = () => {
 
     let SkillTreesColumns = ["SkillTreeName", "SkillTreeItemID", "Title", "Level", "Icon", "DocumentationSlidesLink", "DocumentationStatus", "DocumentationLastUpdated", "DocumentationNumSlides"];
     const resourcesFolder = DriveApp.getFoldersByName("SkillTreeItemDocumentation").next();
+    const resourcesFolderName = "SkillTreeItemDocumentation";
 
 
 
-   // processSkillTreeSheet("3D Modeling");
+    processSkillTreeSheet("3D Printing");
 //    processSkillTreeSheet("Crafting");
 
     // use array iteratores instead of a for loop
    
     sheetNames.forEach(sheetName => {
-        processSkillTreeSheet(sheetName);
+  //      processSkillTreeSheet(sheetName);
     });
     
 
@@ -77,17 +79,12 @@ const processReviewSkillTrees = () => {
 
         documentationSlideLink = documentationSlideLink.trim();
         if(documentationSlideLink && documentationSlideLink.length > 0){
-            let documentationSlideId = getDocumentionSlideDeckId(documentationSlideLink);
-            let [documentationSlideDeck, documentationFile] = getDocumentationSlideDeck(documentationSlideId);
+            let slideDeck = getDocumentationSlideDeckFromUrl(documentationSlideLink);
             // check if the documentation slide deck exists
-            if(documentationSlideDeck){
+            if(slideDeck){
                 // check if the documentation slide deck has been updated since the last recorded update date
-                let pageWidth = documentationSlideDeck.getPageWidth();
-                let pageHeight = documentationSlideDeck.getPageHeight();
-                Logger.log("pageWidth: " + pageWidth);
-                Logger.log("pageHeight: " + pageHeight);
-                let documentationSlideDeckLastUpdated = documentationFile.getLastUpdated();
-                let fileLastUpdated = getUsefulDate(documentationSlideDeckLastUpdated);
+                let documentationSlideDeckLastUpdated = slideDeck.getLastUpdated();
+                let fileLastUpdated = slideDeck.lastUpdatedDateString;
                 let oldDocumentationLastUpdated = getUsefulDate(row.DocumentationLastUpdated);
                 if(fileLastUpdated && oldDocumentationLastUpdated !== fileLastUpdated){
                     Logger.log("documentationSlideDeck date has been updated");
@@ -96,11 +93,9 @@ const processReviewSkillTrees = () => {
                     doUpdate = true;
                 }
                 // count the number of slides in the documentation slide deck
-                let slides = documentationSlideDeck.getSlides();
-                let numberOfSlides = slides.length;
-                if(!row.DocumentationNumSlides || numberOfSlides !== parseInt(row.DocumentationNumSlides, 10)){
-                    Logger.log("updating numberOfSlides: " + numberOfSlides);
-                    row.DocumentationNumSlides = numberOfSlides;
+                if(!row.DocumentationNumSlides || slideDeck.numberOfSlides !== parseInt(row.DocumentationNumSlides, 10)){
+                    Logger.log("updating numberOfSlides: " + slideDeck.numberOfSlides);
+                    row.DocumentationNumSlides = slideDeck.numberOfSlides
                     doUpdate = true;
                 }
                 // if there's more than 1 slide and the documentation status is "created", update it to "started", because some work has been done
@@ -108,35 +103,15 @@ const processReviewSkillTrees = () => {
                     row.DocumentationStatus = "created";
                     doUpdate = true;
                 }
-                if(numberOfSlides > 1 && row.DocumentationStatus.trim() === "created"){
+                if(slideDeck.numberOfSlides > 1 && row.DocumentationStatus.trim() === "created"){
                     row.DocumentationStatus = "started";
                     doUpdate = true;
                 }
-                if(numberOfSlides === 1 && row.DocumentationStatus.trim() === "created"){
+                if(slideDeck.numberOfSlides === 1 && (row.DocumentationStatus.trim() === "created" || row.DocumentationStatus.trim() === "important" || row.DocumentationStatus.trim() === "started")){
                     // https://developers.google.com/apps-script/reference/slides/slide
                     // we want to make the first slide hold the title, description, and level
                     Logger.log("numberOfSlides === 1 and DocumentationStatus is created, adding title to first slide");
-                    let firstSlide = slides[0];
-
-                    // clear it out
-                    firstSlide.getShapes().forEach(shape => {
-                        shape.remove();
-                    });
-
-                    // set the title, description, and level on the first slide
-                    const shape = firstSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 0, pageWidth, pageHeight);
-                    shape.setContentAlignment(SlidesApp.ContentAlignment.MIDDLE);
-                    const textRange = shape.getText();
-                    textRange.setText(row.SkillTreeName + " \n\n " + row.Title + " \n\n Level " + row.Level);
-                    // resize the text to fit the shape, being as large as possible
-                    textRange.getTextStyle().setFontSize(40);
-                    textRange.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
-//                    textRange.getTextStyle().setFontSize(100);
-                    textRange.getTextStyle().setFontFamily("Georgia");
-                    textRange.getTextStyle().setForegroundColor("#000000");
-                    textRange.getTextStyle().setBold(true);
-                    
-                    
+                    slideDeck.createDocumentationTitleSlide(row.SkillTreeName, row.Title, row.Level);
                 }
             }else{
                 Logger.log("documentationSlideDeck is not there");
@@ -144,11 +119,11 @@ const processReviewSkillTrees = () => {
         }else{
             Logger.log("documentationSlideLink is not there");
             const documentTitle = row.SkillTreeName + " - " + row.Title;
-            let documentationSlideDeckLink = createDocumentationSlideDeck(documentTitle);
-            row.DocumentationSlidesLink = documentationSlideDeckLink;
+            let slideDeck = createDocumentationSlideDeck(documentTitle);
+            row.DocumentationSlidesLink = slideDeck.slideDeckUrl;
             row.DocumentationStatus = "created";
-            row.DocumentationNumSlides = 1;
-            row.DocumentationLastUpdated = getUsefulDate(new Date());
+            row.DocumentationNumSlides = slideDeck.numberOfSlides;
+            row.DocumentationLastUpdated = slideDeck.lastUpdatedDateString;
             doUpdate = true;
         }
         return doUpdate;
@@ -172,57 +147,48 @@ const processReviewSkillTrees = () => {
     }
 
     function createDocumentationSlideDeck(documentTitle){
-        let documentationSlideDeckLink = createPresentationInResourcesFolder(documentTitle);
-        return documentationSlideDeckLink;
+        let slideDeck = createPresentationInResourcesFolder(documentTitle);
+        return slideDeck;
     }
 
-    function getDocumentionSlideDeckId(documentationSlideLink){
-        // get the documentation slide deck id from the documentation slide link
-        let documentationSlideDeckId = parseUrl(documentationSlideLink);
-        return documentationSlideDeckId;
-    }
 
-    function getDocumentationSlideDeck(documentationSlideDeckId){
+    function getDocumentationSlideDeckFromId(documentationSlideDeckId){
         // get the documentation slide deck from the documentation slide deck id
-        Logger.log("getting file from id: " + documentationSlideDeckId);
-        let documentationFile = DriveApp.getFileById(documentationSlideDeckId);
-        Logger.log("getting documentation slide deck from id: " + documentationSlideDeckId);
-        let documentationSlideDeck = SlidesApp.openById(documentationSlideDeckId);
-        return [documentationSlideDeck, documentationFile];
+        let slideDeck = new SlideDeck();
+        slideDeck.setStorageFolder(resourcesFolderName);
+        slideDeck.slideDeckId = documentationSlideDeckId;
+        let result = slideDeck.loadSlideDeck();
+        if(result){
+            return slideDeck;
+        }
+        return false;
+    }
+    function getDocumentationSlideDeckFromUrl(documentationSlideDeckUrl){
+        // get the documentation slide deck from the documentation slide deck id
+        let slideDeck = new SlideDeck();
+        slideDeck.setStorageFolder(resourcesFolderName);
+        slideDeck.slideDeckUrl = documentationSlideDeckUrl;
+        let result = slideDeck.loadSlideDeck();
+        if(result){
+            return slideDeck;
+        }
+        return false;
     }
 
-    function parseUrl(url){
-        Logger.log("parsing url: " + url);
-        // links look like https://docs.google.com/open?id=1B84r9s_R2AKPT7r3jkovDl-tFvSR3awBcQzwC0AoA_c or https://docs.google.com/open?id=1B84r9s_R2AKPT7r3jkovDl-tFvSR3awBcQzwC0AoA_c&usp=sharing
-        // make a regex to find everything after id= and before & or the end of the string
-        const regex = /id=([A-Za-z0-9-_]+)/;
-        const match = url.match(regex);
-
-        Logger.log("match: " + match[1]);
-        return match[1];
-    }
 
     function createPresentationInResourcesFolder(documentTitle) {
         // Step 1: Create the presentation
-        const presentation = SlidesApp.create(documentTitle);
-        //Logger.log("1 presentation: " + presentation);
-    
-        // Step 2: Get the file ID of the created presentation
-        const presentationId = presentation.getId();
-        //Logger.log("Presentation ID: " + presentationId);
-    
-        // Step 3: Move the presentation to the resources folder
-        const presentationFile = DriveApp.getFileById(presentationId);
-        resourcesFolder.addFile(presentationFile); // Move the file to the resources folder
-        DriveApp.getRootFolder().removeFile(presentationFile); // Optionally remove it from the root folder
-    
-        // Log the URL of the presentation
-        const documentationSlidesLink = presentation.getUrl();
-        //Logger.log("documentationSlidesLink: " + documentationSlidesLink);
-        return documentationSlidesLink;
+
+        let slideDeck = new SlideDeck();
+        slideDeck.setStorageFolder(resourcesFolderName);
+        slideDeck.slideDeckName = documentTitle;
+        let result = slideDeck.createNewSlideDeck();
+
+        if(result){
+            return slideDeck;
+        }
+        return false;
     }
-
-
 }
 
 export {processReviewSkillTrees};

@@ -3,7 +3,17 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 # TODO Items
 
+- how do we get the skill tree items in front of the students?
+-- key items with important documentation - have easy links to the documentation visible near the tools
+-- this info (QR code, tinyurl), printed with a distintive design, on a card-sized thing.
+-- This might be a list of mutiple items, or a link to the skill tree page 
 
+TODO:
+- start puttin up a production version of the site.
+- make tinyurls for each of the skill trees
+- design a card with link to the skill tree page, QR code, tinyurl, and good branding.
+
+- build out skill trees for electronics, 3D modeling, and 3D printing.
 
 - clean up the way data is passed to the templates - its a mess
 
@@ -25,6 +35,15 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+2025/03/25 16:47
+- when a student "starts" a skill tree item:
+-- create a new documentation slide deck for that student's skill tree item
+-- create the title slide for the new documentation slide deck
+-- look at the original documentation slide deck for that skill tree item
+-- if the original documentation slide deck has a slide with the text "[My Evidence Slides]", copy all the FOLLOWING slides to the student's new documentation slide deck
+- to do this we need to create a new slideDeck class that handles all the slide deck stuff.
+
+
 2025/03/20 11:41
 
 - add abilty to add skill tree items inteh ui, when in admin mode.

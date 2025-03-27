@@ -71,8 +71,8 @@ function renderTemplates(){
     new QRCode(document.getElementById("qrcode"), qrcodeOptions);
 }
 
-function startSkillTreeItem(skillTreeItemID, skillTreeName){
-    console.log("starting skill tree item", skillTreeItemID, skillTreeName);
+function startSkillTreeItem(skillTreeName, skillTreeItemID){
+    console.log("starting skill tree item", skillTreeName, skillTreeItemID);
     $(".statusDisplay").html("<b>Hold on, thinking...</b>");
     student.addSkillTreeItem(skillTreeName, skillTreeItemID, function(){
         $(".statusDisplay").html("<b>Done, reloading page...</b>");

@@ -1,4 +1,6 @@
 import {Sheet} from './serverClass_Sheet';
+import { SlideDeck } from "./serverClass_SlideDeck";
+
 
 
 class StudentSkillTreeItemSheet extends Sheet {
@@ -19,7 +21,7 @@ class StudentSkillTreeItemSheet extends Sheet {
         return items;
     }
 
-    addSkillTreeItemForStudent(studentID, skillTreeItemID, skillTreeName){
+    addSkillTreeItemForStudent(studentID, skillTreeName,skillTreeItemID){
         Logger.log("adding skill tree item for student", this);
         this.loadSheet();
         const data = {
@@ -29,8 +31,8 @@ class StudentSkillTreeItemSheet extends Sheet {
             Status: "started"
         };
 
-        const studentDocumentationSlidesLink = this.createStudentDocumentationSlide(studentID, skillTreeName, skillTreeItemID);
-        data.StudentDocumentationSlidesLink = studentDocumentationSlidesLink;
+        let slideDeck = this.createStudentDocumentationSlide(studentID, skillTreeName, skillTreeItemID);
+        data.StudentDocumentationSlidesLink = slideDeck.slideDeckUrl;
         
         // insert the data into the sheet   
         this.insertHashRow(data, 0);
@@ -47,6 +49,7 @@ class StudentSkillTreeItemSheet extends Sheet {
         const skillTreeItemDocumentationSlidesLink = skillTreeItem.DocumentationSlidesLink;
 
         const studentSkillTreeItemDocumentationName = studentID + "_" + skillTreeName + "_" + skillTreeItemID;
+
         // create a slide deck in the studentFiles/studentID/skillTreeItemDocumentationName folder
         const studentFilesFolder = DriveApp.getFolderById(this.StudentFilesFolderID);
     
@@ -58,36 +61,26 @@ class StudentSkillTreeItemSheet extends Sheet {
         }else{
             studentSkillTreeItemDocumentationFolder = studentFilesFolder.createFolder(studentID);
         }
-        const slideDeck = SlidesApp.create(studentSkillTreeItemDocumentationName);
 
-        let pageWidth = slideDeck.getPageWidth();
-        let pageHeight = slideDeck.getPageHeight();
+        let slideDeck = new SlideDeck();
+        slideDeck.setStorageFolderId(studentSkillTreeItemDocumentationFolder.getId());
+        slideDeck.slideDeckName = studentSkillTreeItemDocumentationName;
+        let result = slideDeck.createNewSlideDeck();
+        if(!result){
+            return false;
+        }
+        slideDeck.createStudentDocumentationTitleSlide(studentID, skillTreeName, skillTreeItemTitle, skillTreeItemLevel);
 
-        const slides = slideDeck.getSlides();
-        // eventually give the doc a default titike, with students name, student email, and the skill tree item name
-        let firstSlide = slides[0];
-        // lear it out
-        firstSlide.getShapes().forEach(shape => {
-            shape.remove();
-        });
 
-        // set the title, description, and level on the first slide
-        const shape = firstSlide.insertShape(SlidesApp.ShapeType.TEXT_BOX, 0, 0, pageWidth, pageHeight);
-        shape.setContentAlignment(SlidesApp.ContentAlignment.MIDDLE);
-        const textRange = shape.getText();
-        textRange.setText("My Evidence Journal for\n" + skillTreeName + " \n " + skillTreeItemTitle + " \n Level " + skillTreeItemLevel + "\n"+studentID) ;
-        // resize the text to fit the shape, being as large as possible
-        textRange.getTextStyle().setFontSize(40);
-        textRange.getParagraphStyle().setParagraphAlignment(SlidesApp.ParagraphAlignment.CENTER);
-//                    textRange.getTextStyle().setFontSize(100);
-        textRange.getTextStyle().setFontFamily("Georgia");
-        textRange.getTextStyle().setForegroundColor("#000000");
-        textRange.getTextStyle().setBold(true);        
+        // look for evidence slides in the skillTreeItemDocumentationSlidesLink
+        let documentationSlideDeck = new SlideDeck();
+        documentationSlideDeck.slideDeckUrl = skillTreeItemDocumentationSlidesLink;
+        let docresult = documentationSlideDeck.loadSlideDeck();
+        if(docresult){
+            slideDeck.copyEvidenceSlidesFromDeck(documentationSlideDeck);
+        }
     
-        studentSkillTreeItemDocumentationFolder.addFile(DriveApp.getFileById(slideDeck.getId()));
-    
-        const studentDocumentationSlidesLink = slideDeck.getUrl();
-        return studentDocumentationSlidesLink;
+        return slideDeck;
     }
 
     getFullSkillTreeItem(skillTreeName, skillTreeItemID){
