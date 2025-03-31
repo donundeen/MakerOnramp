@@ -6,6 +6,8 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 TODO:
 - build out skill trees for electronics, 3D modeling, and 3D printing.
+-- identify the most important FIRST items we'd ive any student.
+-- probably the "safety and basics" items. Make a Quiz for each of these as well. Figure out how to tie to students completion of the quiz to their skill tree item.
 
 - design a card with link to the skill tree page, QR code, tinyurl, and good branding.
 
