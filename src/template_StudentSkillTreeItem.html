@@ -15,8 +15,17 @@
                 <b>Your current status for this skill is:</b>
                 {{studentSkillTreeItem.Status}}
                 {{#ifEquals studentSkillTreeItem.Status "started"}}
-                    <div class="skillTreeItemSubmitButton clickable" onclick="submitStudentSkillTreeItem('{{studentSkillTreeItem.SkillTreeName}}', '{{studentSkillTreeItem.SkillTreeItemID}}'); return false;">Are you done? Submit your evidence for review by clicking here.</div>
+                    <div class="bigSideColumnButton clickable" onclick="submitStudentSkillTreeItem('{{studentSkillTreeItem.SkillTreeName}}', '{{studentSkillTreeItem.SkillTreeItemID}}'); return false;">
+                        Are you done? Submit your evidence for review by clicking here.</div>
                 {{/ifEquals}}
+                {{#ifEquals studentSkillTreeItem.Status "submitted"}}
+                    <div class="bigSideColumnButton">
+                        You've submitted these evidence slides for review. We'll get back to you as soon as possible.</div>
+                {{/ifEquals}}
+                {{#ifEquals studentSkillTreeItem.Status "completed"}}
+                    <div class="bigSideColumnButton">
+                        You've completed this skill. Yay!</div>
+                {{/ifEquals}}                
                 <span class="statusDisplay"></span>
             </div>
             <div class="qrcode" id="qrcode"></div>            

@@ -10,11 +10,21 @@
                 This is a <b>Level {{skillTreeItem.Level}}</b> skill.
             </div>
             <div class="skillTreeItemDetailsStatus">
-                <b>Your current status for this skill is:</b>
                 {{#if studentSkillTreeItem}}
-                    <a class="clickable"onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false"><i>{{studentSkillTreeItem.Status}}</i>  - click here to go to your evidence documentation page.</a>
+                {{#ifEquals studentSkillTreeItem.Status "started"}}
+                    <div class="clickable bigSideColumnButton" onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false">
+                        You are currently working on this. Click here to go to your evidence documentation page.</div>
+                {{/ifEquals}}
+                {{#ifEquals studentSkillTreeItem.Status "completed"}}
+                    <div class="clickable bigSideColumnButton" onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false">
+                        You have completed this skill. Click here to go to your evidence documentation page.</div>
+                {{/ifEquals}}
+                {{#ifEquals studentSkillTreeItem.Status "submitted"}}
+                    <div class="clickable bigSideColumnButton" onclick="navigate({page: 'html_StudentSkillTreeItem', SkillTreeItemID: '{{studentSkillTreeItem.SkillTreeItemID}}', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false">
+                        You've submitted your evidence slides for review. Click here to go to your evidence documentation page.</div>
+                {{/ifEquals}}
                 {{else}}
-                    <a  class="clickable" onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeName}}','{{skillTreeItem.SkillTreeItemID}}');  return false;">Not started - Click here to get started!</a>
+                    <div class="clickable bigSideColumnButton" onclick="startSkillTreeItem('{{skillTreeItem.SkillTreeName}}','{{skillTreeItem.SkillTreeItemID}}');  return false;">Do you want to start working on this skill tree item? - Click here to get started with tracking your progress!</div>
                 {{/if}}
                 <span class="statusDisplay"></span>
             </div>
