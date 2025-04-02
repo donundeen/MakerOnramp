@@ -5,6 +5,11 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 
 TODO:
+
+- make the buttons/calls to action on the skill tree item and other pages more explanatory
+-- imagine someone is coming to the page from a link on a label on a computer. What will they need to know to use the page?
+
+
 - build out skill trees for electronics, 3D modeling, and 3D printing.
 -- identify the most important FIRST items we'd ive any student.
 -- probably the "safety and basics" items. Make a Quiz for each of these as well. Figure out how to tie to students completion of the quiz to their skill tree item.
