@@ -51,6 +51,13 @@ function renderTemplates(){
     skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
     skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
     global_templateContext.studentSkillTreeItem = skillTreeItem;
+
+    const navBarTemplate = Handlebars.compile( `
+            <?!= include("template_NavBar"); ?>
+    `);
+    let navBarHTML = navBarTemplate(global_templateContext);
+    $(".navbar").html(navBarHTML);    
+
     let studentSkillTreeItemTemplate = Handlebars.compile( `
         <?!= include("template_StudentSkillTreeItem"); ?>
     `);

@@ -52,6 +52,14 @@ function renderTemplates(){
     console.log(student);
     console.log(skillTreeItem);
     console.log(global_templateContext);
+
+    const navBarTemplate = Handlebars.compile( `
+        <?!= include("template_NavBar"); ?>
+    `);
+    let navBarHTML = navBarTemplate(global_templateContext);
+    $(".navbar").html(navBarHTML);
+
+
     skillTreeItemTemplate = Handlebars.compile( `
         <?!= include("template_SkillTreeItemDetails"); ?>
     `);

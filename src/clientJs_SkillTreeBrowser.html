@@ -50,8 +50,15 @@ function renderTemplates(){
     Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });   
-            
-    skillTreeBrowserTemplate = Handlebars.compile( `
+          
+    const navBarTemplate = Handlebars.compile( `
+        <?!= include("template_NavBar"); ?>
+    `);
+    let navBarHTML = navBarTemplate(global_templateContext);
+    $(".navbar").html(navBarHTML);
+
+    
+    const skillTreeBrowserTemplate = Handlebars.compile( `
         <?!= include("template_SkillTreeBrowser"); ?>
     `);
 

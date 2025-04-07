@@ -3,6 +3,7 @@
 let global_currentStudentID = false;
 let global_currentUrl = false;
 let global_currentUrlParams = false;
+let global_currentUrlWithParams = false;
 let global_purgeCache = false;
 let global_dataVersion = 0;
 let global_templateContext = {};
@@ -49,6 +50,10 @@ function getEveryPageLoadData(){
             global_currentUrlParams = result.currentUrl.params;
             console.log("currentUrlParams", global_currentUrlParams);
             // get the purgeCache flag, which might be sent from the url
+            global_currentUrlWithParams = global_currentUrl + "?";
+            for(let key in global_currentUrlParams){
+                global_currentUrlWithParams += key + "=" + encodeURIComponent(global_currentUrlParams[key]) + "&";
+            }
             global_purgeCache = global_currentUrlParams.purgeCache == "true";
             // if the data version in local storage doesn't match the server, then set the purgeCache flag to true
             if(localStorage["dataVersion"] != global_dataVersion){
@@ -69,6 +74,7 @@ function getEveryPageLoadData(){
             global_templateContext.purgeCache = global_purgeCache;
             global_templateContext.currentUrl = global_currentUrl;
             global_templateContext.currentUrlParams = global_currentUrlParams;
+            global_templateContext.currentUrlWithParams = global_currentUrlWithParams;
             global_templateContext.adminMode = global_adminMode;
             
             $("#currentUser").text(global_currentStudentID);   

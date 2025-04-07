@@ -1,9 +1,13 @@
 <div class="item {{classes}}" id="{{SkillTreeItemID}}" data-skilltree="{{SkillTreeName}}">
-    <div class="title">{{Title}}</div>
+    <div class="title">
+        <a class="clickable" href="{{currentUrl}}?page=html_SkillTreeItem&SkillTreeName={{SkillTreeName}}&SkillTreeItemID={{SkillTreeItemID}}" onclick="navigate({page: 'html_SkillTreeItem', SkillTreeItemID: '{{SkillTreeItemID}}', SkillTreeName: '{{SkillTreeName}}'}); return false;">
+            {{Title}}
+        </a>
+    </div>
     <div class="statusContainer">
         <div class="collect">{{collectOrNotIcon}}</div>
         {{#if adminMode}}
-            Documenation Status: <div class="status">{{DocumentationStatus}}</div>
+            Documentation Status: <div class="status">{{DocumentationStatus}}</div>
             <div class="numSlides"># Slides:{{DocumentationNumSlides}}</div>
         {{/if}}
     </div>

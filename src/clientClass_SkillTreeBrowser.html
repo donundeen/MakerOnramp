@@ -36,7 +36,15 @@ class SkillTreeBrowser{
         // sort skill tree list by name
         this.skillTreeList.sort();
 
-        let html = skillTreeBrowserTemplate(this);
+        const skillTreeBrowserContext = // combing this and the additionalContext into one object
+        {
+            skillTreeList: this.skillTreeList,
+            currentSkillTreeName: this.currentSkillTreeName,
+            currentSkillTree: this.currentSkillTree,
+            ...additionalContext
+        }
+
+        let html = skillTreeBrowserTemplate(skillTreeBrowserContext);
         $(contentBodyTargetID).html(html);
 
         let self = this;

@@ -63,7 +63,6 @@ class SkillTreeItemList{
                     itemTemplateData.collectOrNotIcon = "You're not working on this yet!";
                     itemTemplateData.classes += " collectable ";                
                 }
-                console.log("itemTemplateData", itemTemplateData);
                 let itemHTML = itemShortTemplate(itemTemplateData);
                 levelTemplateData.skillTreeItems += itemHTML;
             });
@@ -73,29 +72,7 @@ class SkillTreeItemList{
             $(targetDiv).append(levelDivs);
 
         });
-        /*
-        $(".collectable .collect", targetDiv).click(function() {
-            let item = $(this).closest(".item");
-            let skillTreeName = $(item).data("skilltree");
-            let SkillTreeItemID = $(item).attr("id");
-            console.log("collectable clicked: ", item)
-            console.log(skillTreeName);
-            console.log(SkillTreeItemID);
-            $(item).addClass("collected");
-            $(item).removeClass("collectable");
-            $(this).text("You're working on this!");            
-            console.log("adding skill tree item", skillTreeName, SkillTreeItemID, self.student);
-            self.student.addSkillTreeItem(skillTreeName, SkillTreeItemID);
-        });            
-        */
 
-        $(".title").click(function() {
-            let item = $(this).closest(".item");
-            let skillTreeName = $(item).data("skilltree");
-            let SkillTreeItemID = $(item).attr("id");
-            console.log("title clicked: ", skillTreeName, SkillTreeItemID);
-            navigate({page: 'html_SkillTreeItem', SkillTreeName: skillTreeName, SkillTreeItemID: SkillTreeItemID});
-        });
     }
     
     load(){

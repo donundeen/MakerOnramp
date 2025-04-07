@@ -10,7 +10,7 @@ const processReviewSkillTrees = () => {
 
 
 
-    processSkillTreeSheet("3D Printing");
+    processSkillTreeSheet("3D Modeling");
 //    processSkillTreeSheet("Crafting");
 
     // use array iteratores instead of a for loop
@@ -54,8 +54,8 @@ const processReviewSkillTrees = () => {
     }
 
     function processSkillTreeItem(row){
-      //  Logger.log("processing skillTreeItem");
-        //Logger.log(row);
+        Logger.log("processing skillTreeItem");
+        Logger.log(row);
 
         /*
 -- scan the documentation slides for updates
@@ -65,8 +65,8 @@ const processReviewSkillTrees = () => {
 
        doUpdate = processDocumentationSlide(row) || doUpdate;
        if(doUpdate){
-        Logger.log("doUpdate: ");
-        Logger.log(row);
+            Logger.log("doUpdate: ");
+            Logger.log(row);
             skillTreeSheet.updateHashRow(row, 0, {"SkillTreeName":row.SkillTreeName, "SkillTreeItemID":row.SkillTreeItemID});
        }
     }
@@ -82,6 +82,7 @@ const processReviewSkillTrees = () => {
             let slideDeck = getDocumentationSlideDeckFromUrl(documentationSlideLink);
             // check if the documentation slide deck exists
             if(slideDeck){
+                Logger.log("slideDeck: " + slideDeck.slideDeckName);
                 // check if the documentation slide deck has been updated since the last recorded update date
                 let documentationSlideDeckLastUpdated = slideDeck.getLastUpdated();
                 let fileLastUpdated = slideDeck.lastUpdatedDateString;
