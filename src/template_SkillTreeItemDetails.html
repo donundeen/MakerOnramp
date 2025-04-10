@@ -28,6 +28,10 @@
                 {{/if}}
                 <span class="statusDisplay"></span>
             </div>
+            <hr>
+            <div class="backToBrowse bigSideColumnButton">
+                <a href="{{currentUrl}}?page=html_SkillTreeBrowser&SkillTreeName={{skillTreeItem.SkillTreeName}}" onclick="navigate({page: 'html_SkillTreeBrowser', SkillTreeName: '{{skillTreeItem.SkillTreeName}}'}); return false;">Go Back to browsing the {{skillTreeItem.SkillTreeName}} Skill Tree</a>
+            </div>
             <div class="qrcode" id="qrcode"></div>
         </div>
         <div class="skillTreeItemBody">

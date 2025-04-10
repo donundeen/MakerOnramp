@@ -28,6 +28,9 @@
                 {{/ifEquals}}                
                 <span class="statusDisplay"></span>
             </div>
+            <div class="backToBrowse bigSideColumnButton">
+                <a href="{{currentUrl}}?page=html_SkillTreeBrowser&SkillTreeName={{studentSkillTreeItem.SkillTreeName}}" onclick="navigate({page: 'html_SkillTreeBrowser', SkillTreeName: '{{studentSkillTreeItem.SkillTreeName}}'}); return false;">Go Back to browsing the {{studentSkillTreeItem.SkillTreeName}} Skill Tree</a>
+            </div>
             <div class="qrcode" id="qrcode"></div>            
         </div>
         <div class="skillTreeItemBody">

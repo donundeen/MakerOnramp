@@ -72,7 +72,8 @@ class SkillTreeSheet extends Sheet {
         let slideDeck = new SlideDeck();
         slideDeck.setStorageFolderId(resourcesFolder.getId());
         slideDeck.createNewSlideDeck(documentTitle);
-        slideDeck.addDocumentationTitleSlide(skillTreeName, itemName, level);
+        slideDeck.createDocumentationTitleSlide(skillTreeName, itemName, level);
+        return slideDeck.slideDeckUrl;
 
     }
 
