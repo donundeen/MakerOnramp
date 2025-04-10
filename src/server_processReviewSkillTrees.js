@@ -75,7 +75,7 @@ const processReviewSkillTrees = () => {
 
     function processDocumentationSlide(row){
         let documentationSlideLink = row.DocumentationSlidesLink;
-        let doUpdate = false;
+        let doUpdate = false; 
 
         documentationSlideLink = documentationSlideLink.trim();
         if(documentationSlideLink && documentationSlideLink.length > 0){
