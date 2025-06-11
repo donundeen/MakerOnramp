@@ -10,13 +10,13 @@ const processReviewSkillTrees = () => {
 
 
 
-    processSkillTreeSheet("3D Modeling");
+  //  processSkillTreeSheet("3D Modeling");
 //    processSkillTreeSheet("Crafting");
 
     // use array iteratores instead of a for loop
    
     sheetNames.forEach(sheetName => {
-  //      processSkillTreeSheet(sheetName);
+       processSkillTreeSheet(sheetName);
     });
     
 

@@ -48,6 +48,9 @@ class SkillTreeItemList{
                 if(!global_adminMode && documentationStatus !== "published"){
                     return;
                 }
+                if(documentationStatus === "hidden"){
+                    return;
+                }
                 let userHasItem = this.student.hasSkillTreeItem(sheetName, id);
 
                 let itemTemplateData = item;
