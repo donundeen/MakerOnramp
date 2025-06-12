@@ -65,43 +65,5 @@
         </div>
     </div>
 
-    <!-- Requirement Editor Template -->
-    <div id="requirement-editor" class="requirement-editor" data-requirement-id="{{id}}">
-        <div class="requirement-header">
-            <select class="requirement-type">
-                <option value="AND">All Required</option>
-                <option value="OR">Any Required</option>
-                <option value="COUNT">Count Required</option>
-            </select>
-            <div class="requirement-count-input" style="display: none;">
-                <label>Required Count:</label>
-                <input type="number" min="1" value="1">
-            </div>
-            <button class="btn-remove-requirement">&times;</button>
-        </div>
-        
-        <div class="items-list">
-            items list outer
-            {{#items}}
-            <div class="item-editor" data-item-id="{{skillTreeItemID}}">
-                item list
-                <div class="item-header">
-                    <select class="skill-tree-select">
-                        {{#skillTrees}}
-                        <option value="{{name}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-                        {{/skillTrees}}
-                    </select>
-                    <select class="skill-item-select">
-                        {{#skillTreeItems}}
-                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-                        {{/skillTreeItems}}
-                    </select>
-                    <button class="btn-remove-item">&times;</button>
-                </div>
-            </div>
-            {{/items}}
-        </div>
-        
-        <button class="btn-add-item">Add Item</button>
-    </div>
+   
 </div>
