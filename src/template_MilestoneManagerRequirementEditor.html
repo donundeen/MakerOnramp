@@ -25,9 +25,9 @@
                     {{/skillTrees}}
                 </select>
                 <select class="skill-item-select">
-                    {{#skillTreeItems}}
-                    <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
-                    {{/skillTreeItems}}
+                    {{#each skillTreeItems}}
+                    <option value="{{SkillTreeItemID}}" {{#selected}}selected{{/selected}}>{{Title}}</option>
+                    {{/each}}
                 </select>
                 <button class="btn-remove-item">&times;</button>
             </div>

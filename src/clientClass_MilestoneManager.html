@@ -123,8 +123,9 @@ class MilestoneManager {
 
 
 
-    display(milestoneManagerTemplate, requirementEditorTemplate, contentBodyTargetID){
+    display(milestoneManagerTemplate, requirementEditorTemplate, requirementItemEditorTemplate, contentBodyTargetID){
         this.requirementEditorTemplate = requirementEditorTemplate;
+        this.requirementItemEditorTemplate = requirementItemEditorTemplate;
         let html = milestoneManagerTemplate(this);
         $(contentBodyTargetID).html(html);
         this.renderMilestones();
@@ -184,6 +185,7 @@ class MilestoneManager {
     }
 
     addRequirement() {
+        console.log("adding requirement");
         this.requirementsList = document.getElementById('requirementsList');
         const template = this.requirementEditorTemplate;
         const context = {
@@ -191,7 +193,7 @@ class MilestoneManager {
             type: 'AND',
             items: [],
             skillTrees: this.skillTrees,
-            skillTreeItems: []
+            skillTreeItems: this.skillTreeItems //[]
         };
         
         let handlebarsTemplate = template;
@@ -201,11 +203,13 @@ class MilestoneManager {
     }
 
     addItem(requirementEditor) {
+        console.log("adding item", this.skillTreeItems);
+        console.log("adding item", this.skillTrees);
         const itemsList = requirementEditor.querySelector('.items-list');
-        const template = this.requirementEditorTemplate;
+        const template = this.requirementItemEditorTemplate;
         const context = {
             skillTrees: this.skillTrees,
-            skillTreeItems: []
+            skillTreeItems: this.skillTreeItems //[]
         };
         let handlebarsTemplate = template;
         const html = handlebarsTemplate(context);
@@ -233,16 +237,19 @@ class MilestoneManager {
             const items = google.script.run.withSuccessHandler(result => {
                 this.skillTreeItems[skillTreeName] = result;
                 this.updateSkillTreeItemOptions(skillTreeItemSelect, result);
-            }).getSkillTreeItems(skillTreeName);
+            }).getAllSkillTreeRows(skillTreeName);
         } catch (error) {
             console.error('Error loading skill items:', error);
         }
     }
 
     updateSkillTreeItemOptions(select, items) {
+        console.log("updating skill tree item options", items);
+        items = items.data;
         select.innerHTML = items.map(item => 
-            `<option value="${item.id}">${item.name}</option>`
+            `<option value="${item.SkillTreeItemID}">${item.Title}</option>`
         ).join('');
+        console.log("updated skill tree item options", select.innerHTML);
     }
 
     saveMilestone() {

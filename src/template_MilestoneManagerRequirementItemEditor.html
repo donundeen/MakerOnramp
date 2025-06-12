@@ -1,0 +1,16 @@
+<div class="item-editor" data-item-id="{{skillTreeItemID}}">
+    item list
+    <div class="item-header">
+        <select class="skill-tree-select">
+            {{#each skillTrees}}
+            <option value="{{this}}" {{#selected}}selected{{/selected}}>{{this}}</option>
+            {{/each}}
+        </select>
+        <select class="skill-item-select">
+            {{#each skillTreeItems}}
+            <option value="{{SkillTreeItemID}}" {{#selected}}selected{{/selected}}>{{Title}}</option>
+            {{/each}}
+        </select>
+        <button class="btn-remove-item">&times;</button>
+    </div>
+</div>

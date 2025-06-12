@@ -53,8 +53,11 @@ function renderTemplates(){
     const requirementEditorTemplate = Handlebars.compile( `
         <?!= include("template_MilestoneManagerRequirementEditor"); ?>
     `);
+    const requirementItemEditorTemplate = Handlebars.compile( `
+        <?!= include("template_MilestoneManagerRequirementItemEditor"); ?>
+    `);
     
-    let milestoneManagerHTML = milestoneManager.display(milestoneManagerTemplate, requirementEditorTemplate, "#contentBody"); 
+    let milestoneManagerHTML = milestoneManager.display(milestoneManagerTemplate, requirementEditorTemplate, requirementItemEditorTemplate, "#contentBody"); 
     $("#contentBody").html(milestoneManagerHTML);
 }
 
