@@ -1,0 +1,52 @@
+<script type="text/template" id="template-milestones">
+    <div class="milestones-container">
+        <h2>Your Milestones</h2>
+        {{#milestones}}
+        <div class="milestone-card {{#completed}}completed{{/completed}}">
+            <div class="milestone-header">
+                <h3>{{name}}</h3>
+                <span class="milestone-status">{{#completed}}Completed!{{/completed}}{{^completed}}In Progress{{/completed}}</span>
+            </div>
+            <p class="milestone-description">{{description}}</p>
+            
+            <div class="milestone-requirements">
+                {{#requirements}}
+                <div class="requirement-group">
+                    <div class="requirement-header">
+                        <h4>{{type}} Requirement</h4>
+                        <span class="requirement-status">
+                            {{#progress.completed}}✓{{/progress.completed}}
+                            {{^progress.completed}}{{progress.current}}/{{required}}{{/progress.completed}}
+                        </span>
+                    </div>
+                    
+                    <div class="requirement-items">
+                        {{#items}}
+                        <div class="requirement-item {{#completed}}completed{{/completed}}">
+                            <span class="item-name">{{name}}</span>
+                            <span class="item-status">
+                                {{#completed}}✓{{/completed}}
+                                {{^completed}}○{{/completed}}
+                            </span>
+                        </div>
+                        {{/items}}
+                    </div>
+                </div>
+                {{/requirements}}
+            </div>
+
+            <div class="milestone-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{progressPercentage}}%"></div>
+                </div>
+                <div class="progress-text">
+                    Overall Progress: {{progressPercentage}}%
+                </div>
+            </div>
+        </div>
+        {{/milestones}}
+        {{^milestones}}
+        <p class="no-milestones">No milestones available.</p>
+        {{/milestones}}
+    </div>
+</script> 

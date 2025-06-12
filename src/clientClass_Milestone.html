@@ -1,0 +1,54 @@
+<script>
+class Milestone {
+    constructor(id, name, description, requiredCount, skillTreeName, level) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.requiredCount = requiredCount;
+        this.skillTreeName = skillTreeName;
+        this.level = level;
+        this.currentCount = 0;
+        this.completed = false;
+    }
+
+    updateProgress(student) {
+        if (!student.groupedSkillTreeItems || !student.groupedSkillTreeItems[this.skillTreeName]) {
+            this.currentCount = 0;
+            this.completed = false;
+            return;
+        }
+
+        // Count completed items at the specified level
+        let completedItems = 0;
+        const levelItems = student.groupedSkillTreeItems[this.skillTreeName][this.level] || [];
+        
+        for (let item of levelItems) {
+            if (item.Status === 'Completed') {
+                completedItems++;
+            }
+        }
+
+        this.currentCount = completedItems;
+        this.completed = this.currentCount >= this.requiredCount;
+        return this;
+    }
+
+    getProgressPercentage() {
+        return Math.min(100, (this.currentCount / this.requiredCount) * 100);
+    }
+
+    toJSON() {
+        return {
+            id: this.id,
+            name: this.name,
+            description: this.description,
+            requiredCount: this.requiredCount,
+            skillTreeName: this.skillTreeName,
+            level: this.level,
+            currentCount: this.currentCount,
+            completed: this.completed,
+            progressPercentage: this.getProgressPercentage()
+        };
+    }
+}
+</script> 

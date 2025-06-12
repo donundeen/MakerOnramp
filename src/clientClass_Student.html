@@ -9,6 +9,7 @@ class Student{
         this.groupedSkillTreeItems = null;
         this.relatedSkillTreeItemLists = {};
         this.templateContext = {};
+        this.milestones = [];
     }
 
     // build the template context for the student
@@ -19,6 +20,7 @@ class Student{
         this.templateContext.email = this.email;
         this.templateContext.skillTreeItems = this.skillTreeItems;
         this.templateContext.groupedSkillTreeItems = this.groupedSkillTreeItems;
+        this.templateContext.milestones = this.getMilestoneProgress();
         if(additionalContext){
             this.templateContext = Object.assign(this.templateContext, additionalContext);
         }
@@ -67,7 +69,6 @@ class Student{
                 reject(error);
             });
         });
-
     }
 
     create(){
@@ -219,6 +220,34 @@ class Student{
                 callback(result);
             }
         }).submitStudentSkillTreeItem(self.id, skillTreeName,skillTreeItemID);
+    }
+
+    loadMilestones() {
+        let self = this;
+        return new Promise((resolve, reject) => {
+            google.script.run.withSuccessHandler(function(result) {
+                self.milestones = result.map(m => new Milestone(
+                    m.id,
+                    m.name,
+                    m.description,
+                    m.requiredCount,
+                    m.skillTreeName,
+                    m.level
+                ));
+                self.updateMilestoneProgress();
+                resolve(self.milestones);
+            }).getMilestonesForStudent(self.id);
+        });
+    }
+
+    updateMilestoneProgress() {
+        if (!this.milestones) return;
+        this.milestones.forEach(milestone => milestone.updateProgress(this));
+    }
+
+    getMilestoneProgress() {
+        if (!this.milestones) return [];
+        return this.milestones.map(m => m.toJSON());
     }
 }
 

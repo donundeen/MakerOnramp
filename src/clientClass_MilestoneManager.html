@@ -1,0 +1,330 @@
+<script>
+class MilestoneManager {
+    constructor() {
+        this.milestones = [];
+        this.skillTrees = [];
+        this.skillTreeItems = {};
+        this.currentMilestone = null;
+    }
+
+    load() {
+        return new Promise((resolve, reject) => {
+            this.loadSkillTrees()
+            .then(this.loadSkillTreeItems())
+            .then(this.loadMilestones())
+            .then(resolve)
+            .catch(reject);
+        });
+    }
+
+    loadSkillTrees(){
+        console.log("loading skill trees");
+        return new Promise((resolve, reject) => {
+            google.script.run.withSuccessHandler(result => {
+                this.skillTrees = result;
+                resolve(this.skillTrees);
+            }).getAllSkillTreeSheetNames();
+        });
+    }
+
+    loadSkillTreeItems(skillTreeName){
+        console.log("loading skill tree items for " + skillTreeName);
+        return new Promise((resolve, reject) => {
+            google.script.run.withSuccessHandler(result => {
+                this.skillTreeItems[skillTreeName] = result;
+                resolve(this.skillTreeItems[skillTreeName]);
+            }).getAllSkillTreeRows(skillTreeName);
+        });
+    }
+
+    loadMilestones(){
+        console.log("loading milestones");
+        return new Promise((resolve, reject) => {
+            google.script.run.withSuccessHandler(result => {
+                this.milestones = result;
+                resolve(this.milestones);
+            }).getMilestonesForStudent('all');
+        });
+    }
+
+
+    initializeEventListeners() {
+        this.requirementsList = document.getElementById('requirementsList');
+        this.form = document.getElementById('milestoneForm');        
+        this.modal = document.getElementById('milestoneEditorModal');
+
+        // Create new milestone button
+        document.getElementById('createMilestoneBtn').addEventListener('click', () => {
+            this.openEditor();
+        });
+
+        // Add requirement button
+        document.getElementById('addRequirementBtn').addEventListener('click', () => {
+            this.addRequirement();
+        });
+
+        // Form submission
+        this.form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveMilestone();
+        });
+
+        // Close modal
+        document.querySelector('.btn-close').addEventListener('click', () => {
+            this.closeModal();
+        });
+
+        document.getElementById('cancelEditBtn').addEventListener('click', () => {
+            this.closeModal();
+        });
+
+        // Edit and delete buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-edit')) {
+                const milestoneId = e.target.dataset.milestoneId;
+                this.editMilestone(milestoneId);
+            } else if (e.target.classList.contains('btn-delete')) {
+                const milestoneId = e.target.dataset.milestoneId;
+                this.deleteMilestone(milestoneId);
+            }
+        });
+
+        // Requirement type change
+        this.requirementsList.addEventListener('change', (e) => {
+            if (e.target.classList.contains('requirement-type')) {
+                this.updateRequirementType(e.target);
+            }
+        });
+
+        // Add item button
+        this.requirementsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-add-item')) {
+                this.addItem(e.target.closest('.requirement-editor'));
+            }
+        });
+
+        // Remove requirement/item buttons
+        this.requirementsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('btn-remove-requirement')) {
+                e.target.closest('.requirement-editor').remove();
+            } else if (e.target.classList.contains('btn-remove-item')) {
+                e.target.closest('.item-editor').remove();
+            }
+        });
+
+        // Skill tree selection change
+        this.requirementsList.addEventListener('change', (e) => {
+            if (e.target.classList.contains('skill-tree-select')) {
+                this.updateSkillTreeItems(e.target);
+            }
+        });
+    }
+
+
+
+    display(milestoneManagerTemplate, contentBodyTargetID){
+          
+        let html = milestoneManagerTemplate(this);
+        $(contentBodyTargetID).html(html);
+        this.renderMilestones();
+    }
+
+    renderMilestones() {
+        /*
+        const template = document.getElementById('template-milestone-manager').innerHTML;
+        const html = Mustache.render(template, { milestones: this.milestones });
+        document.querySelector('.milestone-manager').innerHTML = html;
+        */
+        this.initializeEventListeners();
+
+    }
+
+    openEditor(milestone = null) {
+        this.currentMilestone = milestone;
+        this.form = document.getElementById('milestoneForm');        
+        this.requirementsList = document.getElementById('requirementsList');
+
+        this.form.reset();
+        
+        if (milestone) {
+            document.getElementById('milestoneName').value = milestone.name;
+            document.getElementById('milestoneDescription').value = milestone.description;
+            this.renderRequirements(milestone.requirements);
+        } else {
+            this.requirementsList.innerHTML = '';
+        }
+        
+        this.modal.style.display = 'block';
+    }
+
+    renderRequirements(requirements) {
+        this.requirementsList = document.getElementById('requirementsList');
+        this.requirementsList.innerHTML = '';
+        const template = document.getElementById('requirement-editor').outerHTML;
+        
+        requirements.forEach(req => {
+            const context = {
+                ...req,
+                skillTrees: this.skillTrees.map(tree => ({
+                    name: tree.name,
+                    selected: tree.name === req.skillTreeName
+                })),
+                skillTreeItems: this.skillTreeItems[req.skillTreeName]?.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    selected: item.id === req.skillTreeItemID
+                })) || []
+            };
+            
+            let handlebarsTemplate = Handlebars.compile(template);
+            const html = handlebarsTemplate(context);
+            this.requirementsList.insertAdjacentHTML('beforeend', html);
+        });
+    }
+
+    addRequirement() {
+        this.requirementsList = document.getElementById('requirementsList');
+        const template = document.getElementById('requirement-editor').outerHTML;
+        const context = {
+            id: 'req_' + Date.now(),
+            type: 'AND',
+            items: [],
+            skillTrees: this.skillTrees,
+            skillTreeItems: []
+        };
+        
+        let handlebarsTemplate = Handlebars.compile(template);
+        const html = handlebarsTemplate(context);
+        //        const html = Mustache.render(template, context);
+        this.requirementsList.insertAdjacentHTML('beforeend', html);
+    }
+
+    addItem(requirementEditor) {
+        const itemsList = requirementEditor.querySelector('.items-list');
+        const template = document.getElementById('requirement-editor').outerHTML;
+        const context = {
+            skillTrees: this.skillTrees,
+            skillTreeItems: []
+        };
+        let handlebarsTemplate = Handlebars.compile(template);
+        const html = handlebarsTemplate(context);
+       // const html = Mustache.render(template, context);
+        itemsList.insertAdjacentHTML('beforeend', html);
+    }
+
+    updateRequirementType(select) {
+        const requirementEditor = select.closest('.requirement-editor');
+        const countInput = requirementEditor.querySelector('.requirement-count-input');
+        
+        if (select.value === 'OR' || select.value === 'COUNT') {
+            countInput.style.display = 'flex';
+        } else {
+            countInput.style.display = 'none';
+        }
+    }
+
+    updateSkillTreeItems(select) {
+        const itemEditor = select.closest('.item-editor');
+        const skillTreeName = select.value;
+        const skillTreeItemSelect = itemEditor.querySelector('.skill-item-select');
+        
+        try {
+            const items = google.script.run.withSuccessHandler(result => {
+                this.skillTreeItems[skillTreeName] = result;
+                this.updateSkillTreeItemOptions(skillTreeItemSelect, result);
+            }).getSkillTreeItems(skillTreeName);
+        } catch (error) {
+            console.error('Error loading skill items:', error);
+        }
+    }
+
+    updateSkillTreeItemOptions(select, items) {
+        select.innerHTML = items.map(item => 
+            `<option value="${item.id}">${item.name}</option>`
+        ).join('');
+    }
+
+    saveMilestone() {
+        this.form = document.getElementById('milestoneForm');        
+        const formData = new FormData(this.form);
+        const milestoneData = {
+            id: this.currentMilestone?.id || 'milestone_' + Date.now(),
+            name: formData.get('name'),
+            description: formData.get('description'),
+            requirements: this.getRequirementsData()
+        };
+
+        try {
+            if (this.currentMilestone) {
+                google.script.run.withSuccessHandler(() => {
+                    this.closeModal();
+                    this.loadData();
+                }).updateMilestone(milestoneData);
+            } else {
+                google.script.run.withSuccessHandler(() => {
+                    this.closeModal();
+                    this.loadData();
+                }).createMilestone(milestoneData);
+            }
+        } catch (error) {
+            console.error('Error saving milestone:', error);
+        }
+    }
+
+    getRequirementsData() {
+        const requirements = [];
+        this.requirementsList = document.getElementById('requirementsList');
+        this.requirementsList.querySelectorAll('.requirement-editor').forEach(editor => {
+            const type = editor.querySelector('.requirement-type').value;
+            const required = type === 'OR' || type === 'COUNT' 
+                ? parseInt(editor.querySelector('.requirement-count-input input').value)
+                : undefined;
+            
+            const items = [];
+            editor.querySelectorAll('.item-editor').forEach(itemEditor => {
+                const skillTreeName = itemEditor.querySelector('.skill-tree-select').value;
+                const skillTreeItemID = itemEditor.querySelector('.skill-item-select').value;
+                const item = this.skillTreeItems[skillTreeName].find(i => i.id === skillTreeItemID);
+                
+                items.push({
+                    skillTreeName,
+                    skillTreeItemID,
+                    name: item.name
+                });
+            });
+
+            requirements.push({
+                id: editor.dataset.requirementId,
+                type,
+                required,
+                items
+            });
+        });
+
+        return requirements;
+    }
+
+    deleteMilestone(milestoneId) {
+        if (confirm('Are you sure you want to delete this milestone?')) {
+            try {
+                google.script.run.withSuccessHandler(() => {
+                    this.load();
+                }).deleteMilestone(milestoneId);
+            } catch (error) {
+                console.error('Error deleting milestone:', error);
+            }
+        }
+    }
+
+    closeModal() {
+        this.form = document.getElementById('milestoneForm');        
+        this.modal = document.getElementById('milestoneEditorModal');
+        this.requirementsList = document.getElementById('requirementsList');
+
+        this.modal.style.display = 'none';
+        this.currentMilestone = null;
+        this.form.reset();
+        this.requirementsList.innerHTML = '';
+    }
+}
+</script>

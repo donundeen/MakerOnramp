@@ -1,0 +1,105 @@
+<div class="milestone-manager">
+    <div class="manager-header">
+        <h2>Milestone Manager</h2>
+        <button class="btn-primary" id="createMilestoneBtn">Create New Milestone</button>
+    </div>
+
+    <div class="milestone-list">
+        {{#milestones}}
+        <div class="milestone-manager-card" data-milestone-id="{{id}}">
+            <div class="card-header">
+                <h3>{{name}}</h3>
+                <div class="card-actions">
+                    <button class="btn-edit" data-milestone-id="{{id}}">Edit</button>
+                    <button class="btn-delete" data-milestone-id="{{id}}">Delete</button>
+                </div>
+            </div>
+            <p class="card-description">{{description}}</p>
+            <div class="requirement-preview">
+                {{#requirements}}
+                <div class="preview-requirement">
+                    <span class="requirement-type">{{type}}</span>
+                    {{#required}}<span class="requirement-count">({{required}} required)</span>{{/required}}
+                    <ul class="preview-items">
+                        {{#items}}
+                        <li>{{name}}</li>
+                        {{/items}}
+                    </ul>
+                </div>
+                {{/requirements}}
+            </div>
+        </div>
+        {{/milestones}}
+    </div>
+
+    <!-- Milestone Editor Modal -->
+    <div class="modal" id="milestoneEditorModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Milestone</h3>
+                <button class="btn-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="milestoneForm">
+                    <div class="form-group">
+                        <label for="milestoneName">Name</label>
+                        <input type="text" id="milestoneName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="milestoneDescription">Description</label>
+                        <textarea id="milestoneDescription" name="description" required></textarea>
+                    </div>
+                    
+                    <div class="requirements-editor">
+                        <h4>Requirements</h4>
+                        <div id="requirementsList"></div>
+                        <button type="button" class="btn-secondary" id="addRequirementBtn">Add Requirement</button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Save Milestone</button>
+                        <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Requirement Editor Template -->
+    <div id="requirement-editor" class="requirement-editor" data-requirement-id="{{id}}">
+        <div class="requirement-header">
+            <select class="requirement-type">
+                <option value="AND">All Required</option>
+                <option value="OR">Any Required</option>
+                <option value="COUNT">Count Required</option>
+            </select>
+            <div class="requirement-count-input" style="display: none;">
+                <label>Required Count:</label>
+                <input type="number" min="1" value="1">
+            </div>
+            <button class="btn-remove-requirement">&times;</button>
+        </div>
+        
+        <div class="items-list">
+            {{#items}}
+            <div class="item-editor" data-item-id="{{skillTreeItemID}}">
+                <div class="item-header">
+                    <select class="skill-tree-select">
+                        {{#skillTrees}}
+                        <option value="{{name}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                        {{/skillTrees}}
+                    </select>
+                    <select class="skill-item-select">
+                        {{#skillTreeItems}}
+                        <option value="{{id}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                        {{/skillTreeItems}}
+                    </select>
+                    <button class="btn-remove-item">&times;</button>
+                </div>
+            </div>
+            {{/items}}
+        </div>
+        
+        <button class="btn-add-item">Add Item</button>
+    </div>
+</div>

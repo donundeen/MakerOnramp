@@ -111,4 +111,415 @@ center the .qrcdoe div horizotally NOT vertically
     color: #0c0000;
 }
 
+/* Milestone Styles */
+.milestones-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.milestone-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.milestone-card.completed {
+    border-left: 4px solid #4CAF50;
+}
+
+.milestone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.milestone-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.milestone-status {
+    font-size: 0.9em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #f0f0f0;
+}
+
+.milestone-card.completed .milestone-status {
+    background: #4CAF50;
+    color: white;
+}
+
+.milestone-description {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.milestone-progress {
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #2196F3;
+    transition: width 0.3s ease;
+}
+
+.milestone-card.completed .progress-fill {
+    background: #4CAF50;
+}
+
+.progress-text {
+    font-size: 0.9em;
+    color: #666;
+    text-align: right;
+}
+
+.milestone-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.skill-tree-name {
+    font-weight: 500;
+}
+
+.no-milestones {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+/* Milestone Requirement Styles */
+.milestone-requirements {
+    margin: 15px 0;
+}
+
+.requirement-group {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.requirement-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.requirement-header h4 {
+    margin: 0;
+    color: #495057;
+    font-size: 1em;
+    text-transform: capitalize;
+}
+
+.requirement-status {
+    font-size: 0.9em;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #e9ecef;
+    color: #495057;
+}
+
+.requirement-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.requirement-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+.requirement-item.completed {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+}
+
+.item-name {
+    font-size: 0.9em;
+    color: #495057;
+}
+
+.item-status {
+    font-size: 1.1em;
+    color: #6c757d;
+}
+
+.requirement-item.completed .item-status {
+    color: #4CAF50;
+}
+
+/* Milestone Manager Styles */
+.milestone-manager {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.manager-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.milestone-manager-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.requirement-preview {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.preview-requirement {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.requirement-type {
+    font-weight: 500;
+    color: #495057;
+}
+
+.requirement-count {
+    color: #6c757d;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.preview-items {
+    margin: 5px 0 0 20px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.preview-items li {
+    color: #495057;
+    font-size: 0.9em;
+    margin: 3px 0;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Requirement Editor Styles */
+.requirement-editor {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.requirement-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.requirement-type {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.requirement-count-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.requirement-count-input input {
+    width: 60px;
+    padding: 4px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.items-list {
+    margin: 10px 0;
+}
+
+.item-editor {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+
+.item-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.skill-tree-select,
+.skill-item-select {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Button Styles */
+.btn-primary,
+.btn-secondary {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-edit {
+    background: #28a745;
+    color: white;
+}
+
+.btn-delete {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-remove-requirement,
+.btn-remove-item {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.btn-add-item {
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
 </style>

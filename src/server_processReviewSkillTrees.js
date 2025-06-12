@@ -67,7 +67,8 @@ const processReviewSkillTrees = () => {
        if(doUpdate){
             Logger.log("doUpdate: ");
             Logger.log(row);
-            skillTreeSheet.updateHashRow(row, 0, {"SkillTreeName":row.SkillTreeName, "SkillTreeItemID":row.SkillTreeItemID});
+            skillTreeSheet.updateHashRow(row, 0, {"SkillTreeName":row.SkillTreeName, "SkillTreeItemID":row.preUpdateSkillTreeItemID, "Title":row.Title
+            });
        }
     }
 
@@ -97,6 +98,12 @@ const processReviewSkillTrees = () => {
                 if(!row.DocumentationNumSlides || slideDeck.numberOfSlides !== parseInt(row.DocumentationNumSlides, 10)){
                     Logger.log("updating numberOfSlides: " + slideDeck.numberOfSlides);
                     row.DocumentationNumSlides = slideDeck.numberOfSlides
+                    doUpdate = true;
+                }
+                row.preUpdateSkillTreeItemID = row.SkillTreeItemID;
+                // if the rows SkillTreeItemID is blank, update it to the row.Title, with everything NOT A-Za-z0-9 replaced with an underscore
+                if(!row.SkillTreeItemID || row.SkillTreeItemID.trim() === ""){
+                    row.SkillTreeItemID = row.Title.replace(/[^A-Za-z0-9]/g, '_');
                     doUpdate = true;
                 }
                 // if there's more than 1 slide and the documentation status is "created", update it to "started", because some work has been done

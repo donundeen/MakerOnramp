@@ -1,0 +1,58 @@
+<script>
+let milestoneManager = false
+let student = false;
+
+// Initialize the milestone manager when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    $("#contentBody").html("<b>Hold on, thinking...</b>");
+    console.log("loading milestone manager doc loaded");
+    student = new Student();
+    milestoneManager = new MilestoneManager();
+
+    getEveryPageLoadData()
+    .then(loadStudent)
+    .then(loadMilestoneManager)
+    .then(renderTemplates)
+    .catch((error) => {
+        console.log("1 error loading student and skill tree browser", error);
+    });
+});
+
+function loadStudent(){
+    return new Promise((resolve, reject) => {
+        student.id = global_currentStudentID;
+        student.email = global_currentStudentID;
+        student.name = global_currentStudentID;
+        student.load().then(resolve).catch(reject);
+    });
+}
+function loadMilestoneManager(){
+
+    return new Promise((resolve, reject) => {
+        console.log("loading milestone manager");
+        milestoneManager.student = student;
+        milestoneManager.load().then(resolve).catch(reject);
+    });
+}
+
+function renderTemplates(){
+    console.log("rendering templates");
+    Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
+        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    });   
+          
+    const navBarTemplate = Handlebars.compile( `
+        <?!= include("template_NavBar"); ?>
+    `);
+    let navBarHTML = navBarTemplate(global_templateContext);
+    $(".navbar").html(navBarHTML);
+
+    const milestoneManagerTemplate = Handlebars.compile( `
+        <?!= include("template_MilestoneManager"); ?>
+    `);
+    
+    let milestoneManagerHTML = milestoneManager.display(milestoneManagerTemplate, "#contentBody"); 
+    $("#contentBody").html(milestoneManagerHTML);
+}
+
+</script> 

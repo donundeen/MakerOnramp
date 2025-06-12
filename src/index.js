@@ -1,7 +1,7 @@
 // change this when the server side data changes - forces a reload of all data on client side
 // TBD - move into a spreadsheet, admin tool or something...
-global.dataVersion = 1;
-
+global.dataVersion = 2;
+// adding more comments to test the server side data version
 
 import {processReviewSkillTrees} from './server_processReviewSkillTrees';
 global.processReviewSkillTrees = processReviewSkillTrees;
@@ -26,6 +26,9 @@ global.StudentSkillTreeItemSheet = StudentSkillTreeItemSheet;
 
 import {SkillTreeSheet} from './serverClass_SkillTreeSheet';
 global.SkillTreeSheet = SkillTreeSheet;
+
+import {MilestoneSheet} from './serverClass_MilestoneSheet';
+global.MilestoneSheet = MilestoneSheet;
 
 
 
@@ -72,6 +75,27 @@ global.testGetSkillTreeItemsForStudent = () => {
 global.testAddSkillTreeItem = (skillTreeName, level, itemName) => {
   let result = global.addSkillTreeItem(skillTreeName, level, itemName);
   Logger.log(result);
+}
+
+
+global.getMilestonesForStudent = (studentId) => {
+  const milestoneSheet = new MilestoneSheet();
+  return milestoneSheet.getMilestonesForStudent(studentId);
+}
+
+global.createMilestone = (milestoneData) => {
+  const milestoneSheet = new MilestoneSheet();
+  return milestoneSheet.createMilestone(milestoneData);
+}
+
+global.updateMilestone = (milestoneData) => {
+  const milestoneSheet = new MilestoneSheet();
+  return milestoneSheet.updateMilestone(milestoneData);
+}
+
+global.deleteMilestone = (milestoneId) => {
+  const milestoneSheet = new MilestoneSheet();
+  return milestoneSheet.deleteMilestone(milestoneId);
 }
 
 
