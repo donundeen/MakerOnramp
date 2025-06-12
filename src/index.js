@@ -98,8 +98,6 @@ global.deleteMilestone = (milestoneId) => {
   return milestoneSheet.deleteMilestone(milestoneId);
 }
 
-
-
 import {getCurrentUser} from './server_currentUser';
 global.getCurrentUser = getCurrentUser;
 
