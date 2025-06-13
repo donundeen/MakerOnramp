@@ -86,10 +86,14 @@ function renderTemplates(){
         <?!= include("template_SkillTreeLevel"); ?>
     `);         
 
+    // then you can call the display function on the class that is used to display the page.
     let skillTreeBrowserHTML = skillTreeBrowser.display(skillTreeBrowserTemplate, levelTemplate, itemShortTemplate, "#contentBody", "#skillTreeDisplay", global_templateContext);
 }
 
-
+// if a javascript function is called from a template, it makes sense to put it here.
+// if it's called from content that's dynamically generated from the clientClass file, 
+// then if can be defined in the clientClass file.
+// [TBD] - mayve this needs to be reviewed?
 function flagImportant(skillTreeName, skillTreeItemID, clickedButton){
     console.log("flagging important:", skillTreeName, skillTreeItemID );
     let statusMessage = clickedButton.closest(".level").querySelector(".status-message");
