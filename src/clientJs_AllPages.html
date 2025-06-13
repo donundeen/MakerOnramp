@@ -14,9 +14,22 @@ let adminIDs = ["dundeen@lcc.ca", "amathewson@lcc.ca"];
 
 
 $(document).ready(function() {
+    // this is a helper function for the Handlebars templates.
+    // it is used to check if two values are equal.
+    // it is used to conditionally display content based on the values of the two arguments.
     Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
         return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     });
+
+    // this is the navigation bar template.
+    // the templates are sent from the server, 
+    // so actually they are inserted into this page page the server before the page loads.
+    const navBarTemplate = Handlebars.compile( `
+        <?!= include("template_NavBar"); ?>
+    `);
+    let navBarHTML = navBarTemplate(global_templateContext);
+    $(".navbar").html(navBarHTML);
+
 });
 
 function navigate(params) {
@@ -97,6 +110,16 @@ function generateDocumentationSlideEmbedURL(documentationURL){
     return embedLink;
 }
 
+// this function loads the student data for the current user
+// it is used on every page, so it's a good place to put it.
+function loadStudent(){
+    return new Promise((resolve, reject) => {
+        student.id = global_currentStudentID;
+        student.email = global_currentStudentID;
+        student.name = global_currentStudentID;
+        student.load().then(resolve).catch(reject);
+    });
+}
 
 
 </script>

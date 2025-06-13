@@ -1,28 +1,56 @@
 <script>
+// this is a reference implementation of the client side javascript for a page.
+// it is used to show how to build a page.
+// it is not used in the actual web app, but it is a good example of how to build a page.
+/*
+Files starting with clientJs_ are client-side javascript files that specifically AREN'T classes, 
+but do something on page load.
 
+mostly they should not do much, but serve to connect together and put in motion 
+the logic that is inthe clientClass files.
+
+But these boundaries are a little blurry, and over time we might chnage where different parts of the code go 
+
+
+
+
+*/
+
+// instantiate the variables for classes that are used on this page
  let student = false;
  let skillTreeBrowser = false;
-$(document).ready(function() {
 
+// this is the main function that is called when the page loads.
+// put the funtion definitions outside document.ready, because they are not needed until the page loads.
+$(document).ready(function() {
+    // always include this, so the body of hte page has a messages until the page loads
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
+    // instantiate the classes that are used on this page
     student = new Student();
     skillTreeBrowser = new SkillTreeBrowser();
 
+
+    // you need string of promises, to make sure the data loads in the right order
 //    Promise.all([getScriptUrl(), getCurrentStudentID()])
     getEveryPageLoadData()
-    .then(loadStudent)
-    .then(loadSkillTreeBrowser)
-    .then(renderTemplates)
+    .then(loadStudent) // you probalby need to loadStudent on every page (this function is in clientJs_AllPages.html)
+    .then(loadSkillTreeBrowser) // this is a load function specific to the purpose of this page. You might have multiple of these.
+    .then(renderTemplates) // this always comes at the end, and it is the part that renders the page.
     .catch((error) => {
         console.log("1 error loading student and skill tree browser", error);
     });
 
 
-
 }); 
 
 
+
+// the load functions are specific to the purpose of this page.
+// you might have multiple of these.
+// they need to return promises.
+// they usually will call classes defined in clientClass_ files, 
+// and defer most of the load logic to that class
 function loadSkillTreeBrowser(){
     return new Promise((resolve, reject) => {
         skillTreeBrowser.student = student;
@@ -35,19 +63,17 @@ function loadSkillTreeBrowser(){
     });
 }
 
+// the renderTemplates function is the last function that is called on page load.
+// it is used to render the templates for the page.
+// the navigation bar is always rendered, because it is the same on every page, and it is in clientJs_AllPages.html
+
 function renderTemplates(){
     console.log("rendering templates");
-    Handlebars.registerHelper('ifEquals', function(arg1, arg2, options) {
-        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-    });   
-          
-    const navBarTemplate = Handlebars.compile( `
-        <?!= include("template_NavBar"); ?>
-    `);
-    let navBarHTML = navBarTemplate(global_templateContext);
-    $(".navbar").html(navBarHTML);
-
-    
+  
+    // the templates are sent from the server, 
+    // so actually they are inserted into this page page the server before the page loads.
+    // there may be multiple templates,
+    // espeicially if you have dynamic content that changes in between page loads    
     const skillTreeBrowserTemplate = Handlebars.compile( `
         <?!= include("template_SkillTreeBrowser"); ?>
     `);

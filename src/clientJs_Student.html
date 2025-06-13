@@ -14,15 +14,6 @@ $(document).ready(function() {
         console.log("error loading student ", error);
     });
 
-    function loadStudent(){
-        return new Promise((resolve, reject) => {
-            console.log("loading student " + global_currentStudentID);
-            student.id = global_currentStudentID;
-            student.email = global_currentStudentID;
-            student.name = global_currentStudentID;
-            student.load().then(resolve).catch(reject);
-        });
-    }
 
     function renderTemplates(){
         console.log("rendering student");

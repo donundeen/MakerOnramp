@@ -18,14 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function loadStudent(){
-    return new Promise((resolve, reject) => {
-        student.id = global_currentStudentID;
-        student.email = global_currentStudentID;
-        student.name = global_currentStudentID;
-        student.load().then(resolve).catch(reject);
-    });
-}
+
 function loadMilestoneManager(){
 
     return new Promise((resolve, reject) => {
