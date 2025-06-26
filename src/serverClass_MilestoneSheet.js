@@ -5,6 +5,8 @@ class MilestoneSheet extends Sheet {
         super();
         this.sheetName = "Milestones";
         this.spreadsheetID = global.MilestoneSpreadsheetID;
+        Logger.log("MilestoneSheet constructor");
+        Logger.log("MilestoneSheet spreadsheetID: " + this.spreadsheetID);
     }
 
     getMilestonesForStudent(studentId) {

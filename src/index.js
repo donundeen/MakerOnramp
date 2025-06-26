@@ -12,7 +12,7 @@ global.dataVersion = 2;
 global.SkillTreeSpreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
 global.StudentSkillTreeItemSpreadsheetID = "1mWXAAge-BXtLS6JKesWHL2bmXzn0HMk5NKEhsi8HRro";
 global.StudentFilesFolderID = "1v_QKeoMEWNniwoevSglOpfYN0wukjoNm";
-global.MilestoneSpreadsheetID = "12GfSYyx1oIm2V-ZpDOqA7wBXeEbXLjihPP8Txem5J5Q";
+global.MilestoneSpreadsheetID = "1WeYGNt2Yp25JyhEjUBxtWhp06VVFh0evr-SYF9Pbg8U";
 
 global.urlParams = {}; // this is used to store the url parameters for the current page
 

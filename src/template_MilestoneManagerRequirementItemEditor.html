@@ -2,11 +2,13 @@
     item list
     <div class="item-header">
         <select class="skill-tree-select">
+            <option value="">Select a skill tree</option>
             {{#each skillTrees}}
-            <option value="{{this}}" {{#selected}}selected{{/selected}}>{{this}}</option>
+            <option value="{{this}}" {{#selected}}selected{{/selected}}>{{name}}</option>
             {{/each}}
         </select>
         <select class="skill-item-select">
+            <option value="">Select an item</option>
             {{#each skillTreeItems}}
             <option value="{{SkillTreeItemID}}" {{#selected}}selected{{/selected}}>{{Title}}</option>
             {{/each}}

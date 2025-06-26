@@ -7,8 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     $("#contentBody").html("<b>Hold on, thinking...</b>");
     console.log("loading milestone manager doc loaded");
     student = new Student();
-    milestoneManager = new MilestoneManager();
+    milestoneManager = new MilestoneManager();  
+    milestoneManager.setReloadCallback(loadPage);   
+    loadPage(); 
+});
 
+function loadPage(){
     getEveryPageLoadData()
     .then(loadStudent)
     .then(loadMilestoneManager)
@@ -16,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch((error) => {
         console.log("1 error loading student and skill tree browser", error);
     });
-});
+}
 
 
 function loadMilestoneManager(){

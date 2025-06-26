@@ -20,11 +20,14 @@ class Sheet {
 
     loadSheet(){
         if(this.sheetName){
-            //  Logger.log("loading sheet :  ")
-            //Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
+            Logger.log("loading sheet :  ")
+            Logger.log(this.spreadsheetID + " | " + this.sheetName + " | " + this.myclass);
+            let temp = SpreadsheetApp.openById(this.spreadsheetID);
+            Logger.log("temp");
+            Logger.log(temp);
             this.sheet = SpreadsheetApp.openById(this.spreadsheetID).getSheetByName(this.sheetName);
             Logger.log("sheet loaded");
-            //Logger.log(this.sheet);
+            Logger.log(this.sheet);
         }else{
             Logger.log("sheetName not set");
         }
@@ -71,6 +74,8 @@ class Sheet {
     getSheetRows(filterFunction) {
         this.loadSheet();
 //        const data = this.sheet.getDataRange().getValues();
+        Logger.log("getSheetRows");
+        Logger.log(this.sheet);
         const data = this.sheet.getDataRange().getDisplayValues();
         const hashData = this.dataIntoHashRows(data, 0, 1, filterFunction);
         return hashData;
