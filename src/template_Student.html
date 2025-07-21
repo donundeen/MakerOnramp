@@ -19,4 +19,16 @@
     {{/each}}
 </div>
 {{/each}}
+<div class="milestone-container">
+    <h2>Milestones</h2>
+    {{#each milestones}}
+    <div class="milestone">
+        <h3>{{name}}</h3>
+        <p>{{description}}</p>
+        <div class="milestone-progress">
+            <div class="milestone-progress-bar" style="width: {{progressPercentage}}%;">{{progressPercentage}}%</div>
+        </div>  
+    </div>
+    {{/each}}
+</div>
 <span>{{#if purgeCache}}Purging Cache{{/if}}</span>

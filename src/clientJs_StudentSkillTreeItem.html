@@ -1,12 +1,10 @@
 <script>
-let student = false;
 
 $(document).ready(function() {
 
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
     console.log("getting student");   
-    student = new Student();
 
     getEveryPageLoadData()
     .then(loadStudent)
@@ -24,10 +22,10 @@ $(document).ready(function() {
 function getSelectedSkillTreeItem(){
     const SkillTreeName = global_currentUrlParams.SkillTreeName;
     const SkillTreeItemID = global_currentUrlParams.SkillTreeItemID;
-    let skillTreeItem = student.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
+    let skillTreeItem = global_currentStudent.getStudentSkillTreeItem(SkillTreeName, SkillTreeItemID);
     if(!skillTreeItem){
         console.log("skill tree item not found", SkillTreeName, SkillTreeItemID);
-        console.log(student.groupedSkillTreeItems);
+        console.log(global_currentStudent.groupedSkillTreeItems);
         return false;
     }
     return skillTreeItem;
@@ -40,6 +38,7 @@ function renderTemplates(){
     if(!skillTreeItem){
         return false;
     }
+    console.log("skillTreeItem", skillTreeItem);
     skillTreeItem.StudentDocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.StudentDocumentationSlidesLink);
     skillTreeItem.DocumentationSlidesEmbedURL = generateDocumentationSlideEmbedURL(skillTreeItem.DocumentationSlidesLink);
     global_templateContext.studentSkillTreeItem = skillTreeItem;
@@ -53,7 +52,7 @@ function renderTemplates(){
     let studentSkillTreeItemTemplate = Handlebars.compile( `
         <?!= include("template_StudentSkillTreeItem"); ?>
     `);
-    let studentSkillTreeItemHTML = student.display(studentSkillTreeItemTemplate, global_templateContext);
+    let studentSkillTreeItemHTML = global_currentStudent.display(studentSkillTreeItemTemplate, global_templateContext);
 
     $("#contentBody").html(studentSkillTreeItemHTML);
 
@@ -66,17 +65,21 @@ function renderTemplates(){
         colorDark: "#000000",
         colorLight: "#ffffff"
     }
-    new QRCode(document.getElementById("qrcode"), qrcodeOptions);
+    try{
+        new QRCode(document.getElementById("qrcode"), qrcodeOptions);
+    }catch(error){
+        console.log("error generating QR code", error);
+    }
 
 }
 
 
 function submitStudentSkillTreeItem(skillTreeName, skillTreeItemID){
     $(".statusDisplay").html("<b>Hold on, thinking...</b>");
-    student.submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, function(){
+    global_currentStudent.submitStudentSkillTreeItem(skillTreeName, skillTreeItemID, function(){
         $(".statusDisplay").html("<b>Done, reloading page...</b>");
         renderTemplates();
     });
 }
     
-    </script>
+</script>

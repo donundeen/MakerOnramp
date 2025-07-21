@@ -6,8 +6,8 @@ IDE: https://script.google.com/home/projects/1AqiHUlWRCwMh3YZTF1kL2bUSyVS-HG6hSi
 
 TODO:
 
-- move more display logic to the templates
-- hide skill tree items that are marked hidden
+- ability to doa skill tree item more than once
+
 
 - make the buttons/calls to action on the skill tree item and other pages more explanatory
 -- imagine someone is coming to the page from a link on a label on a computer. What will they need to know to use the page?
@@ -40,6 +40,11 @@ otherwsise the service will return null for teh whole data set
 
 
 # DONE items
+
+2025/07/21 13:34
+
+- hide skill tree items that are marked hidden - DONE
+
 2025/03/27 16:54
 - stood up production version of the site
 

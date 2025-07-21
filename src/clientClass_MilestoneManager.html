@@ -9,6 +9,16 @@ class MilestoneManager {
         this.reloadCallback = null;
     }
 
+    load() {
+        return new Promise((resolve, reject) => {
+            this.loadSkillTrees()
+            .then(() => this.loadAllSkillTreeItems())
+            .then(() => this.loadMilestones()) 
+            .then(resolve)  
+            .catch(reject);
+        });
+    }
+
     setReloadCallback(callback){
         this.reloadCallback = callback;
     }
@@ -19,15 +29,6 @@ class MilestoneManager {
         }
     }
 
-    load() {
-        return new Promise((resolve, reject) => {
-            this.loadSkillTrees()
-            .then(() => this.loadAllSkillTreeItems())
-            .then(() => this.loadMilestones()) 
-            .then(resolve)  // this line is getting called before the milestones are loaded
-            .catch(reject);
-        });
-    }
 
     loadSkillTrees(){
         // for each skill tree name, load the skill tree items,
@@ -95,7 +96,7 @@ class MilestoneManager {
                 console.log("milestones", result);
                 this.milestones = result;
                 resolve(this.milestones);
-            }).getMilestonesForStudent('all');
+            }).getMilestones();
         });
     }
 

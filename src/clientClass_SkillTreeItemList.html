@@ -58,7 +58,7 @@ class SkillTreeItemList{
                 itemTemplateData = Object.assign(itemTemplateData, additionalContext);
                 itemTemplateData.classes = "";
                 itemTemplateData.classes += " " + item["DocumentationStatus"] + " ";
-
+/*
                 if(userHasItem){
                     itemTemplateData.collectOrNotIcon = "You're working on this!";
                     itemTemplateData.classes += " collected ";                
@@ -66,6 +66,7 @@ class SkillTreeItemList{
                     itemTemplateData.collectOrNotIcon = "You're not working on this yet!";
                     itemTemplateData.classes += " collectable ";                
                 }
+                    */
                 let itemHTML = itemShortTemplate(itemTemplateData);
                 levelTemplateData.skillTreeItems += itemHTML;
             });

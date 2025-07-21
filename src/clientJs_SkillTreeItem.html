@@ -1,5 +1,4 @@
 <script>
-let student = new Student();
 let skillTreeItem = new SkillTreeItem();
 
 $(document).ready(function() {
@@ -24,7 +23,7 @@ $(document).ready(function() {
 function loadSkillTreeItem(){
     return new Promise((resolve, reject) => {
         console.log("loading skill tree item " + global_currentUrlParams['SkillTreeItemID']);
-        skillTreeItem.student = student;
+        skillTreeItem.student = global_currentStudent;
         // get SkillTreeItemID from url parameter SkillTreeItemID
         skillTreeItem.skillTreeItemID = global_currentUrlParams['SkillTreeItemID'];
         skillTreeItem.skillTreeName = global_currentUrlParams['SkillTreeName'];
@@ -35,13 +34,13 @@ function loadSkillTreeItem(){
 function renderTemplates(){
     console.log("rendering skill tree item");
     // see if there is a student.skillTreeItems element that matches the skillTreeItem.skillTreeItemID
-    let skillTreeItemIndex = student.skillTreeItems.findIndex(item => item.SkillTreeItemID === skillTreeItem.skillTreeItemID 
+    let skillTreeItemIndex = global_currentStudent.skillTreeItems.findIndex(item => item.SkillTreeItemID === skillTreeItem.skillTreeItemID 
                                                             && item.SkillTreeName === skillTreeItem.skillTreeName);
     if(skillTreeItemIndex !== -1){
-        console.log("skill tree item found: ", student.skillTreeItems[skillTreeItemIndex]);
-        skillTreeItem.templateContext.studentSkillTreeItem = student.skillTreeItems[skillTreeItemIndex];
+        console.log("skill tree item found: ", global_currentStudent.skillTreeItems[skillTreeItemIndex]);
+        skillTreeItem.templateContext.studentSkillTreeItem = global_currentStudent.skillTreeItems[skillTreeItemIndex];
     }
-    console.log(student);
+    console.log(global_currentStudent);
     console.log(skillTreeItem);
     console.log(global_templateContext);
 
@@ -68,13 +67,17 @@ function renderTemplates(){
         colorDark: "#000000",
         colorLight: "#ffffff"
     }
-    new QRCode(document.getElementById("qrcode"), qrcodeOptions);
+    try{
+        new QRCode(document.getElementById("qrcode"), qrcodeOptions);
+    }catch(error){
+        console.log("error generating QR code", error);
+    }
 }
 
 function startSkillTreeItem(skillTreeName, skillTreeItemID){
     console.log("starting skill tree item", skillTreeName, skillTreeItemID);
     $(".statusDisplay").html("<b>Hold on, thinking...</b>");
-    student.addSkillTreeItem(skillTreeName, skillTreeItemID, function(){
+    global_currentStudent.addSkillTreeItem(skillTreeName, skillTreeItemID, function(){
         $(".statusDisplay").html("<b>Done, reloading page...</b>");
         console.log("reloading page",  global_currentUrlParams);
         //navigate({page: 'html_SkillTreeItem', skillTreeItemID: global_currentUrlParams['SkillTreeItemID'], SkillTreeName: global_currentUrlParams['SkillTreeName']});

@@ -110,9 +110,9 @@ global.testAddSkillTreeItem = (skillTreeName, level, itemName) => {
   Logger.log(result);
 }
 
-global.getMilestonesForStudent = (studentId) => {
+global.getMilestones = () => {
   const milestoneSheet = new MilestoneSheet();
-  return milestoneSheet.getMilestonesForStudent(studentId);
+  return milestoneSheet.getMilestones();
 }
 
 global.createMilestone = (milestoneData) => {

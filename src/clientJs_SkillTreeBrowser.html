@@ -1,12 +1,10 @@
 <script>
 
- let student = false;
  let skillTreeBrowser = false;
 $(document).ready(function() {
 
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
-    student = new Student();
     skillTreeBrowser = new SkillTreeBrowser();
 
 //    Promise.all([getScriptUrl(), getCurrentStudentID()])
@@ -25,7 +23,7 @@ $(document).ready(function() {
 
 function loadSkillTreeBrowser(){
     return new Promise((resolve, reject) => {
-        skillTreeBrowser.student = student;
+        skillTreeBrowser.student = global_currentStudent;
         if(global_currentUrlParams.SkillTreeName){
             skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
         }else{

@@ -1,40 +1,88 @@
 <script>
 class Milestone {
-    constructor(id, name, description, requiredCount, skillTreeName, level) {
+    constructor(id, name, description, requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.requiredCount = requiredCount;
-        this.skillTreeName = skillTreeName;
-        this.level = level;
+        this.requirements = requirements || [];
         this.currentCount = 0;
         this.completed = false;
+        this.progressPercentage = 0;
     }
 
     updateProgress(student) {
-        if (!student.groupedSkillTreeItems || !student.groupedSkillTreeItems[this.skillTreeName]) {
+        console.log("updating progress for milestone", this);
+        console.log("student", student);
+        if (!student.groupedSkillTreeItems) {
             this.currentCount = 0;
             this.completed = false;
+            console.log("no items found for milestone", this.name);
             return;
         }
 
-        // Count completed items at the specified level
-        let completedItems = 0;
-        const levelItems = student.groupedSkillTreeItems[this.skillTreeName][this.level] || [];
-        
-        for (let item of levelItems) {
-            if (item.Status === 'Completed') {
-                completedItems++;
+        // Evaluate each requirement
+        let completedRequirements = 0;
+        const totalRequirements = this.requirements.length;
+
+        for (let requirement of this.requirements) {
+            if (this.evaluateRequirement(requirement, student)) {
+                completedRequirements++;
             }
         }
 
-        this.currentCount = completedItems;
-        this.completed = this.currentCount >= this.requiredCount;
+        this.currentCount = completedRequirements;
+        this.completed = this.currentCount >= totalRequirements;
+        this.progressPercentage = this.getProgressPercentage();
         return this;
     }
 
+    evaluateRequirement(requirement, student) {
+        console.log("evaluating requirement:", requirement);
+        
+        if (!requirement.items || requirement.items.length === 0) {
+            return false;
+        }
+
+        switch (requirement.type) {
+            case 'AND':
+                // All items must be completed
+                return requirement.items.every(item => 
+                    this.isItemCompleted(item, student)
+                );
+            
+            case 'OR':
+                // At least 'required' number of items must be completed
+                const completedItems = requirement.items.filter(item => 
+                    this.isItemCompleted(item, student)
+                ).length;
+                return completedItems >= (requirement.required || 1);
+            
+            case 'COUNT':
+                // At least 'required' number of items must be completed
+                const countCompletedItems = requirement.items.filter(item => 
+                    this.isItemCompleted(item, student)
+                ).length;
+                return countCompletedItems >= (requirement.required || 1);
+            
+            default:
+                return false;
+        }
+    }
+
+    isItemCompleted(item, student) {
+        if (!item.skillTreeName || !item.skillTreeItemID) {
+            console.log("no skill tree name or item id", item);
+            return false;
+        }
+
+        // Check if the student has this skill tree item and it's completed
+        const studentItem = student.getStudentSkillTreeItem(item.skillTreeName, item.skillTreeItemID);
+        return studentItem && studentItem.Status === 'completed';
+    }
+
     getProgressPercentage() {
-        return Math.min(100, (this.currentCount / this.requiredCount) * 100);
+        if (this.requirements.length === 0) return 0;
+        return Math.min(100, (this.currentCount / this.requirements.length) * 100);
     }
 
     toJSON() {
@@ -42,9 +90,7 @@ class Milestone {
             id: this.id,
             name: this.name,
             description: this.description,
-            requiredCount: this.requiredCount,
-            skillTreeName: this.skillTreeName,
-            level: this.level,
+            requirements: this.requirements,
             currentCount: this.currentCount,
             completed: this.completed,
             progressPercentage: this.getProgressPercentage()

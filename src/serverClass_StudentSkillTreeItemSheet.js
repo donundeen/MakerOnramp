@@ -28,7 +28,9 @@ class StudentSkillTreeItemSheet extends Sheet {
             StudentID: studentID,
             SkillTreeItemID: skillTreeItemID,
             SkillTreeName: skillTreeName,
-            Status: "started"
+            Status: "started",
+            UniqueID: Utilities.getUuid(),
+            StartedDate: new Date().toISOString()
         };
 
         let slideDeck = this.createStudentDocumentationSlide(studentID, skillTreeName, skillTreeItemID);

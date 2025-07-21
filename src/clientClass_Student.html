@@ -12,6 +12,22 @@ class Student{
         this.milestones = [];
     }
 
+    load(){
+        let self = this;
+        this.relatedSkillTreeItemLists = {};
+        // get the skill tree items for the student
+        return new Promise((resolve, reject) => {
+            self.getStudentSkillTreeItems()
+            .then(()=>this.mergeAllSkillTreeItemData())
+            .then(()=>this.groupSkillTreeItemsByLevel())
+            .then(()=>this.loadMilestones())
+            .then(resolve)
+            .catch(error => {
+                reject(error);
+            });
+        });
+    }    
+
     // build the template context for the student
     // do it explicitly here, so that we can add additional context if needed, and we know what's in the context
     buildTemplateContext(additionalContext){
@@ -41,35 +57,27 @@ class Student{
         if(!this.groupedSkillTreeItems[skillTreeName]){
             return false;
         }
+        let allMatchingItems = [];
         //iterate though the object properties of this.groupedSkillTreeItems[skillTreeName]
         for(let level in this.groupedSkillTreeItems[skillTreeName]){
             let levelList = this.groupedSkillTreeItems[skillTreeName][level];
             // instead of using forEach, use a for loop
             for(let item of levelList){
                 if(item.SkillTreeItemID === skillTreeItemID && item.SkillTreeName === skillTreeName){
-                    return item;
+                    allMatchingItems.push(item);
                 }
             };
         };
-        return false;
+        if(allMatchingItems.length === 0){
+            return false;
+        }
+        if(allMatchingItems.length === 1){
+            return allMatchingItems[0];
+        }
+        return allMatchingItems;
     }
 
-    load(){
-        let self = this;
-        this.relatedSkillTreeItemLists = {};
-        // get the skill tree items for the student
-        return new Promise((resolve, reject) => {
-            self.getStudentSkillTreeItems()
-            .then(()=>this.mergeAllSkillTreeItemData())
-            .then(result => {
-                this.groupSkillTreeItemsByLevel();
-                resolve(this.groupedSkillTreeItems);
-            })
-            .catch(error => {
-                reject(error);
-            });
-        });
-    }
+
 
     create(){
 
@@ -194,8 +202,10 @@ class Student{
         return result;
     }
 
+
+
     addSkillTreeItem(skillTreeName, skillTreeItemID, callback){
-        console.log("adding skill tree item for student: " ,this.id, skillTreeItemID);
+        console.log("adding skill tree item for student: " ,this.id, skillTreeName, skillTreeItemID);
         let self = this;
         google.script.run.withSuccessHandler(function(result) {
             console.log(" got result from server: " , result);
@@ -230,13 +240,12 @@ class Student{
                     m.id,
                     m.name,
                     m.description,
-                    m.requiredCount,
-                    m.skillTreeName,
-                    m.level
+                    m.requirements
                 ));
                 self.updateMilestoneProgress();
+                console.log("milestones", self.milestones);
                 resolve(self.milestones);
-            }).getMilestonesForStudent(self.id);
+            }).getMilestones();
         });
     }
 

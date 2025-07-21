@@ -1,12 +1,10 @@
 <script>
 let milestoneManager = false
-let student = false;
 
 // Initialize the milestone manager when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     $("#contentBody").html("<b>Hold on, thinking...</b>");
     console.log("loading milestone manager doc loaded");
-    student = new Student();
     milestoneManager = new MilestoneManager();  
     milestoneManager.setReloadCallback(loadPage);   
     loadPage(); 
@@ -27,7 +25,7 @@ function loadMilestoneManager(){
 
     return new Promise((resolve, reject) => {
         console.log("loading milestone manager");
-        milestoneManager.student = student;
+        milestoneManager.student = global_currentStudent;
         milestoneManager.load().then(resolve).catch(reject);
     });
 }

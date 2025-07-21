@@ -90,6 +90,7 @@ function getEveryPageLoadData(){
             global_templateContext.currentUrlParams = global_currentUrlParams;
             global_templateContext.currentUrlWithParams = global_currentUrlWithParams;
             global_templateContext.adminMode = global_adminMode;
+            global_templateContext.isAdmin = isAdmin();
             
             $("#currentUser").text(global_currentStudentID);   
             $(".adminBadge").text(global_adminMode ? "Admin" : "");
@@ -103,6 +104,7 @@ function testButtonClicked() {
 }
 
 function generateDocumentationSlideEmbedURL(documentationURL){
+    console.log("generating documentation slide embed URL", documentationURL);
     const embedtemplate = "https://docs.google.com/presentation/d/{ID}/embed";
     const documentationSlidesLink = documentationURL;
     // extract the ID from the documentationSlidesLink, it's in the form https://docs.google.com/open?id=1k2zlN3XXM7vt0Lb5WrnmYHtWwoWOsYyIzgpY1MmjQaE
@@ -117,10 +119,15 @@ function loadStudent(){
     return new Promise((resolve, reject) => {
         global_currentStudent = new Student();
         global_currentStudent.id = global_currentStudentID;
+        console.log("LOADED student global_currentStudentID", global_currentStudentID);
         global_currentStudent.email = global_currentStudentID;
         global_currentStudent.name = global_currentStudentID;
         global_currentStudent.load().then(resolve).catch(reject);
     });
+}
+
+function isAdmin(){
+    return adminIDs.includes(global_currentStudentID);
 }
 
 

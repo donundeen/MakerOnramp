@@ -17,7 +17,6 @@ But these boundaries are a little blurry, and over time we might chnage where di
 */
 
 // instantiate the variables for classes that are used on this page
- let student = false;
  let skillTreeBrowser = false;
 
 // this is the main function that is called when the page loads.
@@ -27,7 +26,7 @@ $(document).ready(function() {
     $("#contentBody").html("<b>Hold on, thinking...</b>");
 
     // instantiate the classes that are used on this page
-    student = new Student();
+
     skillTreeBrowser = new SkillTreeBrowser();
 
 
@@ -53,7 +52,7 @@ $(document).ready(function() {
 // and defer most of the load logic to that class
 function loadSkillTreeBrowser(){
     return new Promise((resolve, reject) => {
-        skillTreeBrowser.student = student;
+        skillTreeBrowser.student = global_currentStudent;
         if(global_currentUrlParams.SkillTreeName){
             skillTreeBrowser.currentSkillTreeName = global_currentUrlParams.SkillTreeName;
         }else{

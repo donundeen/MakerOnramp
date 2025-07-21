@@ -9,7 +9,7 @@ class MilestoneSheet extends Sheet {
         Logger.log("MilestoneSheet spreadsheetID: " + this.spreadsheetID);
     }
 
-    getMilestonesForStudent(studentId) {
+    getMilestones() {
         this.loadSheet();
         const data = this.getSheetRows();
         return data.data.map(row => ({
